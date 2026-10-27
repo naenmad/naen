@@ -42,8 +42,8 @@ const {
           layers.forEach((layer) => {
             const speed = Number(layer.dataset.parallax ?? 0);
             const scrollShift = (scrollY - viewportY) * speed;
-            layer.style.setProperty('--parallax-x', `${pointerX * speed}px`);
-            layer.style.setProperty('--parallax-y', `${scrollShift + pointerY * speed}px`);
+            layer.style.setProperty('--parallax-x', `${pointerX * speed * 2}px`);
+            layer.style.setProperty('--parallax-y', `${scrollShift + pointerY * speed * 2}px`);
           });
           frame = 0;
         };
