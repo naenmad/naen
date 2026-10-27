@@ -6,7 +6,7 @@ This document is the visual source of truth for naen.me. It describes the direct
 
 ## Design Read
 
-Reading this as: a personal software engineer portfolio for thoughtful technical readers, in a quiet nocturnal and editorial visual language, dial ENERGY 1 / RHYTHM 2 / MOTION 1.
+Reading this as: a personal software engineer portfolio for thoughtful technical readers, in a cool cinematic galaxy visual language, dial ENERGY 2 / RHYTHM 2 / MOTION 1.
 
 ## Core identity
 
@@ -17,7 +17,7 @@ The identity has four connected parts:
 - **Alam semesta:** the surrounding atmosphere. Use darkness and space to suggest scale, curiosity, and room for thought.
 - **Bintang:** a restrained navigation and emphasis motif. Stars mark meaningful points, not empty decoration.
 - **Kucing:** a quiet companion presence. The cat should feel independent, warm, and slightly mysterious. It must not turn the portfolio into a mascot page or a cute illustration collection.
-- **Software Engineer + INFJ:** structure, care, and reflection. Show technical work clearly while leaving space for the human reasoning behind it.
+- **Software Engineer:** structure, care, and reflection. Show technical work clearly while leaving space for the reasoning behind it.
 
 The concept should be recognizable through its composition and voice, even without a logo or domain name.
 
@@ -70,14 +70,14 @@ Color rules:
 
 Use typography that balances reflection with engineering clarity.
 
-- **Display and personal statements:** a readable editorial serif such as Source Serif 4. It gives the personal voice warmth and contemplation without making the page ornamental.
-- **Body and interface text:** a humanist or grotesk sans such as IBM Plex Sans. It keeps project details, navigation, and technical descriptions clear.
+- **Display and personal statements:** a contemporary sans such as Space Grotesk. Its geometry gives the page a modern, cinematic edge without using a fake terminal aesthetic.
+- **Body and interface text:** IBM Plex Sans. It keeps project details, navigation, and technical descriptions clear.
 - **Code or technical snippets:** use a monospace font only when actual code is being shown. Do not use monospace as the page's personality.
 - Use sentence case for labels and navigation. Avoid wide-tracked uppercase labels as decoration.
 - Keep the type scale measured. A large statement may be the focal point, but it should not become a poster that hides the actual work.
 - Self-host selected fonts or provide strong system fallbacks so the atmosphere does not depend on a blocking font request.
 
-**Reason:** The serif gives the INFJ and reflective side a voice. The sans keeps the engineer side precise. Separating those jobs is more useful than using one fashionable typeface everywhere.
+**Reason:** Space Grotesk gives the hero a sharper presence, while IBM Plex Sans keeps the engineer's details precise. The contrast creates a clear visual voice without relying on decoration.
 
 ## Composition and rhythm
 
@@ -188,6 +188,7 @@ The universe and cat concepts currently define the direction. They do not author
 - **Dark, cold palette:** matches the requested quiet nocturnal feeling and gives the portfolio a distinct visual ground.
 - **Sparse stars:** turns the stated universe concept into a navigation motif instead of generic background decoration.
 - **Subtle cat presence:** makes the page personal while keeping software work as the main content.
+- **Galaxy field:** gives the universe concept a visible, atmospheric role instead of reducing it to a few dots.
 - **Editorial serif plus clear sans:** gives reflective writing and technical information separate, useful voices.
 - **Vertical editorial work list:** lets real projects receive different levels of attention instead of forcing equal feature cards.
 - **Minimal motion:** protects the quiet mood and keeps interaction feedback meaningful.

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -9,7 +9,9 @@
   --frost: #b8c6d9;
   --muted: #9cabc0;
   --line: #526582;
-  --serif: 'Source Serif 4', Georgia, serif;
+  --nebula: #243f73;
+  --nebula-light: #496ca7;
+  --display: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   --sans: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
@@ -20,7 +22,9 @@
   --color-frost: var(--frost);
   --color-muted: var(--muted);
   --color-line: var(--line);
-  --font-display: var(--serif);
+  --color-nebula: var(--nebula);
+  --color-nebula-light: var(--nebula-light);
+  --font-display: var(--display);
   --font-sans: var(--sans);
 }
 
@@ -40,6 +44,7 @@ body {
   color: var(--paper);
   font-family: var(--sans);
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 ::selection {
@@ -74,6 +79,10 @@ button:focus-visible {
 .night-sky {
   position: relative;
   isolation: isolate;
+  background:
+    radial-gradient(ellipse 75% 42% at 73% 10%, rgb(46 82 145 / 0.26), transparent 68%),
+    radial-gradient(ellipse 55% 60% at 15% 55%, rgb(25 49 99 / 0.24), transparent 72%),
+    linear-gradient(145deg, #090d1b 0%, #0b1020 48%, #080c18 100%);
 }
 
 .night-sky::before {
@@ -82,12 +91,32 @@ button:focus-visible {
   z-index: -1;
   pointer-events: none;
   background-image:
-    radial-gradient(circle at 15% 23%, rgb(184 198 217 / 0.8) 0 1px, transparent 1.5px),
-    radial-gradient(circle at 76% 34%, rgb(184 198 217 / 0.52) 0 1px, transparent 1.5px),
-    radial-gradient(circle at 62% 78%, rgb(184 198 217 / 0.38) 0 1px, transparent 1.5px);
-  background-size: 19rem 23rem, 27rem 31rem, 23rem 29rem;
+    radial-gradient(ellipse 38% 13% at 55% 22%, rgb(99 139 207 / 0.16), transparent 70%),
+    radial-gradient(ellipse 42% 12% at 52% 22%, rgb(123 156 213 / 0.1), transparent 72%),
+    radial-gradient(circle at 14% 20%, rgb(238 242 246 / 0.95) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 79% 12%, rgb(184 198 217 / 0.9) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 65% 42%, rgb(238 242 246 / 0.86) 0 1.2px, transparent 1.7px),
+    radial-gradient(circle at 88% 64%, rgb(184 198 217 / 0.78) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 28% 78%, rgb(184 198 217 / 0.72) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 48% 91%, rgb(238 242 246 / 0.7) 0 1px, transparent 1.5px);
+  background-size: 100% 100%, 100% 100%, 17rem 21rem, 23rem 27rem, 29rem 31rem, 19rem 25rem, 31rem 23rem, 27rem 29rem;
   content: '';
-  opacity: 0.35;
+  opacity: 0.82;
+}
+
+.night-sky::after {
+  position: absolute;
+  top: 4rem;
+  right: -10rem;
+  z-index: -1;
+  width: min(58vw, 52rem);
+  height: min(58vw, 52rem);
+  border: 1px solid rgb(184 198 217 / 0.16);
+  border-radius: 50%;
+  box-shadow: 0 0 0 5rem rgb(184 198 217 / 0.025), 0 0 0 11rem rgb(184 198 217 / 0.018);
+  content: '';
+  transform: rotate(-24deg) scaleY(0.38);
+  transform-origin: center;
 }
 
 .constellation-line {
@@ -109,6 +138,13 @@ button:focus-visible {
 @media (max-width: 48rem) {
   body {
     background: var(--sky);
+  }
+
+  .night-sky::after {
+    top: 20rem;
+    right: -15rem;
+    width: 34rem;
+    height: 34rem;
   }
 
   .constellation-line::after {
