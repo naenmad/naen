@@ -37,13 +37,14 @@ const {
 
         const updateParallax = () => {
           const scrollY = window.scrollY;
-          const viewportY = window.innerHeight * 0.5;
 
           layers.forEach((layer) => {
-            const speed = Number(layer.dataset.parallax ?? 0);
-            const scrollShift = (scrollY - viewportY) * speed;
-            layer.style.setProperty('--parallax-x', `${pointerX * speed * 2}px`);
-            layer.style.setProperty('--parallax-y', `${scrollShift + pointerY * speed * 2}px`);
+            const depth = Number(layer.dataset.parallax ?? 0);
+            const scrollShift = Math.max(-180, Math.min(0, -scrollY * depth));
+            const pointerShiftX = pointerX * depth;
+            const pointerShiftY = pointerY * depth;
+            layer.style.setProperty('--parallax-x', `${pointerShiftX}px`);
+            layer.style.setProperty('--parallax-y', `${scrollShift + pointerShiftY}px`);
           });
           frame = 0;
         };
@@ -52,8 +53,8 @@ const {
           if (!frame) frame = requestAnimationFrame(updateParallax);
         }, { passive: true });
         window.addEventListener('pointermove', (event) => {
-          pointerX = (event.clientX / window.innerWidth - 0.5) * 36;
-          pointerY = (event.clientY / window.innerHeight - 0.5) * 28;
+          pointerX = (event.clientX / window.innerWidth - 0.5) * 120;
+          pointerY = (event.clientY / window.innerHeight - 0.5) * 90;
           if (!frame) frame = requestAnimationFrame(updateParallax);
         }, { passive: true });
         updateParallax();

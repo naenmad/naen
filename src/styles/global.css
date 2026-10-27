@@ -122,7 +122,7 @@ button:focus-visible {
 }
 
 .cosmic-scene {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
@@ -139,7 +139,7 @@ button:focus-visible {
 .parallax-layer,
 .cat-shadow-layer {
   position: absolute;
-  inset: -8vh -5vw;
+  inset: -12vh -8vw;
   will-change: transform;
 }
 
@@ -148,13 +148,12 @@ button:focus-visible {
 }
 
 .foreground-parallax {
-  transform: translate3d(var(--parallax-x, 0), var(--parallax-y, 0), 0);
-  will-change: transform;
+  position: relative;
+  z-index: 3;
 }
 
 @media (hover: none), (prefers-reduced-motion: reduce) {
   .parallax-layer,
-  .foreground-parallax,
   .cat-shadow-layer {
     transform: none !important;
   }
