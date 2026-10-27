@@ -11,6 +11,7 @@
   --line: #526582;
   --nebula: #243f73;
   --nebula-light: #496ca7;
+  --cat-shadow: #03050b;
   --display: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   --sans: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
 }
@@ -24,6 +25,7 @@
   --color-line: var(--line);
   --color-nebula: var(--nebula);
   --color-nebula-light: var(--nebula-light);
+  --color-cat-shadow: var(--cat-shadow);
   --font-display: var(--display);
   --font-sans: var(--sans);
 }
@@ -127,6 +129,40 @@ button:focus-visible {
   overflow: hidden;
 }
 
+.parallax-layer,
+.cat-shadow-layer {
+  position: absolute;
+  inset: -8vh -5vw;
+  will-change: transform;
+}
+
+.parallax-layer {
+  transform: translate3d(0, var(--parallax-y, 0), 0);
+}
+
+.foreground-parallax {
+  transform: translate3d(0, var(--parallax-y, 0), 0);
+  will-change: transform;
+}
+
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .parallax-layer,
+  .foreground-parallax {
+    transform: none !important;
+  }
+}
+
+.nebula-layer {
+  background:
+    radial-gradient(ellipse 42% 18% at 70% 8%, rgb(73 108 167 / 0.18), transparent 70%),
+    radial-gradient(ellipse 30% 14% at 29% 42%, rgb(36 63 115 / 0.16), transparent 72%);
+}
+
+.dust-layer,
+.star-layer {
+  position: absolute;
+}
+
 .star,
 .particle,
 .passing-object {
@@ -138,8 +174,8 @@ button:focus-visible {
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: var(--paper);
-  box-shadow: 0 0 10px rgb(238 242 246 / 0.6);
+  background: rgb(184 198 217 / 0.72);
+  box-shadow: 0 0 8px rgb(73 108 167 / 0.34);
   animation: star-pulse 5s ease-in-out infinite;
 }
 
@@ -153,7 +189,7 @@ button:focus-visible {
   width: 2px;
   height: 2px;
   border-radius: 50%;
-  background: var(--frost);
+  background: rgb(73 108 167 / 0.68);
   opacity: 0.3;
   animation: particle-drift 22s linear infinite;
 }
@@ -168,36 +204,33 @@ button:focus-visible {
   left: -12rem;
   width: 5rem;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--frost), transparent);
+  background: linear-gradient(90deg, transparent, rgb(73 108 167 / 0.62), transparent);
   opacity: 0;
   transform: rotate(-24deg);
   animation: passing-object 19s ease-in-out infinite;
   animation-delay: 4s;
 }
 
-.cat-orbit {
-  position: relative;
-  width: 12rem;
-  height: 7rem;
-  margin-left: -1rem;
+.cat-shadow-layer {
+  inset: auto auto 7rem 54%;
+  width: min(28rem, 42vw);
+  height: min(40rem, 58vw);
+  transform: translate3d(0, 0, 0) rotate(-8deg);
+  transform-origin: center;
+  opacity: 0.16;
+  will-change: transform;
 }
 
-.cat-silhouette {
-  width: 9rem;
-  height: auto;
-  fill: rgb(184 198 217 / 0.2);
-  stroke: rgb(184 198 217 / 0.72);
-  stroke-linejoin: round;
-  stroke-width: 1.5;
-  filter: drop-shadow(0 0 14px rgb(99 139 207 / 0.24));
-  animation: cat-float 8s ease-in-out infinite;
+.cat-shadow {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: var(--cat-shadow);
+  filter: blur(1.2px);
+  transform: rotate(4deg);
+  animation: cat-shadow-sway 9s ease-in-out infinite;
 }
 
-.cat-tail {
-  fill: none;
-  stroke-linecap: round;
-  stroke-width: 5;
-}
 
 .constellation-line {
   position: relative;
@@ -233,9 +266,18 @@ button:focus-visible {
   78%, 100% { left: 115%; opacity: 0; }
 }
 
-@keyframes cat-float {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(-2deg); }
-  50% { transform: translate3d(0.7rem, -0.65rem, 0) rotate(2deg); }
+@keyframes cat-shadow-sway {
+  0%, 100% { transform: translate3d(-0.7rem, 0.3rem, 0) rotate(3deg); }
+  50% { transform: translate3d(0.9rem, -0.8rem, 0) rotate(-4deg); }
+}
+
+@media (max-width: 64rem) {
+  .cat-shadow-layer {
+    inset: auto auto 8rem 58%;
+    width: 22rem;
+    height: 31rem;
+    opacity: 0.12;
+  }
 }
 
 @media (max-width: 48rem) {
@@ -248,6 +290,13 @@ button:focus-visible {
     right: -15rem;
     width: 34rem;
     height: 34rem;
+  }
+
+  .cat-shadow-layer {
+    inset: auto auto 10rem 52%;
+    width: 15rem;
+    height: 22rem;
+    opacity: 0.09;
   }
 
   .constellation-line::after {
@@ -271,7 +320,7 @@ button:focus-visible {
   .star,
   .particle,
   .passing-object,
-  .cat-silhouette {
+  .cat-shadow {
     animation: none !important;
   }
 }

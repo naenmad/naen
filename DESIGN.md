@@ -135,12 +135,13 @@ MOTION is 2. Motion is atmospheric but restrained.
 - Use hover and focus transitions to confirm interaction.
 - Stars may pulse at different intervals, while small particles drift slowly through the scene.
 - One passing object may cross the sky occasionally, with a long pause between appearances.
-- The approved minimal cat silhouette may float slowly as a small companion detail.
-- Do not use parallax, scroll choreography, or animation on every element.
+- The approved minimal cat silhouette may sway slowly as a low-contrast background detail.
+- A restrained scroll parallax separates the nebula, dust, stars, and hero foreground into depth layers. It is disabled on touch devices and for reduced-motion preferences.
+- Do not use scroll choreography or animation on every element.
 - Respect `prefers-reduced-motion` by removing nonessential transitions.
 - Never use motion to compensate for empty content.
 
-**Reason:** Slow asynchronous movement makes the galaxy feel inhabited without turning the portfolio into a spectacle. The cat and passing object add personality, while reduced-motion support keeps the scene comfortable.
+**Reason:** Slow asynchronous movement and depth layers make the galaxy feel inhabited without turning the portfolio into a spectacle. The cat and passing object add personality, while reduced-motion and touch fallbacks keep the scene comfortable.
 
 ## Voice and copy
 
@@ -193,5 +194,5 @@ The universe and cat concepts define the direction. The approved asset for this 
 - **Galaxy field:** gives the universe concept a visible, atmospheric role instead of reducing it to a few dots.
 - **Space Grotesk plus IBM Plex Sans:** gives the hero a cinematic geometric voice while keeping technical information readable.
 - **Vertical editorial work list:** lets real projects receive different levels of attention instead of forcing equal feature cards.
-- **Atmospheric motion:** gives the galaxy a sense of depth through slow stars, particles, a passing object, and the approved cat silhouette.
+- **Atmospheric motion and depth:** gives the galaxy a sense of space through slow stars, particles, a passing object, a dark cat silhouette, and subtle scroll parallax.
 - **No invented assets or claims:** keeps the portfolio personal and trustworthy.

@@ -25,5 +25,28 @@ const {
   <body>
     <a class="skip-link" href="#content">Skip to content</a>
     <slot />
+    <script>
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const isTouch = window.matchMedia('(hover: none)').matches;
+
+      if (!reduceMotion.matches && !isTouch) {
+        const layers = document.querySelectorAll<HTMLElement>('[data-parallax]');
+        let frame = 0;
+
+        const updateParallax = () => {
+          const scrollY = window.scrollY;
+          layers.forEach((layer) => {
+            const speed = Number(layer.dataset.parallax ?? 0);
+            layer.style.setProperty('--parallax-y', `${scrollY * speed}px`);
+          });
+          frame = 0;
+        };
+
+        window.addEventListener('scroll', () => {
+          if (!frame) frame = requestAnimationFrame(updateParallax);
+        }, { passive: true });
+        updateParallax();
+      }
+    </script>
   </body>
 </html>
