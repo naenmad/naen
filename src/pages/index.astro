@@ -5,6 +5,18 @@ import SiteHeader from '../components/SiteHeader.astro';
 
 <BaseLayout>
   <div class="night-sky min-h-screen overflow-x-clip">
+    <div class="cosmic-scene" aria-hidden="true">
+      <span class="star star-a"></span>
+      <span class="star star-b"></span>
+      <span class="star star-c"></span>
+      <span class="star star-d"></span>
+      <span class="star star-e"></span>
+      <span class="particle particle-a"></span>
+      <span class="particle particle-b"></span>
+      <span class="particle particle-c"></span>
+      <span class="particle particle-d"></span>
+      <span class="passing-object"></span>
+    </div>
     <SiteHeader />
 
     <main id="content">
@@ -29,6 +41,12 @@ import SiteHeader from '../components/SiteHeader.astro';
             <span class="h-2 w-2 rounded-full bg-frost" aria-hidden="true"></span>
             <span class="h-px w-20 bg-line" aria-hidden="true"></span>
             <span class="h-1.5 w-1.5 rounded-full bg-frost/70" aria-hidden="true"></span>
+          </div>
+          <div class="cat-orbit mb-8" aria-hidden="true">
+            <svg class="cat-silhouette" viewBox="0 0 180 120" role="presentation">
+              <path d="M42 70c-2-18 5-32 19-38l-4-20 18 13c10-4 23-4 33 0l18-13-4 21c13 7 19 20 17 37-2 17-14 27-32 29H74C56 98 44 87 42 70Z" />
+              <path class="cat-tail" d="M44 76C18 92 14 67 28 57" />
+            </svg>
           </div>
           <p class="font-display text-2xl leading-snug text-paper sm:text-3xl">A small signal, somewhere in the dark.</p>
           <p class="mt-5 text-sm leading-7 text-muted">Software engineer / usually accompanied by a cat.</p>

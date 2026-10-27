@@ -100,8 +100,8 @@ Use a small, restrained constellation motif as a recurring structural language:
 - A few connected points may mark the start of a project, a selected work item, or a transition between sections.
 - The motif should support hierarchy or orientation. It must never become a star field behind every section.
 - Project metadata can use a quiet coordinate-like treatment, such as an index or category, only when it describes real content.
-- Avoid generic sparkle icons, glowing status dots, and endless twinkling animations.
-- A star marker is allowed because stars are part of the stated identity, but it must have a clear job: marking a selected project, an active page, or a meaningful transition.
+- Avoid generic sparkle icons, glowing status dots, and synchronized twinkling animations.
+- A star marker is allowed because stars are part of the stated identity, but it must have a clear job: marking a selected project, an active page, or a meaningful transition. The atmospheric field is a separate background layer and stays sparse.
 
 **Reason:** The constellation is the page's signature gesture. It turns the universe concept into navigation and rhythm rather than stock decoration.
 
@@ -130,15 +130,17 @@ The cat is a secondary character, not the main visual asset.
 
 ## Motion
 
-MOTION is 1. Motion is quiet and functional.
+MOTION is 2. Motion is atmospheric but restrained.
 
 - Use hover and focus transitions to confirm interaction.
-- A project item may reveal a small change in marker, border, or text position to show that it is selectable.
-- Do not use parallax, perpetual floating, pulsing stars, scroll choreography, or animation on every element.
+- Stars may pulse at different intervals, while small particles drift slowly through the scene.
+- One passing object may cross the sky occasionally, with a long pause between appearances.
+- The approved minimal cat silhouette may float slowly as a small companion detail.
+- Do not use parallax, scroll choreography, or animation on every element.
 - Respect `prefers-reduced-motion` by removing nonessential transitions.
 - Never use motion to compensate for empty content.
 
-**Reason:** The page should feel alive through attention and detail, not through constant movement. Calm motion supports orientation without breaking the nocturnal mood.
+**Reason:** Slow asynchronous movement makes the galaxy feel inhabited without turning the portfolio into a spectacle. The cat and passing object add personality, while reduced-motion support keeps the scene comfortable.
 
 ## Voice and copy
 
@@ -181,7 +183,7 @@ This is guidance, not permission to fabricate content. Empty or unfinished areas
 
 No final logo, cat illustration, avatar, profile photo, project screenshot, statistic, testimonial, or personal claim may be invented. Ask for the asset, use a clearly labeled placeholder, or leave the space out.
 
-The universe and cat concepts currently define the direction. They do not authorize generating a mascot or decorative illustration yet.
+The universe and cat concepts define the direction. The approved asset for this iteration is a small, minimal cat silhouette in inline SVG. It is atmospheric decoration, not a logo, avatar, or mascot.
 
 ## Decision log
 
@@ -189,7 +191,7 @@ The universe and cat concepts currently define the direction. They do not author
 - **Sparse stars:** turns the stated universe concept into a navigation motif instead of generic background decoration.
 - **Subtle cat presence:** makes the page personal while keeping software work as the main content.
 - **Galaxy field:** gives the universe concept a visible, atmospheric role instead of reducing it to a few dots.
-- **Editorial serif plus clear sans:** gives reflective writing and technical information separate, useful voices.
+- **Space Grotesk plus IBM Plex Sans:** gives the hero a cinematic geometric voice while keeping technical information readable.
 - **Vertical editorial work list:** lets real projects receive different levels of attention instead of forcing equal feature cards.
-- **Minimal motion:** protects the quiet mood and keeps interaction feedback meaningful.
+- **Atmospheric motion:** gives the galaxy a sense of depth through slow stars, particles, a passing object, and the approved cat silhouette.
 - **No invented assets or claims:** keeps the portfolio personal and trustworthy.
