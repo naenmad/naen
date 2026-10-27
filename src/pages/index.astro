@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+---
+
+<BaseLayout>
+  <div class="night-sky min-h-screen overflow-x-clip">
+    <SiteHeader />
+
+    <main id="content">
+      <section class="mx-auto grid min-h-[calc(100svh-5.5rem)] w-full max-w-6xl items-center gap-16 px-6 pb-24 pt-16 sm:px-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(15rem,0.65fr)] lg:gap-24 lg:px-12 lg:pb-32 lg:pt-20" aria-labelledby="intro-title">
+        <div>
+          <p class="mb-8 text-sm text-frost">A quiet corner of the internet</p>
+          <h1 id="intro-title" class="max-w-3xl font-display text-[clamp(3.2rem,8vw,7.5rem)] leading-[0.94] tracking-[-0.055em] text-paper">
+            I build software<br />
+            with room to think.
+          </h1>
+          <p class="mt-9 max-w-xl text-lg leading-8 text-frost sm:text-xl">
+            I’m a software engineer who likes thoughtful systems, clear interfaces, and the small details that make a product feel considered.
+          </p>
+          <div class="mt-10 flex flex-wrap gap-3">
+            <a class="inline-flex min-h-11 items-center border border-frost bg-frost px-5 py-2 text-sm font-medium text-sky transition-colors hover:border-paper hover:bg-paper" href="#work">See selected work</a>
+            <a class="inline-flex min-h-11 items-center px-2 py-2 text-sm text-frost underline decoration-line/70 underline-offset-8 transition-colors hover:text-paper" href="#about">A little about me</a>
+          </div>
+        </div>
+
+        <aside class="max-w-sm justify-self-start lg:justify-self-end" aria-label="A small note">
+          <div class="constellation-line mb-8 flex h-12 items-center gap-3">
+            <span class="h-2 w-2 rounded-full bg-frost" aria-hidden="true"></span>
+            <span class="h-px w-20 bg-line" aria-hidden="true"></span>
+            <span class="h-1.5 w-1.5 rounded-full bg-frost/70" aria-hidden="true"></span>
+          </div>
+          <p class="font-display text-2xl leading-snug text-paper sm:text-3xl">Somewhere between a star map and a quiet room.</p>
+          <p class="mt-5 text-sm leading-7 text-muted">Software engineer / INFJ / a quiet cat somewhere in the margins.</p>
+        </aside>
+      </section>
+
+      <section id="work" class="mx-auto w-full max-w-6xl scroll-mt-8 px-6 py-24 sm:px-8 lg:px-12 lg:py-32" aria-labelledby="work-title">
+        <div class="mb-14 flex flex-col gap-5 border-t border-line pt-5 sm:flex-row sm:items-baseline sm:justify-between">
+          <h2 id="work-title" class="font-display text-4xl tracking-tight text-paper sm:text-5xl">Selected work</h2>
+          <p class="max-w-xs text-sm leading-6 text-muted">A place for real projects, described with the care they deserve.</p>
+        </div>
+
+        <div class="border-b border-line py-8">
+          <p class="max-w-2xl text-base leading-8 text-frost sm:text-lg">The work index is still empty. I’ll add projects here when there is real work to show, with the context around each one.</p>
+        </div>
+      </section>
+
+      <section id="about" class="mx-auto grid w-full max-w-6xl scroll-mt-8 gap-10 border-t border-line px-6 py-24 sm:px-8 lg:grid-cols-[0.7fr_1.3fr] lg:gap-24 lg:px-12 lg:py-32" aria-labelledby="about-title">
+        <div>
+          <p class="text-sm text-frost">A little about me</p>
+          <h2 id="about-title" class="mt-5 max-w-sm font-display text-4xl leading-tight tracking-tight text-paper sm:text-5xl">Curious about how things hold together.</h2>
+        </div>
+        <div class="max-w-2xl text-base leading-8 text-frost sm:text-lg">
+          <p>I enjoy the part of software work where a vague problem becomes a shape people can understand and use. I care about dependable foundations, calm interfaces, and the reasoning behind a technical decision.</p>
+          <p class="mt-6">This page is still taking form. When there is something worth showing, I’ll put it here with the context around it, not just a screenshot.</p>
+        </div>
+      </section>
+
+      <section id="contact" class="mx-auto w-full max-w-6xl scroll-mt-8 px-6 pb-28 pt-24 sm:px-8 lg:px-12 lg:pb-36 lg:pt-32" aria-labelledby="contact-title">
+        <div class="border-t border-line pt-6 sm:flex sm:items-end sm:justify-between sm:gap-12">
+          <div>
+            <p class="text-sm text-frost">A door left open</p>
+            <h2 id="contact-title" class="mt-5 max-w-2xl font-display text-4xl leading-tight tracking-tight text-paper sm:text-6xl">Have something worth building?</h2>
+          </div>
+          <a class="mt-8 inline-flex min-h-11 items-center border-b border-frost pb-2 text-frost transition-colors hover:border-paper hover:text-paper sm:mt-0" href="mailto:hello@naen.me">Email me at hello@naen.me</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="mx-auto flex w-full max-w-6xl flex-col gap-3 border-t border-line px-6 py-7 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
+      <p>naen.me</p>
+      <p>Built slowly, under a dark sky.</p>
+    </footer>
+  </div>
+</BaseLayout>

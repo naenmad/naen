@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap');
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --sky: #0b1020;
+  --slate: #182236;
+  --paper: #eef2f6;
+  --frost: #b8c6d9;
+  --muted: #9cabc0;
+  --line: #526582;
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+@theme {
+  --color-sky: var(--sky);
+  --color-slate: var(--slate);
+  --color-paper: var(--paper);
+  --color-frost: var(--frost);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --font-display: var(--serif);
+  --font-sans: var(--sans);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--sky);
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background: var(--sky);
+  color: var(--paper);
+  font-family: var(--sans);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--frost);
+  color: var(--sky);
+}
+
+a {
+  color: inherit;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--frost);
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -5rem;
+  z-index: 20;
+  padding: 0.75rem 1rem;
+  background: var(--paper);
+  color: var(--sky);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.night-sky {
+  position: relative;
+  isolation: isolate;
+}
+
+.night-sky::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 15% 23%, rgb(184 198 217 / 0.8) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 76% 34%, rgb(184 198 217 / 0.52) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 62% 78%, rgb(184 198 217 / 0.38) 0 1px, transparent 1.5px);
+  background-size: 19rem 23rem, 27rem 31rem, 23rem 29rem;
+  content: '';
+  opacity: 0.35;
+}
+
+.constellation-line {
+  position: relative;
+}
+
+.constellation-line::after {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 1rem);
+  width: 4.5rem;
+  height: 1px;
+  background: var(--line);
+  content: '';
+  transform: rotate(-18deg);
+  transform-origin: left center;
+}
+
+@media (max-width: 48rem) {
+  body {
+    background: var(--sky);
+  }
+
+  .constellation-line::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
