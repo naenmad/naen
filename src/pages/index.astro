@@ -6,28 +6,21 @@ import SiteHeader from '../components/SiteHeader.astro';
 <BaseLayout>
   <div class="night-sky min-h-screen overflow-x-clip">
     <div class="cosmic-scene" aria-hidden="true">
-      <div class="parallax-layer nebula-layer" data-parallax="0.04"></div>
-      <div class="parallax-layer dust-layer" data-parallax="0.16">
-        <span class="particle particle-a"></span>
-        <span class="particle particle-b"></span>
-        <span class="particle particle-c"></span>
-        <span class="particle particle-d"></span>
+      <div class="parallax-layer nebula-layer" data-parallax="0.015"></div>
+      <div class="parallax-layer galaxy-layer" data-parallax="0.07"></div>
+      <div class="dust-layer">
+        <span class="particle parallax-item particle-a" data-parallax="0.06"></span>
+        <span class="particle parallax-item particle-b" data-parallax="0.09"></span>
+        <span class="particle parallax-item particle-c" data-parallax="0.12"></span>
+        <span class="particle parallax-item particle-d" data-parallax="0.15"></span>
       </div>
-      <div class="parallax-layer star-layer" data-parallax="0.34">
-        <span class="star star-a"></span>
-        <span class="star star-b"></span>
-        <span class="star star-c"></span>
-        <span class="star star-d"></span>
-        <span class="star star-e"></span>
-        <span class="passing-object"></span>
-      </div>
-      <div class="cat-shadow-layer" data-parallax="0.62">
-        <svg class="cat-shadow" viewBox="0 0 260 360" role="presentation">
-          <path d="M103 91C91 78 92 58 105 46l-4-27 21 15c12-6 28-6 40 1l20-18-4 31c12 10 14 29 6 44-6 11-17 18-30 20l7 130c1 17-5 34-13 48l11 42c2 9-10 14-15 5l-20-39-12 43c-2 9-14 8-13-2l2-51c-10-14-14-30-14-50l2-108c-9-15-9-30-1-39Z" />
-          <path d="M143 133c16-16 32-32 48-50l24-31c5-7 16 0 11 8l-18 35c-13 24-29 48-47 67Z" />
-          <path d="M155 151c20-17 40-30 56-46l22-24c6-7 16 1 11 8l-17 28c-19 27-42 48-67 62Z" />
-          <path d="M94 221c-27 13-38 39-55 40-14 1-19-14-10-23 11-11 30-7 43-21 8-9 13-23 18-38Z" />
-        </svg>
+      <div class="star-layer">
+        <span class="star parallax-item star-a" data-parallax="0.16"></span>
+        <span class="star parallax-item star-b" data-parallax="0.19"></span>
+        <span class="star parallax-item star-c" data-parallax="0.22"></span>
+        <span class="star parallax-item star-d" data-parallax="0.25"></span>
+        <span class="star parallax-item star-e" data-parallax="0.28"></span>
+        <span class="passing-object parallax-item" data-parallax="0.32"></span>
       </div>
     </div>
     <SiteHeader />

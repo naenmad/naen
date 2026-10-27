@@ -137,14 +137,17 @@ button:focus-visible {
 }
 
 .parallax-layer,
-.cat-shadow-layer {
+.dust-layer,
+.star-layer {
   position: absolute;
   inset: -12vh -8vw;
   will-change: transform;
 }
 
-.parallax-layer {
+.parallax-layer,
+.parallax-item {
   transform: translate3d(var(--parallax-x, 0), var(--parallax-y, 0), 0);
+  will-change: transform;
 }
 
 .foreground-parallax {
@@ -154,7 +157,7 @@ button:focus-visible {
 
 @media (hover: none), (prefers-reduced-motion: reduce) {
   .parallax-layer,
-  .cat-shadow-layer {
+  .parallax-item {
     transform: none !important;
   }
 }
@@ -165,9 +168,11 @@ button:focus-visible {
     radial-gradient(ellipse 30% 14% at 29% 42%, rgb(36 63 115 / 0.16), transparent 72%);
 }
 
-.dust-layer,
-.star-layer {
-  position: absolute;
+.galaxy-layer {
+  background:
+    radial-gradient(ellipse 32% 9% at 63% 31%, rgb(73 108 167 / 0.3), transparent 68%),
+    radial-gradient(ellipse 24% 8% at 54% 34%, rgb(184 198 217 / 0.1), transparent 72%);
+  opacity: 0.7;
 }
 
 .star,

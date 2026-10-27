@@ -34,13 +34,12 @@ const {
         let frame = 0;
         let pointerX = 0;
         let pointerY = 0;
+        let scrollY = window.scrollY;
 
         const updateParallax = () => {
-          const scrollY = window.scrollY;
-
           layers.forEach((layer) => {
             const depth = Number(layer.dataset.parallax ?? 0);
-            const scrollShift = Math.max(-180, Math.min(0, -scrollY * depth));
+            const scrollShift = scrollY * depth * -0.55;
             const pointerShiftX = pointerX * depth;
             const pointerShiftY = pointerY * depth;
             layer.style.setProperty('--parallax-x', `${pointerShiftX}px`);
@@ -50,6 +49,7 @@ const {
         };
 
         window.addEventListener('scroll', () => {
+          scrollY = window.scrollY;
           if (!frame) frame = requestAnimationFrame(updateParallax);
         }, { passive: true });
         window.addEventListener('pointermove', (event) => {
