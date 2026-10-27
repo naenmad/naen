@@ -137,17 +137,18 @@ button:focus-visible {
 }
 
 .parallax-layer {
-  transform: translate3d(0, var(--parallax-y, 0), 0);
+  transform: translate3d(var(--parallax-x, 0), var(--parallax-y, 0), 0);
 }
 
 .foreground-parallax {
-  transform: translate3d(0, var(--parallax-y, 0), 0);
+  transform: translate3d(var(--parallax-x, 0), var(--parallax-y, 0), 0);
   will-change: transform;
 }
 
 @media (hover: none), (prefers-reduced-motion: reduce) {
   .parallax-layer,
-  .foreground-parallax {
+  .foreground-parallax,
+  .cat-shadow-layer {
     transform: none !important;
   }
 }
@@ -212,21 +213,22 @@ button:focus-visible {
 }
 
 .cat-shadow-layer {
-  inset: auto auto 7rem 54%;
-  width: min(28rem, 42vw);
-  height: min(40rem, 58vw);
-  transform: translate3d(0, 0, 0) rotate(-8deg);
+  inset: auto auto 4rem 56%;
+  width: min(30rem, 44vw);
+  height: min(43rem, 62vw);
+  transform: translate3d(var(--parallax-x, 0), var(--parallax-y, 0), 0) rotate(-8deg);
   transform-origin: center;
-  opacity: 0.16;
+  opacity: 0.26;
   will-change: transform;
+  z-index: 1;
 }
 
 .cat-shadow {
   display: block;
   width: 100%;
   height: 100%;
-  fill: var(--cat-shadow);
-  filter: blur(1.2px);
+  fill: #010207;
+  filter: blur(0.7px) drop-shadow(0 1rem 2rem rgb(0 0 0 / 0.3));
   transform: rotate(4deg);
   animation: cat-shadow-sway 9s ease-in-out infinite;
 }
@@ -273,10 +275,10 @@ button:focus-visible {
 
 @media (max-width: 64rem) {
   .cat-shadow-layer {
-    inset: auto auto 8rem 58%;
+    inset: auto auto 6rem 57%;
     width: 22rem;
     height: 31rem;
-    opacity: 0.12;
+    opacity: 0.2;
   }
 }
 
@@ -293,10 +295,10 @@ button:focus-visible {
   }
 
   .cat-shadow-layer {
-    inset: auto auto 10rem 52%;
+    inset: auto auto 8rem 50%;
     width: 15rem;
     height: 22rem;
-    opacity: 0.09;
+    opacity: 0.16;
   }
 
   .constellation-line::after {

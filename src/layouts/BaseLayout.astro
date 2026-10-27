@@ -32,17 +32,28 @@ const {
       if (!reduceMotion.matches && !isTouch) {
         const layers = document.querySelectorAll<HTMLElement>('[data-parallax]');
         let frame = 0;
+        let pointerX = 0;
+        let pointerY = 0;
 
         const updateParallax = () => {
           const scrollY = window.scrollY;
+          const viewportY = window.innerHeight * 0.5;
+
           layers.forEach((layer) => {
             const speed = Number(layer.dataset.parallax ?? 0);
-            layer.style.setProperty('--parallax-y', `${scrollY * speed}px`);
+            const scrollShift = (scrollY - viewportY) * speed;
+            layer.style.setProperty('--parallax-x', `${pointerX * speed}px`);
+            layer.style.setProperty('--parallax-y', `${scrollShift + pointerY * speed}px`);
           });
           frame = 0;
         };
 
         window.addEventListener('scroll', () => {
+          if (!frame) frame = requestAnimationFrame(updateParallax);
+        }, { passive: true });
+        window.addEventListener('pointermove', (event) => {
+          pointerX = (event.clientX / window.innerWidth - 0.5) * 36;
+          pointerY = (event.clientY / window.innerHeight - 0.5) * 28;
           if (!frame) frame = requestAnimationFrame(updateParallax);
         }, { passive: true });
         updateParallax();
