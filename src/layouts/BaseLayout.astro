@@ -59,6 +59,99 @@ const {
         }, { passive: true });
         updateParallax();
       }
+
+      const sectionIds = ['top', 'about', 'experience', 'work', 'toolkit', 'education', 'contact'];
+      const sectionMeta: Record<string, { index: string; label: string }> = {
+        top: { index: '00', label: 'Opening' },
+        about: { index: '01', label: 'Profile' },
+        experience: { index: '02', label: 'Experience' },
+        work: { index: '03', label: 'Work' },
+        toolkit: { index: '04', label: 'Toolkit' },
+        education: { index: '05', label: 'Education' },
+        contact: { index: '06', label: 'Contact' },
+      };
+      const readoutIndex = document.querySelector<HTMLElement>('[data-readout-index]');
+      const readoutLabel = document.querySelector<HTMLElement>('[data-readout-label]');
+      const sectionLinks = document.querySelectorAll<HTMLAnchorElement>('[data-section-link]');
+      const desktopLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
+      const dialogLinks = document.querySelectorAll<HTMLAnchorElement>('[data-index-link]');
+      const dialog = document.querySelector<HTMLDialogElement>('#section-index');
+      const toggle = document.querySelector<HTMLButtonElement>('[data-index-toggle]');
+      const close = document.querySelector<HTMLButtonElement>('[data-index-close]');
+      const toTop = document.querySelector<HTMLAnchorElement>('[data-to-top]');
+
+      const setActiveSection = (id: string) => {
+        const meta = sectionMeta[id];
+        if (!meta) return;
+        if (readoutIndex) readoutIndex.textContent = meta.index;
+        if (readoutLabel) readoutLabel.textContent = meta.label;
+        sectionLinks.forEach((link) => {
+          const active = link.dataset.sectionLink === id;
+          link.classList.toggle('is-active', active);
+          if (active) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+        desktopLinks.forEach((link) => {
+          link.classList.toggle('is-active', link.dataset.navLink === id);
+        });
+        dialogLinks.forEach((link) => {
+          link.classList.toggle('is-active', link.dataset.indexLink === id);
+        });
+      };
+
+      const sectionElements = sectionIds
+        .map((id) => document.getElementById(id))
+        .filter((element): element is HTMLElement => element !== null);
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => entries.forEach((entry) => {
+            if (entry.isIntersecting) setActiveSection(entry.target.id);
+          }),
+          { rootMargin: '-35% 0px -50% 0px', threshold: [0, 0.25, 0.6] },
+        );
+        sectionElements.forEach((section) => observer.observe(section));
+      }
+      setActiveSection('top');
+
+      const closeDialog = (restoreFocus = false) => {
+        if (!dialog?.open) return;
+        dialog.close();
+        document.documentElement.classList.remove('is-index-open');
+        toggle?.setAttribute('aria-expanded', 'false');
+        if (restoreFocus) toggle?.focus();
+      };
+      const openDialog = () => {
+        if (!dialog || dialog.open) return;
+        dialog.showModal();
+        document.documentElement.classList.add('is-index-open');
+        toggle?.setAttribute('aria-expanded', 'true');
+        close?.focus();
+      };
+
+      toggle?.addEventListener('click', () => dialog?.open ? closeDialog(true) : openDialog());
+      close?.addEventListener('click', () => closeDialog(true));
+      dialog?.addEventListener('close', () => {
+        document.documentElement.classList.remove('is-index-open');
+        toggle?.setAttribute('aria-expanded', 'false');
+      });
+      dialog?.addEventListener('click', (event) => {
+        if (event.target === dialog) closeDialog(true);
+      });
+      dialogLinks.forEach((link) => link.addEventListener('click', () => closeDialog()));
+
+      window.addEventListener('keydown', (event) => {
+        const target = event.target as HTMLElement;
+        const typing = target.matches('input, textarea, select, [contenteditable="true"]');
+        if (!typing && (event.key === 'j' || event.key === 'J')) {
+          event.preventDefault();
+          if (dialog?.open) closeDialog(true);
+          else openDialog();
+        }
+      });
+
+      const updateTopButton = () => toTop?.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.7);
+      window.addEventListener('scroll', updateTopButton, { passive: true });
+      updateTopButton();
     </script>
   </body>
 </html>

@@ -1,0 +1,165 @@
+.hero-note {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.section--hero {
+  min-height: calc(100svh - var(--header-h));
+}
+
+.entry-card,
+.project-card,
+.edu-card,
+.toolkit-category,
+.fact-card {
+  border-radius: var(--radius-md);
+}
+
+.entry-card {
+  display: grid;
+  gap: 1.15rem;
+}
+
+.entry-content {
+  min-width: 0;
+}
+
+.entry-period,
+.entry-location,
+.entry-badge,
+.edu-card__period,
+.edu-card__location {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.5rem;
+}
+
+.entry-location,
+.edu-card__location {
+  color: var(--muted);
+}
+
+.entry-badge {
+  border: 1px solid var(--frost-soft);
+  border-radius: var(--radius-sm);
+  padding-inline: 0.5rem;
+  color: var(--frost);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.project-card__header {
+  align-items: flex-start;
+}
+
+.project-card__header > div {
+  min-width: 0;
+}
+
+.project-card__footer {
+  align-items: flex-start;
+}
+
+.toolkit-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.education-layout {
+  align-items: start;
+}
+
+.site-footer__inner {
+  align-items: start;
+}
+
+@media (min-width: 700px) {
+  .entry-card {
+    grid-template-columns: minmax(11rem, 0.35fr) minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .entry-meta {
+    align-content: start;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 699px) {
+  .section-readout {
+    display: none;
+  }
+
+  .desktop-nav {
+    display: none;
+  }
+
+  .index-toggle__text {
+    display: inline;
+  }
+
+  .index-toggle__kbd {
+    display: none;
+  }
+
+  .index-dialog {
+    max-height: calc(100svh - 1rem);
+    overflow-y: auto;
+  }
+
+  .index-dialog__inner {
+    padding: 1rem;
+  }
+
+  .index-dialog__hint {
+    display: none;
+  }
+
+  .index-dialog__footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hero-note {
+    align-items: center;
+  }
+
+  .project-card__header,
+  .project-card__footer {
+    flex-direction: column;
+  }
+
+  .project-kind {
+    max-width: 100%;
+  }
+
+  .contact-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .contact-card__email {
+    overflow-wrap: anywhere;
+  }
+
+  .site-footer__inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 900px) {
+  .site-footer__inner {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cat-image-layer {
+    transform: rotate(-6deg);
+  }
+}
