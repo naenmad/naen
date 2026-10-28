@@ -1,10 +1,310 @@
-<header class="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6 sm:px-8 lg:px-12" aria-label="Primary navigation">
-  <a class="font-display text-xl tracking-tight text-paper transition-colors hover:text-frost" href="/" aria-label="naen.me home">naen<span class="text-frost">.</span>me</a>
-  <nav aria-label="Main navigation">
-    <ul class="flex items-center gap-6 text-sm text-frost sm:gap-8">
-      <li><a class="flex min-h-11 items-center transition-colors hover:text-paper" href="#work">Work</a></li>
-      <li><a class="flex min-h-11 items-center transition-colors hover:text-paper" href="#about">About</a></li>
-      <li><a class="flex min-h-11 items-center transition-colors hover:text-paper" href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+---
+const sections = [
+  { id: 'top', index: '00', label: 'Opening', note: 'Overview & introduction' },
+  { id: 'about', index: '01', label: 'Profile', note: 'Background & education' },
+  { id: 'experience', index: '02', label: 'Experience', note: 'Work & engineering roles' },
+  { id: 'work', index: '03', label: 'Work', note: 'Selected projects' },
+  { id: 'toolkit', index: '04', label: 'Toolkit', note: 'Stack & technical skills' },
+  { id: 'education', index: '05', label: 'Education', note: 'Studies & credentials' },
+  { id: 'contact', index: '06', label: 'Contact', note: 'Get in touch' },
+];
+---
+
+<header class="site-header" role="banner">
+  <div class="site-header__inner">
+    <a class="wordmark" href="#top" aria-label="naen.me - Return to top">
+      <span class="wordmark__star" aria-hidden="true">✦</span>
+      naen<span class="wordmark__dot">.</span>me
+    </a>
+
+    <!-- Live Coordinate / Section Readout -->
+    <div class="section-readout" aria-live="polite" aria-atomic="true">
+      <span class="section-readout__prefix" aria-hidden="true">SEC</span>
+      <span class="section-readout__index" data-readout-index>00</span>
+      <span class="section-readout__sep" aria-hidden="true">/</span>
+      <span class="section-readout__label" data-readout-label>Opening</span>
+    </div>
+
+    <!-- Desktop Navigation Links -->
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <ul class="desktop-nav__list">
+        <li><a href="#about" class="desktop-nav__link" data-nav-link="about">Profile</a></li>
+        <li><a href="#experience" class="desktop-nav__link" data-nav-link="experience">Experience</a></li>
+        <li><a href="#work" class="desktop-nav__link" data-nav-link="work">Work</a></li>
+        <li><a href="#toolkit" class="desktop-nav__link" data-nav-link="toolkit">Toolkit</a></li>
+        <li><a href="#education" class="desktop-nav__link" data-nav-link="education">Education</a></li>
+        <li><a href="#contact" class="desktop-nav__link desktop-nav__link--cta" data-nav-link="contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Jump / Menu Toggle (Both mobile & quick desktop palette) -->
+    <button
+      class="index-toggle"
+      type="button"
+      data-index-toggle
+      aria-expanded="false"
+      aria-controls="section-index"
+      aria-haspopup="dialog"
+      aria-label="Open section navigation menu"
+    >
+      <span class="index-toggle__icon" aria-hidden="true">
+        <span class="index-toggle__bar"></span>
+        <span class="index-toggle__bar"></span>
+      </span>
+      <span class="index-toggle__text">Sections</span>
+      <kbd class="index-toggle__kbd" aria-hidden="true">J</kbd>
+    </button>
+  </div>
 </header>
+
+<!-- Desktop Side Constellation Rail -->
+<nav class="section-rail" aria-label="Constellation section rail">
+  <div class="section-rail__track" aria-hidden="true"></div>
+  <ol class="section-rail__list">
+    {sections.map((section) => (
+      <li class="section-rail__item">
+        <a
+          href={`#${section.id}`}
+          class="section-rail__link"
+          data-section-link={section.id}
+          aria-label={`Jump to Section ${section.index}: ${section.label}`}
+        >
+          <span class="rail-label">{section.label}</span>
+          <span class="rail-mark" aria-hidden="true"></span>
+          <span class="rail-index" aria-hidden="true">{section.index}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<!-- Accessible Jump-To / Navigation Dialog -->
+<dialog id="section-index" class="index-dialog" aria-labelledby="index-title">
+  <div class="index-dialog__inner">
+    <div class="index-dialog__bar">
+      <div>
+        <p class="index-dialog__eyebrow" aria-hidden="true">NAVIGATION INDEX</p>
+        <h2 id="index-title" class="index-dialog__title">Jump to section</h2>
+      </div>
+      <button class="index-dialog__close" type="button" data-index-close aria-label="Close navigation dialog">
+        <span aria-hidden="true">✕</span>
+        <span>Close</span>
+      </button>
+    </div>
+
+    <p class="index-dialog__hint" aria-hidden="true">
+      Press <kbd>Esc</kbd> to dismiss or select a destination:
+    </p>
+
+    <ol class="index-dialog__list">
+      {sections.map((section) => (
+        <li>
+          <a href={`#${section.id}`} class="index-dialog__link" data-index-link={section.id}>
+            <span class="index-dialog__index" aria-hidden="true">{section.index}</span>
+            <div class="index-dialog__meta">
+              <span class="index-dialog__label">{section.label}</span>
+              <span class="index-dialog__note">{section.note}</span>
+            </div>
+            <span class="index-dialog__arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+
+    <div class="index-dialog__footer">
+      <a class="index-dialog__action" href="#top" data-index-link="top">
+        <span aria-hidden="true">↑</span> Back to top
+      </a>
+      <a class="index-dialog__action" href="mailto:azulkarnaen@outlook.com">
+        <span aria-hidden="true">✉</span> azulkarnaen@outlook.com
+      </a>
+    </div>
+  </div>
+</dialog>
+
+<!-- Accessible Floating Scroll-To-Top Button -->
+<a
+  class="to-top"
+  href="#top"
+  data-to-top
+  aria-label="Scroll back to top of page"
+  title="Back to top"
+>
+  <svg class="to-top__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <line x1="12" y1="19" x2="12" y2="5"></line>
+    <polyline points="5 12 12 5 19 12"></polyline>
+  </svg>
+  <span class="to-top__label">Top</span>
+</a>
+
+<script>
+  // Section Navigation, Observer, Dialog, and Scroll-to-top logic
+  const sections = ['top', 'about', 'experience', 'work', 'toolkit', 'education', 'contact'];
+  const sectionMeta: Record<string, { index: string; label: string }> = {
+    top: { index: '00', label: 'Opening' },
+    about: { index: '01', label: 'Profile' },
+    experience: { index: '02', label: 'Experience' },
+    work: { index: '03', label: 'Work' },
+    toolkit: { index: '04', label: 'Toolkit' },
+    education: { index: '05', label: 'Education' },
+    contact: { index: '06', label: 'Contact' },
+  };
+
+  const readoutIndex = document.querySelector<HTMLElement>('[data-readout-index]');
+  const readoutLabel = document.querySelector<HTMLElement>('[data-readout-label]');
+  const railLinks = document.querySelectorAll<HTMLAnchorElement>('[data-section-link]');
+  const desktopLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
+  const dialogLinks = document.querySelectorAll<HTMLAnchorElement>('[data-index-link]');
+  const dialog = document.querySelector<HTMLDialogElement>('#section-index');
+  const toggleBtn = document.querySelector<HTMLButtonElement>('[data-index-toggle]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-index-close]');
+  const toTopBtn = document.querySelector<HTMLAnchorElement>('[data-to-top]');
+
+  const setActiveSection = (id: string) => {
+    if (!sectionMeta[id]) return;
+
+    if (readoutIndex) readoutIndex.textContent = sectionMeta[id].index;
+    if (readoutLabel) readoutLabel.textContent = sectionMeta[id].label;
+
+    railLinks.forEach((link) => {
+      const match = link.getAttribute('data-section-link') === id;
+      link.classList.toggle('is-active', match);
+      if (match) {
+        link.setAttribute('aria-current', 'true');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+
+    desktopLinks.forEach((link) => {
+      const match = link.getAttribute('data-nav-link') === id;
+      link.classList.toggle('is-active', match);
+    });
+
+    dialogLinks.forEach((link) => {
+      const match = link.getAttribute('data-index-link') === id;
+      link.classList.toggle('is-active', match);
+    });
+  };
+
+  // IntersectionObserver for tracking sections
+  const sectionEls = sections
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  if ('IntersectionObserver' in window && sectionEls.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        rootMargin: '-20% 0px -45% 0px',
+        threshold: [0, 0.2, 0.5],
+      }
+    );
+
+    sectionEls.forEach((el) => observer.observe(el));
+  }
+
+  // Dialog Controls
+  const openDialog = () => {
+    if (!dialog) return;
+    dialog.showModal();
+    document.documentElement.classList.add('is-index-open');
+    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+  };
+
+  const closeDialog = () => {
+    if (!dialog) return;
+    dialog.close();
+    document.documentElement.classList.remove('is-index-open');
+    if (toggleBtn) {
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.focus();
+    }
+  };
+
+  if (toggleBtn && dialog) {
+    toggleBtn.addEventListener('click', () => {
+      if (dialog.open) {
+        closeDialog();
+      } else {
+        openDialog();
+      }
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeDialog);
+  }
+
+  if (dialog) {
+    dialog.addEventListener('close', () => {
+      document.documentElement.classList.remove('is-index-open');
+      if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+    });
+
+    // Close when clicking dialog backdrop
+    dialog.addEventListener('click', (event) => {
+      const rect = dialog.getBoundingClientRect();
+      const isInDialog =
+        rect.top <= event.clientY &&
+        event.clientY <= rect.top + rect.height &&
+        rect.left <= event.clientX &&
+        event.clientX <= rect.left + rect.width;
+
+      if (!isInDialog) {
+        closeDialog();
+      }
+    });
+  }
+
+  // Close dialog when clicking any jump link
+  dialogLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      closeDialog();
+    });
+  });
+
+  // Global Keyboard shortcuts: press 'j' or '/' to open section index
+  window.addEventListener('keydown', (event) => {
+    const target = event.target as HTMLElement | null;
+    const isInput =
+      target &&
+      (target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable);
+
+    if (isInput) return;
+
+    if (event.key === 'j' || event.key === 'J' || (event.key === '/' && !event.metaKey && !event.ctrlKey)) {
+      if (dialog && !dialog.open) {
+        event.preventDefault();
+        openDialog();
+      }
+    }
+  });
+
+  // Floating to-top button visibility on scroll
+  const handleScroll = () => {
+    if (!toTopBtn) return;
+    const scrolled = window.scrollY > 360;
+    toTopBtn.classList.toggle('is-visible', scrolled);
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll();
+
+  // Smooth click for to-top button
+  if (toTopBtn) {
+    toTopBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      history.pushState(null, '', '#top');
+    });
+  }
+</script>

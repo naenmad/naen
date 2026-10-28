@@ -4,7 +4,8 @@ import SiteHeader from '../components/SiteHeader.astro';
 ---
 
 <BaseLayout>
-  <div class="night-sky min-h-screen overflow-x-clip">
+  <div class="night-sky min-h-screen">
+    <!-- Atmospheric Scene Background Layers -->
     <div class="cosmic-scene" aria-hidden="true">
       <div class="parallax-layer nebula-layer" data-parallax="0.015"></div>
       <div class="parallax-layer galaxy-layer" data-parallax="0.07"></div>
@@ -42,81 +43,522 @@ import SiteHeader from '../components/SiteHeader.astro';
         <span class="passing-object parallax-item" data-parallax="0.46"></span>
       </div>
     </div>
+
+    <!-- Header Navigation -->
     <SiteHeader />
 
     <main id="content">
-      <section class="foreground-parallax mx-auto grid min-h-[calc(100svh-5.5rem)] w-full max-w-6xl items-center gap-16 px-6 pb-24 pt-16 sm:px-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(15rem,0.65fr)] lg:gap-24 lg:px-12 lg:pb-32 lg:pt-20" data-parallax="0.018" aria-labelledby="intro-title">
-        <div>
-          <p class="mb-8 text-sm text-frost">A quiet corner of the internet</p>
-          <h1 id="intro-title" class="max-w-3xl font-display text-[clamp(3.2rem,8vw,7.5rem)] leading-[0.94] tracking-[-0.055em] text-paper">
-            I build software<br />
-            beneath open skies.
-          </h1>
-          <p class="mt-9 max-w-xl text-lg leading-8 text-frost sm:text-xl">
-            I’m a software engineer drawn to thoughtful systems, clear interfaces, and the strange beauty of making digital things work.
+      <!-- Section 00: Opening / Hero -->
+      <section id="top" class="section section--hero" aria-labelledby="intro-title">
+        <div class="hero-grid">
+          <div class="foreground-parallax" data-parallax="0.018">
+            <div class="intro-status">
+              <span class="intro-status__dot" aria-hidden="true"></span>
+              <p class="intro-meta">
+                <span>Ahmad Zulkarnaen</span>
+                <span aria-hidden="true" class="intro-meta__sep">/</span>
+                <span>Full-stack & Mobile Developer</span>
+              </p>
+            </div>
+
+            <h1 id="intro-title" class="intro-title">
+              I build software<br />
+              beneath open skies.
+            </h1>
+
+            <p class="intro-lead">
+              Engineering web and mobile systems that balance structural clarity with responsive user experience. Laravel on the server, Next.js on the web, Flutter in your pocket. Focused on software that stays reliable and maintainable after release.
+            </p>
+
+            <div class="hero-actions">
+              <a class="action-primary" href="#work">Explore projects</a>
+              <a class="action-secondary" href="#experience">Review CV & experience</a>
+              <a class="action-quiet" href="#contact">Get in touch</a>
+            </div>
+          </div>
+
+          <aside class="hero-note" aria-label="A small visual note">
+            <div class="constellation-line" aria-hidden="true">
+              <span class="constellation-dot constellation-dot--bright"></span>
+              <span class="constellation-hairline"></span>
+              <span class="constellation-dot constellation-dot--soft"></span>
+            </div>
+            <div class="cat-image-layer parallax-item" data-parallax="0.24">
+              <picture>
+                <source srcset="/cat-flying.webp" type="image/webp" />
+                <img class="cat-image" src="/cat-flying.webp" alt="Minimal silhouette artwork of a flying cat under the stars" width="1200" height="1200" decoding="async" />
+              </picture>
+            </div>
+            <p class="hero-note__caption">Usually accompanied by a cat.</p>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Section 01: Profile -->
+      <section id="about" class="section" aria-labelledby="about-title">
+        <div class="section-head">
+          <p class="section-kicker"><span class="kicker-index" aria-hidden="true">01</span> Profile & CV</p>
+          <h2 id="about-title" class="section-title">Curious about how complex systems hold together.</h2>
+        </div>
+
+        <div class="section-body section-body--split">
+          <div class="prose-night">
+            <p>
+              I am Ahmad Zulkarnaen, a full-stack and mobile developer working between Bogor and Karawang, Indonesia. My engineering focus centers on building end-to-end applications: architecting scalable Laravel and REST backends, crafting responsive Next.js interfaces, and delivering smooth cross-platform Flutter experiences.
+            </p>
+            <p>
+              Currently completing my Informatics degree at Universitas Singaperbangsa Karawang (UNSIKA) with a 3.83 GPA, alongside an international study exchange at Wuhan Vocational College of Software and Engineering in China. Experiencing different software paradigms shaped my philosophy: write code that is clean, observable, and built for people.
+            </p>
+
+            <div class="cv-highlight-box">
+              <div class="cv-highlight-box__info">
+                <span class="cv-highlight-box__tag">CURRICULUM VITAE</span>
+                <p class="cv-highlight-box__desc">Full engineering background, professional history, and accredited coursework.</p>
+              </div>
+              <div class="cv-highlight-box__actions">
+                <a class="action-secondary" href="#experience">Jump to Experience ↓</a>
+                <a class="action-quiet" href="mailto:azulkarnaen@outlook.com?subject=CV%20Request%20-%20Ahmad%20Zulkarnaen">Request PDF via Email</a>
+              </div>
+            </div>
+          </div>
+
+          <dl class="fact-list" aria-label="Candidate summary">
+            <div class="fact-card">
+              <dt>Location</dt>
+              <dd>Bogor & Karawang, Indonesia</dd>
+            </div>
+            <div class="fact-card">
+              <dt>Core Specialization</dt>
+              <dd>Full-stack Web & Flutter Mobile</dd>
+            </div>
+            <div class="fact-card">
+              <dt>Education & Academic Standing</dt>
+              <dd>S1 Informatics, UNSIKA (GPA 3.83 / 4.00)</dd>
+            </div>
+            <div class="fact-card">
+              <dt>Languages & Proficiency</dt>
+              <dd>Indonesian (Native), English (TOEIC 840)</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- Section 02: Experience -->
+      <section id="experience" class="section" aria-labelledby="experience-title">
+        <div class="section-head">
+          <p class="section-kicker"><span class="kicker-index" aria-hidden="true">02</span> Work Experience</p>
+          <h2 id="experience-title" class="section-title">Where I have worked and delivered.</h2>
+        </div>
+
+        <div class="section-body">
+          <div class="entry-list">
+            <article class="entry-card">
+              <div class="entry-meta">
+                <span class="entry-period">Nov 2025 - Apr 2026</span>
+                <span class="entry-location">Depok, Indonesia</span>
+                <span class="entry-badge">Mobile Engineering</span>
+              </div>
+              <div class="entry-content">
+                <h3 class="entry-role">Mobile Developer <span class="entry-company">at Vixual</span></h3>
+                <p class="entry-summary">Developed and maintained mission-critical cross-platform mobile features using Flutter, ensuring high frame rates and resilient state management.</p>
+                <ul class="entry-points">
+                  <li>Engineered complex Flutter client views, translating multi-step interaction flows into responsive, accessible screens.</li>
+                  <li>Integrated RESTful endpoints with robust error boundary handling and client-side data persistence.</li>
+                  <li>Partnered directly with UI/UX designers and backend peers in rapid sprint cycles to deliver tested release candidates.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="entry-card">
+              <div class="entry-meta">
+                <span class="entry-period">Aug 2025 - Dec 2025</span>
+                <span class="entry-location">East Jakarta, Indonesia</span>
+                <span class="entry-badge">Full-stack Engineering</span>
+              </div>
+              <div class="entry-content">
+                <h3 class="entry-role">Full-stack Developer Intern <span class="entry-company">at Citiasia Inc.</span></h3>
+                <p class="entry-summary">Contributed to enterprise web and mobile solutions utilizing modular architectures in PHP, JavaScript, and Flutter.</p>
+                <ul class="entry-points">
+                  <li>Implemented modular front-end components and responsive web views with clean separation of presentation and logic.</li>
+                  <li>Architected REST APIs and integrated Firebase services for real-time notifications and synchronized data store.</li>
+                  <li>Maintained collaborative Git branching workflows, automated testing integration, and CI/CD deployment pipelines.</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+
+          <!-- Leadership & Community Roles -->
+          <div class="leadership-block">
+            <h3 class="leadership-block__title">Leadership & Community Impact</h3>
+            <div class="leadership-grid">
+              <div class="leadership-card">
+                <div class="leadership-card__header">
+                  <h4 class="leadership-role">Head of Education</h4>
+                  <span class="leadership-org">HIMTIKA</span>
+                </div>
+                <p class="leadership-date">Jan 2025 - Nov 2025</p>
+                <p class="leadership-desc">Designed technical study tracks, mentored junior undergraduates, and organized hands-on workshops in software development and programming foundations.</p>
+              </div>
+
+              <div class="leadership-card">
+                <div class="leadership-card__header">
+                  <h4 class="leadership-role">Event Director</h4>
+                  <span class="leadership-org">Pekan IT 2024</span>
+                </div>
+                <p class="leadership-date">National Technology Program</p>
+                <p class="leadership-desc">Led the end-to-end planning and execution of a national technology convention featuring 1,300+ attendees and competitive participants from 36 universities across Indonesia.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 03: Selected Work -->
+      <section id="work" class="section" aria-labelledby="work-title">
+        <div class="section-head">
+          <p class="section-kicker"><span class="kicker-index" aria-hidden="true">03</span> Selected Work</p>
+          <h2 id="work-title" class="section-title">Projects built with purpose.</h2>
+        </div>
+
+        <div class="section-body">
+          <div class="project-list">
+            <article class="project-card">
+              <div class="project-card__header">
+                <div>
+                  <span class="project-card__num" aria-hidden="true">PROJECT 01</span>
+                  <h3 class="project-title">SISKA Mobile</h3>
+                </div>
+                <span class="project-kind">Academic Information Platform</span>
+              </div>
+              <p class="project-text">
+                A production-ready academic information system built to streamline university administration, course registration, and real-time student evaluation. Features offline-first data caching, intuitive timetable visualization, and structured state management. Currently serves as the core subject of my undergraduate thesis research.
+              </p>
+              <div class="project-card__footer">
+                <ul class="tag-list" aria-label="Technologies used in SISKA Mobile">
+                  <li>Flutter</li>
+                  <li>Dart</li>
+                  <li>REST API</li>
+                  <li>State Management</li>
+                  <li>Agile Sprint</li>
+                </ul>
+                <div class="project-card__status">
+                  <span class="status-indicator"></span> Active Thesis Implementation
+                </div>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-card__header">
+                <div>
+                  <span class="project-card__num" aria-hidden="true">PROJECT 02</span>
+                  <h3 class="project-title">Lungsurin</h3>
+                </div>
+                <span class="project-kind">ICT Business Platform</span>
+              </div>
+              <p class="project-text">
+                Mobile application and service integration built for an ICT business venture. Connects emerging tech initiatives with resource management workflows. Developed client-side modules in Flutter synchronized with a custom REST API, providing secure transactions and clear progress monitoring.
+              </p>
+              <div class="project-card__footer">
+                <ul class="tag-list" aria-label="Technologies used in Lungsurin">
+                  <li>Flutter</li>
+                  <li>Dart</li>
+                  <li>REST API</li>
+                  <li>Backend Sync</li>
+                </ul>
+                <div class="project-card__status">
+                  <span class="status-indicator"></span> Shipped Product
+                </div>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <div class="project-card__header">
+                <div>
+                  <span class="project-card__num" aria-hidden="true">PROJECT 03</span>
+                  <h3 class="project-title">Citiasia Modular Services</h3>
+                </div>
+                <span class="project-kind">Enterprise Web & Mobile Modules</span>
+              </div>
+              <p class="project-text">
+                Enterprise client service integration developed during internship at Citiasia Inc. Structured with modular codebases to support both browser interfaces and handheld devices. Implemented Firebase cloud messaging, granular authentication scopes, and automated data pipelines.
+              </p>
+              <div class="project-card__footer">
+                <ul class="tag-list" aria-label="Technologies used in Citiasia Modular Services">
+                  <li>PHP</li>
+                  <li>JavaScript</li>
+                  <li>Flutter</li>
+                  <li>Firebase</li>
+                  <li>CI/CD</li>
+                </ul>
+                <div class="project-card__status">
+                  <span class="status-indicator"></span> Enterprise Production
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 04: Toolkit -->
+      <section id="toolkit" class="section" aria-labelledby="toolkit-title">
+        <div class="section-head">
+          <p class="section-kicker"><span class="kicker-index" aria-hidden="true">04</span> Toolkit</p>
+          <h2 id="toolkit-title" class="section-title">Languages, frameworks, and engineering habits.</h2>
+        </div>
+
+        <div class="section-body">
+          <div class="toolkit-grid">
+            <div class="toolkit-category">
+              <div class="toolkit-category__head">
+                <span class="toolkit-category__glyph" aria-hidden="true">01</span>
+                <h3>Languages</h3>
+              </div>
+              <ul class="pill-list">
+                <li>PHP</li>
+                <li>JavaScript</li>
+                <li>TypeScript</li>
+                <li>Dart</li>
+                <li>HTML5</li>
+                <li>CSS3 & SCSS</li>
+                <li>Java</li>
+                <li>Kotlin</li>
+                <li>SQL</li>
+              </ul>
+            </div>
+
+            <div class="toolkit-category">
+              <div class="toolkit-category__head">
+                <span class="toolkit-category__glyph" aria-hidden="true">02</span>
+                <h3>Frameworks & UI</h3>
+              </div>
+              <ul class="pill-list">
+                <li>Laravel</li>
+                <li>Next.js</li>
+                <li>React</li>
+                <li>Flutter</li>
+                <li>Tailwind CSS</li>
+                <li>Astro</li>
+              </ul>
+            </div>
+
+            <div class="toolkit-category">
+              <div class="toolkit-category__head">
+                <span class="toolkit-category__glyph" aria-hidden="true">03</span>
+                <h3>Backend & Data</h3>
+              </div>
+              <ul class="pill-list">
+                <li>RESTful APIs</li>
+                <li>Firebase</li>
+                <li>MySQL</li>
+                <li>PostgreSQL</li>
+                <li>Node.js</li>
+                <li>SSR & SSG</li>
+              </ul>
+            </div>
+
+            <div class="toolkit-category">
+              <div class="toolkit-category__head">
+                <span class="toolkit-category__glyph" aria-hidden="true">04</span>
+                <h3>Practice & Ops</h3>
+              </div>
+              <ul class="pill-list">
+                <li>Git & GitHub</li>
+                <li>CI/CD Pipelines</li>
+                <li>Docker Basics</li>
+                <li>Agile & Scrum</li>
+                <li>Clean Architecture</li>
+                <li>Testing & Code Review</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 05: Education & Credentials -->
+      <section id="education" class="section" aria-labelledby="education-title">
+        <div class="section-head">
+          <p class="section-kicker"><span class="kicker-index" aria-hidden="true">05</span> Education & Credentials</p>
+          <h2 id="education-title" class="section-title">Academic path and industry certifications.</h2>
+        </div>
+
+        <div class="section-body education-layout">
+          <div class="education-column">
+            <article class="edu-card">
+              <div class="edu-card__header">
+                <span class="edu-card__period">Aug 2023 - Present</span>
+                <span class="edu-card__location">Karawang, Indonesia</span>
+              </div>
+              <h3 class="edu-card__title">S1 Informatics</h3>
+              <p class="edu-card__institution">Singaperbangsa Karawang University (UNSIKA)</p>
+              <div class="edu-card__highlight">Current Cumulative GPA: 3.83 / 4.00</div>
+              <p class="edu-card__note">
+                Advanced studies in software engineering, database architecture, mobile application paradigms, and algorithms. Currently conducting thesis research on mobile academic management systems.
+              </p>
+            </article>
+
+            <article class="edu-card">
+              <div class="edu-card__header">
+                <span class="edu-card__period">Mar 2026 - Jun 2026</span>
+                <span class="edu-card__location">Wuhan, China</span>
+              </div>
+              <h3 class="edu-card__title">International Student Exchange</h3>
+              <p class="edu-card__institution">Wuhan Vocational College of Software and Engineering</p>
+              <div class="edu-card__highlight">Selected via Irootech & UNSIKA Academic Partnership</div>
+              <p class="edu-card__note">
+                Immersive academic study within China's tech ecosystem, studying applied software engineering, manufacturing technology, and cross-cultural technical methodologies.
+              </p>
+            </article>
+          </div>
+
+          <aside class="credentials-column">
+            <div class="credentials-box">
+              <h3 class="credentials-box__title">Verified Certifications</h3>
+              <ul class="cert-list">
+                <li class="cert-item">
+                  <div class="cert-item__icon" aria-hidden="true">✦</div>
+                  <div class="cert-item__info">
+                    <span class="cert-name">GitHub Foundations</span>
+                    <span class="cert-meta">GitHub Certified / Issued Mar 2025</span>
+                  </div>
+                </li>
+                <li class="cert-item">
+                  <div class="cert-item__icon" aria-hidden="true">✦</div>
+                  <div class="cert-item__info">
+                    <span class="cert-name">Junior Web Developer</span>
+                    <span class="cert-meta">BNSP Indonesia / Issued Aug 2023</span>
+                  </div>
+                </li>
+                <li class="cert-item">
+                  <div class="cert-item__icon" aria-hidden="true">✦</div>
+                  <div class="cert-item__info">
+                    <span class="cert-name">TOEIC Official Certificate</span>
+                    <span class="cert-meta">Score 840 / Professional Working Proficiency</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="credentials-status">
+              <p class="credentials-status__label">Academic Inquiries</p>
+              <p class="credentials-status__text">Transcripts, syllabi, or verification letters available upon formal request.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Section 06: Contact -->
+      <section id="contact" class="section section--contact" aria-labelledby="contact-title">
+        <div class="section-head">
+          <p class="section-kicker"><span class="kicker-index" aria-hidden="true">06</span> Contact</p>
+          <h2 id="contact-title" class="section-title">Have something worth building?</h2>
+        </div>
+
+        <div class="section-body contact-body">
+          <p class="contact-lead">
+            Whether you need a dedicated Flutter mobile application, an adaptable Laravel backend, or a full-stack web interface, I am open to discussing software roles and high-impact engineering projects.
           </p>
-          <div class="mt-10 flex flex-wrap gap-3">
-            <a class="inline-flex min-h-11 items-center border border-frost bg-frost px-5 py-2 text-sm font-medium text-sky transition-colors hover:border-paper hover:bg-paper" href="#work">See selected work</a>
-            <a class="inline-flex min-h-11 items-center px-2 py-2 text-sm text-frost underline decoration-line/70 underline-offset-8 transition-colors hover:text-paper" href="#about">A little about me</a>
+
+          <div class="contact-card">
+            <div class="contact-card__main">
+              <span class="contact-card__label">Primary Communication Channel</span>
+              <a class="contact-card__email" href="mailto:azulkarnaen@outlook.com">
+                azulkarnaen@outlook.com
+              </a>
+              <p class="contact-card__subtext">Replies typically within 24 hours under local time (WIB / UTC+7).</p>
+            </div>
+            <div class="contact-card__actions">
+              <a class="action-primary" href="mailto:azulkarnaen@outlook.com">Send an email</a>
+            </div>
           </div>
-        </div>
 
-        <aside class="max-w-sm justify-self-start lg:justify-self-end" aria-label="A small note">
-          <div class="constellation-line mb-8 flex h-12 items-center gap-3">
-            <span class="h-2 w-2 rounded-full bg-frost" aria-hidden="true"></span>
-            <span class="h-px w-20 bg-line" aria-hidden="true"></span>
-            <span class="h-1.5 w-1.5 rounded-full bg-frost/70" aria-hidden="true"></span>
-          </div>
-          <div class="cat-image-layer parallax-item" data-parallax="0.24">
-            <picture>
-              <source srcset="/cat-flying.webp" type="image/webp" />
-              <img class="cat-image" src="/cat-flying.webp" alt="" width="1200" height="1200" decoding="async" />
-            </picture>
-          </div>
-          <p class="mt-5 text-sm leading-7 text-muted">Software engineer / usually accompanied by a cat.</p>
-        </aside>
-      </section>
-
-      <section id="work" class="mx-auto w-full max-w-6xl scroll-mt-8 px-6 py-24 sm:px-8 lg:px-12 lg:py-32" aria-labelledby="work-title">
-        <div class="mb-14 flex flex-col gap-5 border-t border-line pt-5 sm:flex-row sm:items-baseline sm:justify-between">
-          <h2 id="work-title" class="font-display text-4xl tracking-tight text-paper sm:text-5xl">Selected work</h2>
-          <p class="max-w-xs text-sm leading-6 text-muted">A place for real projects, described with the care they deserve.</p>
-        </div>
-
-        <div class="border-b border-line py-8">
-          <p class="max-w-2xl text-base leading-8 text-frost sm:text-lg">The work index is still empty. I’ll add projects here when there is real work to show, with the context around each one.</p>
-        </div>
-      </section>
-
-      <section id="about" class="mx-auto grid w-full max-w-6xl scroll-mt-8 gap-10 border-t border-line px-6 py-24 sm:px-8 lg:grid-cols-[0.7fr_1.3fr] lg:gap-24 lg:px-12 lg:py-32" aria-labelledby="about-title">
-        <div>
-          <p class="text-sm text-frost">A little about me</p>
-          <h2 id="about-title" class="mt-5 max-w-sm font-display text-4xl leading-tight tracking-tight text-paper sm:text-5xl">Curious about how things hold together.</h2>
-        </div>
-        <div class="max-w-2xl text-base leading-8 text-frost sm:text-lg">
-          <p>I enjoy the part of software work where a vague problem becomes a shape people can understand and use. I care about dependable foundations, calm interfaces, and the reasoning behind a technical decision.</p>
-          <p class="mt-6">This page is still taking form. When there is something worth showing, I’ll put it here with the context around it, not just a screenshot.</p>
-        </div>
-      </section>
-
-      <section id="contact" class="mx-auto w-full max-w-6xl scroll-mt-8 px-6 pb-28 pt-24 sm:px-8 lg:px-12 lg:pb-36 lg:pt-32" aria-labelledby="contact-title">
-        <div class="border-t border-line pt-6 sm:flex sm:items-end sm:justify-between sm:gap-12">
-          <div>
-            <p class="text-sm text-frost">A door left open</p>
-            <h2 id="contact-title" class="mt-5 max-w-2xl font-display text-4xl leading-tight tracking-tight text-paper sm:text-6xl">Have something worth building?</h2>
-          </div>
-          <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 sm:mt-0 sm:justify-end">
-            <a class="inline-flex min-h-11 items-center border-b border-frost pb-2 text-frost transition-colors hover:border-paper hover:text-paper" href="mailto:azulkarnaen@outlook.com">Email me at azulkarnaen@outlook.com</a>
-            <a class="inline-flex min-h-11 items-center border-b border-line pb-2 text-frost transition-colors hover:border-paper hover:text-paper" href="https://linkedin.com/in/naen" target="_blank" rel="noreferrer">LinkedIn</a>
-            <a class="inline-flex min-h-11 items-center border-b border-line pb-2 text-frost transition-colors hover:border-paper hover:text-paper" href="https://instagram.com/madnaen" target="_blank" rel="noreferrer">Instagram</a>
+          <div class="contact-socials">
+            <span class="contact-socials__title">Professional Networks</span>
+            <div class="contact-socials__links">
+              <a class="social-link" href="https://linkedin.com/in/naen" target="_blank" rel="noreferrer">
+                <span>LinkedIn</span>
+                <span class="social-link__arrow" aria-hidden="true">↗</span>
+              </a>
+              <a class="social-link" href="https://instagram.com/madnaen" target="_blank" rel="noreferrer">
+                <span>Instagram</span>
+                <span class="social-link__arrow" aria-hidden="true">↗</span>
+              </a>
+              <a class="social-link" href="https://github.com" target="_blank" rel="noreferrer">
+                <span>GitHub</span>
+                <span class="social-link__arrow" aria-hidden="true">↗</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
     </main>
 
-    <footer class="mx-auto flex w-full max-w-6xl flex-col gap-3 border-t border-line px-6 py-7 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
-      <p>naen.me</p>
-      <p>Built slowly, under a dark sky.</p>
+    <!-- Redesigned Nocturnal Footer -->
+    <footer class="site-footer" role="contentinfo">
+      <div class="site-footer__inner">
+        <!-- Col 1: Identity & Observatory Statement -->
+        <div class="site-footer__brand">
+          <a class="wordmark wordmark--footer" href="#top">
+            <span class="wordmark__star" aria-hidden="true">✦</span> naen<span class="wordmark__dot">.</span>me
+          </a>
+          <p class="site-footer__author">Ahmad Zulkarnaen</p>
+          <p class="site-footer__bio">
+            Full-stack and mobile engineer based in Bogor & Karawang, Indonesia. Building resilient systems with Laravel, Next.js, and Flutter.
+          </p>
+          <div class="site-footer__status">
+            <span class="status-indicator"></span>
+            <span>Observatory status: Available for select projects</span>
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation Directory -->
+        <nav class="site-footer__nav" aria-label="Footer section directory">
+          <h3 class="site-footer__heading">Navigation Index</h3>
+          <ul class="footer-links">
+            <li><a href="#top"><span class="footer-links__idx" aria-hidden="true">00</span> Opening</a></li>
+            <li><a href="#about"><span class="footer-links__idx" aria-hidden="true">01</span> Profile & CV</a></li>
+            <li><a href="#experience"><span class="footer-links__idx" aria-hidden="true">02</span> Experience</a></li>
+            <li><a href="#work"><span class="footer-links__idx" aria-hidden="true">03</span> Selected Work</a></li>
+            <li><a href="#toolkit"><span class="footer-links__idx" aria-hidden="true">04</span> Toolkit</a></li>
+            <li><a href="#education"><span class="footer-links__idx" aria-hidden="true">05</span> Education</a></li>
+            <li><a href="#contact"><span class="footer-links__idx" aria-hidden="true">06</span> Contact</a></li>
+          </ul>
+        </nav>
+
+        <!-- Col 3: Direct Channels & Connect -->
+        <div class="site-footer__connect">
+          <h3 class="site-footer__heading">Connect</h3>
+          <ul class="footer-links">
+            <li>
+              <a href="mailto:azulkarnaen@outlook.com">
+                <span class="footer-links__glyph" aria-hidden="true">✉</span> azulkarnaen@outlook.com
+              </a>
+            </li>
+            <li>
+              <a href="https://linkedin.com/in/naen" target="_blank" rel="noreferrer">
+                <span class="footer-links__glyph" aria-hidden="true">↗</span> LinkedIn (/in/naen)
+              </a>
+            </li>
+            <li>
+              <a href="https://instagram.com/madnaen" target="_blank" rel="noreferrer">
+                <span class="footer-links__glyph" aria-hidden="true">↗</span> Instagram (@madnaen)
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom Base -->
+      <div class="site-footer__base">
+        <div class="site-footer__base-inner">
+          <p class="site-footer__colophon">
+            Designed under cold night skies. Built with Astro & TypeScript. Hosted on Cloudflare Pages.
+          </p>
+          <a class="site-footer__top-btn" href="#top" aria-label="Return to top of page">
+            <span>Return to top</span>
+            <span aria-hidden="true">↑</span>
+          </a>
+        </div>
+      </div>
     </footer>
   </div>
 </BaseLayout>
