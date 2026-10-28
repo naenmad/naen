@@ -249,10 +249,8 @@ button:focus-visible {
   width: min(21rem, 100%);
   aspect-ratio: 1;
   margin-top: 1.5rem;
-  overflow: hidden;
   transform: translate3d(var(--parallax-x, 0px), var(--parallax-y, 0px), 0) rotate(-7deg);
   transform-origin: center;
-  opacity: 1;
   will-change: transform;
 }
 
@@ -266,9 +264,7 @@ button:focus-visible {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  mix-blend-mode: screen;
-  filter: grayscale(1) contrast(1.15) brightness(0.72);
+  object-fit: contain;
 }
 
 .constellation-line {
