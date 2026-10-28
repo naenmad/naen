@@ -243,27 +243,27 @@ button:focus-visible {
   animation-delay: 4s;
 }
 
-.cat-shadow-layer {
-  inset: auto auto 4rem 56%;
-  width: min(30rem, 44vw);
-  height: min(43rem, 62vw);
-  transform: translate3d(var(--parallax-x, 0), var(--parallax-y, 0), 0) rotate(-8deg);
-  transform-origin: center;
-  opacity: 0.48;
-  will-change: transform;
+.cat-image-layer {
+  position: absolute;
+  inset: auto auto 7rem 61%;
   z-index: 2;
+  width: min(25rem, 36vw);
+  aspect-ratio: 1;
+  overflow: hidden;
+  transform: translate3d(var(--parallax-x, 0px), var(--parallax-y, 0px), 0) rotate(-7deg);
+  transform-origin: center;
+  opacity: 0.2;
+  will-change: transform;
 }
 
-.cat-shadow {
+.cat-image {
   display: block;
   width: 100%;
   height: 100%;
-  fill: #000000;
-  filter: blur(0.35px) drop-shadow(0 1rem 2rem rgb(0 0 0 / 0.48));
-  transform: rotate(4deg);
-  animation: cat-shadow-sway 9s ease-in-out infinite;
+  object-fit: cover;
+  mix-blend-mode: screen;
+  filter: grayscale(1) contrast(1.15) brightness(0.72);
 }
-
 
 .constellation-line {
   position: relative;
@@ -299,17 +299,11 @@ button:focus-visible {
   78%, 100% { left: 115%; opacity: 0; }
 }
 
-@keyframes cat-shadow-sway {
-  0%, 100% { transform: translate3d(-0.7rem, 0.3rem, 0) rotate(3deg); }
-  50% { transform: translate3d(0.9rem, -0.8rem, 0) rotate(-4deg); }
-}
-
 @media (max-width: 64rem) {
-  .cat-shadow-layer {
-    inset: auto auto 6rem 57%;
-    width: 22rem;
-    height: 31rem;
-    opacity: 0.4;
+  .cat-image-layer {
+    inset: auto auto 7rem 61%;
+    width: 20rem;
+    opacity: 0.18;
   }
 }
 
@@ -325,11 +319,10 @@ button:focus-visible {
     height: 34rem;
   }
 
-  .cat-shadow-layer {
-    inset: auto auto 8rem 46%;
-    width: 15rem;
-    height: 22rem;
-    opacity: 0.34;
+  .cat-image-layer {
+    inset: auto auto 8rem 50%;
+    width: 14rem;
+    opacity: 0.16;
   }
 
   .constellation-line::after {
@@ -352,8 +345,7 @@ button:focus-visible {
 
   .star,
   .particle,
-  .passing-object,
-  .cat-shadow {
+  .passing-object {
     animation: none !important;
   }
 }
