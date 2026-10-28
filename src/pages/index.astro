@@ -42,7 +42,10 @@ import SiteHeader from '../components/SiteHeader.astro';
         <span class="passing-object parallax-item" data-parallax="0.46"></span>
       </div>
       <div class="cat-image-layer parallax-item" data-parallax="0.24">
-        <img class="cat-image" src="/cat-flying.png" alt="" />
+        <picture>
+          <source srcset="/cat-flying.webp" type="image/webp" />
+          <img class="cat-image" src="/cat-flying.webp" alt="" width="2048" height="2048" decoding="async" />
+        </picture>
       </div>
     </div>
     <SiteHeader />
