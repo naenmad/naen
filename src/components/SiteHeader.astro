@@ -121,6 +121,7 @@ const sections = [
     </div>
   </div>
 </dialog>
+
 <!-- Accessible Floating Scroll-To-Top Button -->
 <a
   class="to-top"
@@ -135,3 +136,233 @@ const sections = [
   </svg>
   <span class="to-top__label">Top</span>
 </a>
+
+<script>
+  // Section Navigation, Observer, Dialog, and Scroll-to-top logic
+  const sections = ['top', 'about', 'experience', 'work', 'toolkit', 'education', 'contact'];
+  const sectionMeta: Record<string, { index: string; label: string }> = {
+    top: { index: '00', label: 'Opening' },
+    about: { index: '01', label: 'Profile' },
+    experience: { index: '02', label: 'Experience' },
+    work: { index: '03', label: 'Work' },
+    toolkit: { index: '04', label: 'Toolkit' },
+    education: { index: '05', label: 'Education' },
+    contact: { index: '06', label: 'Contact' },
+  };
+
+  const readoutIndex = document.querySelector<HTMLElement>('[data-readout-index]');
+  const readoutLabel = document.querySelector<HTMLElement>('[data-readout-label]');
+  const railLinks = document.querySelectorAll<HTMLAnchorElement>('[data-section-link]');
+  const desktopLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
+  const dialogLinks = document.querySelectorAll<HTMLAnchorElement>('[data-index-link]');
+  const dialog = document.querySelector<HTMLDialogElement>('#section-index');
+  const toggleBtn = document.querySelector<HTMLButtonElement>('[data-index-toggle]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-index-close]');
+  const toTopBtn = document.querySelector<HTMLAnchorElement>('[data-to-top]');
+
+  let currentActiveId = 'top';
+
+  const setActiveSection = (id: string) => {
+    if (!sectionMeta[id]) return;
+    currentActiveId = id;
+
+    if (readoutIndex) readoutIndex.textContent = sectionMeta[id].index;
+    if (readoutLabel) readoutLabel.textContent = sectionMeta[id].label;
+
+    railLinks.forEach((link) => {
+      const match = link.getAttribute('data-section-link') === id;
+      link.classList.toggle('is-active', match);
+      if (match) {
+        link.setAttribute('aria-current', 'true');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+
+    desktopLinks.forEach((link) => {
+      const match = link.getAttribute('data-nav-link') === id;
+      link.classList.toggle('is-active', match);
+    });
+
+    dialogLinks.forEach((link) => {
+      const match = link.getAttribute('data-index-link') === id;
+      link.classList.toggle('is-active', match);
+    });
+  };
+
+  // IntersectionObserver for tracking active section
+  const sectionEls = sections
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  if ('IntersectionObserver' in window && sectionEls.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        rootMargin: '-25% 0px -40% 0px',
+        threshold: [0.1, 0.5],
+      }
+    );
+
+    sectionEls.forEach((el) => observer.observe(el));
+  }
+
+  // Dialog Controls
+  const openDialog = () => {
+    if (!dialog) return;
+    dialog.showModal();
+    document.documentElement.classList.add('is-index-open');
+    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+  };
+
+  const closeDialog = () => {
+    if (!dialog) return;
+    dialog.close();
+    document.documentElement.classList.remove('is-index-open');
+    if (toggleBtn) {
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.focus();
+    }
+  };
+
+  if (toggleBtn && dialog) {
+    toggleBtn.addEventListener('click', () => {
+      if (dialog.open) {
+        closeDialog();
+      } else {
+        openDialog();
+      }
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeDialog);
+  }
+
+  if (dialog) {
+    dialog.addEventListener('close', () => {
+      document.documentElement.classList.remove('is-index-open');
+      if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+    });
+
+    // Close when clicking dialog backdrop
+    dialog.addEventListener('click', (event) => {
+      const rect = dialog.getBoundingClientRect();
+      const isInDialog =
+        rect.top <= event.clientY &&
+        event.clientY <= rect.top + rect.height &&
+        rect.left <= event.clientX &&
+        event.clientX <= rect.left + rect.width;
+
+      if (!isInDialog) {
+        closeDialog();
+      }
+    });
+  }
+
+  // Close dialog when clicking any jump link
+  dialogLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      closeDialog();
+    });
+  });
+
+  // Global Keyboard Navigation:
+  // 1. 'j' or '/' to open section index
+  // 2. Arrow Down / Page Down -> slide to next section
+  // 3. Arrow Up / Page Up -> slide to previous section
+  window.addEventListener('keydown', (event) => {
+    const target = event.target as HTMLElement | null;
+    const isInput =
+      target &&
+      (target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable);
+
+    if (isInput) return;
+
+    if (event.key === 'j' || event.key === 'J' || (event.key === '/' && !event.metaKey && !event.ctrlKey)) {
+      if (dialog && !dialog.open) {
+        event.preventDefault();
+        openDialog();
+      }
+      return;
+    }
+
+    if (dialog && dialog.open) return;
+
+    // Slide navigation with arrow keys on desktop
+    if (window.innerWidth >= 960) {
+      const currentIdx = sections.indexOf(currentActiveId);
+      if (event.key === 'ArrowDown' || event.key === 'PageDown') {
+        if (currentIdx >= 0 && currentIdx < sections.length - 1) {
+          event.preventDefault();
+          const nextTarget = document.getElementById(sections[currentIdx + 1]);
+          nextTarget?.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else if (event.key === 'ArrowUp' || event.key === 'PageUp') {
+        if (currentIdx > 0) {
+          event.preventDefault();
+          const prevTarget = document.getElementById(sections[currentIdx - 1]);
+          prevTarget?.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  });
+
+  // Desktop Mouse Wheel Snap Assist:
+  // A small wheel scroll cleanly slides to the next/previous section 1 page at a time
+  let isWheelThrottled = false;
+  window.addEventListener('wheel', (event) => {
+    if (window.innerWidth < 960) return; // Only desktop
+    if (dialog && dialog.open) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    if (Math.abs(event.deltaY) < 22) return;
+
+    if (isWheelThrottled) {
+      event.preventDefault();
+      return;
+    }
+
+    const currentIdx = sections.indexOf(currentActiveId);
+    if (event.deltaY > 0 && currentIdx < sections.length - 1) {
+      event.preventDefault();
+      isWheelThrottled = true;
+      const target = document.getElementById(sections[currentIdx + 1]);
+      target?.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => { isWheelThrottled = false; }, 750);
+    } else if (event.deltaY < 0 && currentIdx > 0) {
+      event.preventDefault();
+      isWheelThrottled = true;
+      const target = document.getElementById(sections[currentIdx - 1]);
+      target?.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => { isWheelThrottled = false; }, 750);
+    }
+  }, { passive: false });
+
+  // Floating to-top button visibility on scroll
+  const handleScroll = () => {
+    if (!toTopBtn) return;
+    const scrolled = window.scrollY > 360;
+    toTopBtn.classList.toggle('is-visible', scrolled);
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll();
+
+  // Smooth click for to-top button
+  if (toTopBtn) {
+    toTopBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      history.pushState(null, '', '#top');
+    });
+  }
+</script>
