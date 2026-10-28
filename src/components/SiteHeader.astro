@@ -10,6 +10,7 @@ const sections = [
 ];
 ---
 
+<!-- Desktop & Top Header -->
 <header class="site-header" role="banner">
   <div class="site-header__inner">
     <a class="wordmark" href="#top" aria-label="naen.me - Return to top">
@@ -17,7 +18,7 @@ const sections = [
       naen<span class="wordmark__dot">.</span>me
     </a>
 
-    <!-- Live Coordinate / Section Readout -->
+    <!-- Live Coordinate / Section Readout (Desktop) -->
     <div class="section-readout" aria-live="polite" aria-atomic="true">
       <span class="section-readout__prefix" aria-hidden="true">SEC</span>
       <span class="section-readout__index" data-readout-index>00</span>
@@ -37,7 +38,7 @@ const sections = [
       </ul>
     </nav>
 
-    <!-- Jump / Menu Toggle (Both mobile & quick desktop palette) -->
+    <!-- Desktop Jump / Menu Toggle -->
     <button
       class="index-toggle"
       type="button"
@@ -56,6 +57,52 @@ const sections = [
     </button>
   </div>
 </header>
+
+<!-- Mobile Floating Bottom Navigation Dock -->
+<nav class="mobile-dock" aria-label="Mobile bottom navigation">
+  <button
+    type="button"
+    class="mobile-dock__status"
+    data-index-toggle
+    aria-label="Current section coordinate. Tap to jump to section."
+  >
+    <span class="mobile-dock__star" aria-hidden="true">✦</span>
+    <span class="mobile-dock__idx" data-mobile-readout-index>00</span>
+    <span class="mobile-dock__sep" aria-hidden="true">/</span>
+    <span class="mobile-dock__label" data-mobile-readout-label>Opening</span>
+  </button>
+
+  <div class="mobile-dock__actions">
+    <button
+      type="button"
+      class="mobile-dock__btn mobile-dock__btn--sections"
+      data-index-toggle
+      aria-expanded="false"
+      aria-controls="section-index"
+      aria-haspopup="dialog"
+      aria-label="Open section menu"
+    >
+      <span class="mobile-dock__bars" aria-hidden="true">
+        <span class="mobile-dock__bar"></span>
+        <span class="mobile-dock__bar"></span>
+      </span>
+      <span>Menu</span>
+    </button>
+
+    <button
+      type="button"
+      class="mobile-dock__btn mobile-dock__btn--top"
+      data-mobile-top
+      aria-label="Scroll back to top"
+      title="Back to top"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+      <span class="sr-only">Top</span>
+    </button>
+  </div>
+</nav>
 
 <!-- Desktop Side Constellation Rail -->
 <nav class="section-rail" aria-label="Constellation section rail">
@@ -93,7 +140,7 @@ const sections = [
     </div>
 
     <p class="index-dialog__hint" aria-hidden="true">
-      Press <kbd>Esc</kbd> to dismiss or select a destination:
+      Tap any destination to navigate:
     </p>
 
     <ol class="index-dialog__list">
@@ -122,7 +169,7 @@ const sections = [
   </div>
 </dialog>
 
-<!-- Accessible Floating Scroll-To-Top Button -->
+<!-- Accessible Floating Scroll-To-Top Button (Desktop only) -->
 <a
   class="to-top"
   href="#top"
@@ -152,13 +199,16 @@ const sections = [
 
   const readoutIndex = document.querySelector<HTMLElement>('[data-readout-index]');
   const readoutLabel = document.querySelector<HTMLElement>('[data-readout-label]');
+  const mobileReadoutIndex = document.querySelector<HTMLElement>('[data-mobile-readout-index]');
+  const mobileReadoutLabel = document.querySelector<HTMLElement>('[data-mobile-readout-label]');
   const railLinks = document.querySelectorAll<HTMLAnchorElement>('[data-section-link]');
   const desktopLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
   const dialogLinks = document.querySelectorAll<HTMLAnchorElement>('[data-index-link]');
   const dialog = document.querySelector<HTMLDialogElement>('#section-index');
-  const toggleBtn = document.querySelector<HTMLButtonElement>('[data-index-toggle]');
+  const toggleBtns = document.querySelectorAll<HTMLButtonElement>('[data-index-toggle]');
   const closeBtn = document.querySelector<HTMLButtonElement>('[data-index-close]');
   const toTopBtn = document.querySelector<HTMLAnchorElement>('[data-to-top]');
+  const mobileTopBtns = document.querySelectorAll<HTMLButtonElement>('[data-mobile-top]');
 
   let currentActiveId = 'top';
 
@@ -168,6 +218,8 @@ const sections = [
 
     if (readoutIndex) readoutIndex.textContent = sectionMeta[id].index;
     if (readoutLabel) readoutLabel.textContent = sectionMeta[id].label;
+    if (mobileReadoutIndex) mobileReadoutIndex.textContent = sectionMeta[id].index;
+    if (mobileReadoutLabel) mobileReadoutLabel.textContent = sectionMeta[id].label;
 
     railLinks.forEach((link) => {
       const match = link.getAttribute('data-section-link') === id;
@@ -205,8 +257,8 @@ const sections = [
         });
       },
       {
-        rootMargin: '-25% 0px -40% 0px',
-        threshold: [0.1, 0.5],
+        rootMargin: '-20% 0px -40% 0px',
+        threshold: [0.1, 0.4],
       }
     );
 
@@ -218,28 +270,25 @@ const sections = [
     if (!dialog) return;
     dialog.showModal();
     document.documentElement.classList.add('is-index-open');
-    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+    toggleBtns.forEach((btn) => btn.setAttribute('aria-expanded', 'true'));
   };
 
   const closeDialog = () => {
     if (!dialog) return;
     dialog.close();
     document.documentElement.classList.remove('is-index-open');
-    if (toggleBtn) {
-      toggleBtn.setAttribute('aria-expanded', 'false');
-      toggleBtn.focus();
-    }
+    toggleBtns.forEach((btn) => btn.setAttribute('aria-expanded', 'false'));
   };
 
-  if (toggleBtn && dialog) {
-    toggleBtn.addEventListener('click', () => {
-      if (dialog.open) {
+  toggleBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (dialog && dialog.open) {
         closeDialog();
       } else {
         openDialog();
       }
     });
-  }
+  });
 
   if (closeBtn) {
     closeBtn.addEventListener('click', closeDialog);
@@ -248,7 +297,7 @@ const sections = [
   if (dialog) {
     dialog.addEventListener('close', () => {
       document.documentElement.classList.remove('is-index-open');
-      if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtns.forEach((btn) => btn.setAttribute('aria-expanded', 'false'));
     });
 
     // Close when clicking dialog backdrop
@@ -274,9 +323,6 @@ const sections = [
   });
 
   // Global Keyboard Navigation:
-  // 1. 'j' or '/' to open section index
-  // 2. Arrow Down / Page Down -> slide to next section
-  // 3. Arrow Up / Page Up -> slide to previous section
   window.addEventListener('keydown', (event) => {
     const target = event.target as HTMLElement | null;
     const isInput =
@@ -317,7 +363,6 @@ const sections = [
   });
 
   // Desktop Mouse Wheel Snap Assist:
-  // A small wheel scroll cleanly slides to the next/previous section 1 page at a time
   let isWheelThrottled = false;
   window.addEventListener('wheel', (event) => {
     if (window.innerWidth < 960) return; // Only desktop
@@ -347,7 +392,7 @@ const sections = [
     }
   }, { passive: false });
 
-  // Floating to-top button visibility on scroll
+  // Floating to-top button visibility on scroll (Desktop)
   const handleScroll = () => {
     if (!toTopBtn) return;
     const scrolled = window.scrollY > 360;
@@ -357,7 +402,6 @@ const sections = [
   window.addEventListener('scroll', handleScroll, { passive: true });
   handleScroll();
 
-  // Smooth click for to-top button
   if (toTopBtn) {
     toTopBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -365,4 +409,13 @@ const sections = [
       history.pushState(null, '', '#top');
     });
   }
+
+  // Mobile Bottom Dock Top Button
+  mobileTopBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      history.pushState(null, '', '#top');
+    });
+  });
 </script>
