@@ -41,12 +41,6 @@ import SiteHeader from '../components/SiteHeader.astro';
         <span class="star parallax-item star-24" data-parallax="0.33"></span>
         <span class="passing-object parallax-item" data-parallax="0.46"></span>
       </div>
-      <div class="cat-image-layer parallax-item" data-parallax="0.24">
-        <picture>
-          <source srcset="/cat-flying.webp" type="image/webp" />
-          <img class="cat-image" src="/cat-flying.webp" alt="" width="2048" height="2048" decoding="async" />
-        </picture>
-      </div>
     </div>
     <SiteHeader />
 
@@ -73,7 +67,12 @@ import SiteHeader from '../components/SiteHeader.astro';
             <span class="h-px w-20 bg-line" aria-hidden="true"></span>
             <span class="h-1.5 w-1.5 rounded-full bg-frost/70" aria-hidden="true"></span>
           </div>
-          <p class="font-display text-2xl leading-snug text-paper sm:text-3xl">A small signal, somewhere in the dark.</p>
+          <div class="cat-image-layer parallax-item" data-parallax="0.24">
+            <picture>
+              <source srcset="/cat-flying.webp" type="image/webp" />
+              <img class="cat-image" src="/cat-flying.webp" alt="A flying cat silhouette" width="2048" height="2048" decoding="async" />
+            </picture>
+          </div>
           <p class="mt-5 text-sm leading-7 text-muted">Software engineer / usually accompanied by a cat.</p>
         </aside>
       </section>

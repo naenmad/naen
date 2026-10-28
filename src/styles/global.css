@@ -244,15 +244,15 @@ button:focus-visible {
 }
 
 .cat-image-layer {
-  position: absolute;
-  inset: auto auto 7rem 61%;
+  position: relative;
   z-index: 2;
-  width: min(25rem, 36vw);
+  width: min(21rem, 100%);
   aspect-ratio: 1;
+  margin-top: 1.5rem;
   overflow: hidden;
   transform: translate3d(var(--parallax-x, 0px), var(--parallax-y, 0px), 0) rotate(-7deg);
   transform-origin: center;
-  opacity: 0.2;
+  opacity: 1;
   will-change: transform;
 }
 
@@ -307,9 +307,7 @@ button:focus-visible {
 
 @media (max-width: 64rem) {
   .cat-image-layer {
-    inset: auto auto 7rem 61%;
-    width: 20rem;
-    opacity: 0.18;
+    width: min(18rem, 100%);
   }
 }
 
@@ -326,9 +324,8 @@ button:focus-visible {
   }
 
   .cat-image-layer {
-    inset: auto auto 8rem 50%;
-    width: 14rem;
-    opacity: 0.16;
+    width: min(15rem, 100%);
+    margin-top: 1rem;
   }
 
   .constellation-line::after {
