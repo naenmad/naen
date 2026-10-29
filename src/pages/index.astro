@@ -50,47 +50,49 @@ import SiteHeader from '../components/SiteHeader.astro';
     <main id="content">
       <!-- Section 00: Opening / Hero -->
       <section id="top" class="section section--hero is-section-active" aria-labelledby="intro-title">
-        <div class="hero-grid">
-          <div class="foreground-parallax" data-parallax="0.018">
-            <div class="intro-status">
-              <span class="intro-status__dot" aria-hidden="true"></span>
-              <p class="intro-meta">
-                <span>Ahmad Zulkarnaen</span>
-                <span aria-hidden="true" class="intro-meta__sep">/</span>
-                <span>Full-stack & Mobile Developer</span>
+        <div class="section-content">
+          <div class="hero-grid">
+            <div class="foreground-parallax" data-parallax="0.018">
+              <div class="intro-status">
+                <span class="intro-status__dot" aria-hidden="true"></span>
+                <p class="intro-meta">
+                  <span>Ahmad Zulkarnaen</span>
+                  <span aria-hidden="true" class="intro-meta__sep">/</span>
+                  <span>Full-stack & Mobile Developer</span>
+                </p>
+              </div>
+
+              <h1 id="intro-title" class="intro-title">
+                I build software<br />
+                beneath open skies.
+              </h1>
+
+              <p class="intro-lead">
+                Engineering web and mobile systems that balance structural clarity with responsive user experience. Laravel on the server, Next.js on the web, Flutter in your pocket. Focused on software that stays reliable and maintainable after release.
               </p>
+
+              <div class="hero-actions">
+                <a class="action-primary" href="#work">Explore projects</a>
+                <a class="action-secondary" href="#experience">Review CV & experience</a>
+                <a class="action-quiet" href="#contact">Get in touch</a>
+              </div>
             </div>
 
-            <h1 id="intro-title" class="intro-title">
-              I build software<br />
-              beneath open skies.
-            </h1>
-
-            <p class="intro-lead">
-              Engineering web and mobile systems that balance structural clarity with responsive user experience. Laravel on the server, Next.js on the web, Flutter in your pocket. Focused on software that stays reliable and maintainable after release.
-            </p>
-
-            <div class="hero-actions">
-              <a class="action-primary" href="#work">Explore projects</a>
-              <a class="action-secondary" href="#experience">Review CV & experience</a>
-              <a class="action-quiet" href="#contact">Get in touch</a>
-            </div>
+            <aside class="hero-note" aria-label="A small visual note">
+              <div class="constellation-line" aria-hidden="true">
+                <span class="constellation-dot constellation-dot--bright"></span>
+                <span class="constellation-hairline"></span>
+                <span class="constellation-dot constellation-dot--soft"></span>
+              </div>
+              <div class="cat-image-layer parallax-item" data-parallax="0.24">
+                <picture>
+                  <source srcset="/cats/cat-1.webp" type="image/webp" />
+                  <img class="cat-image" src="/cats/cat-1.svg" alt="Minimal white silhouette of a flying cat gliding under the stars" width="1553" height="1362" decoding="async" />
+                </picture>
+              </div>
+              <p class="hero-note__caption">Usually accompanied by a cat.</p>
+            </aside>
           </div>
-
-          <aside class="hero-note" aria-label="A small visual note">
-            <div class="constellation-line" aria-hidden="true">
-              <span class="constellation-dot constellation-dot--bright"></span>
-              <span class="constellation-hairline"></span>
-              <span class="constellation-dot constellation-dot--soft"></span>
-            </div>
-            <div class="cat-image-layer parallax-item" data-parallax="0.24">
-              <picture>
-                <source srcset="/cats/cat-1.webp" type="image/webp" />
-                <img class="cat-image" src="/cats/cat-1.svg" alt="Minimal white silhouette of a flying cat gliding under the stars" width="1553" height="1362" decoding="async" />
-              </picture>
-            </div>
-            <p class="hero-note__caption">Usually accompanied by a cat.</p>
-          </aside>
         </div>
       </section>
 
@@ -105,50 +107,52 @@ import SiteHeader from '../components/SiteHeader.astro';
           </div>
         </div>
 
-        <div class="section-head">
-          <p class="section-kicker"><span class="kicker-index" aria-hidden="true">01</span> Profile & CV</p>
-          <h2 id="about-title" class="section-title">Curious about how complex systems hold together.</h2>
-        </div>
-
-        <div class="section-body section-body--split">
-          <div class="prose-night">
-            <p>
-              I am Ahmad Zulkarnaen, a full-stack and mobile developer working between Bogor and Karawang, Indonesia. My engineering focus centers on building end-to-end applications: architecting scalable Laravel and REST backends, crafting responsive Next.js interfaces, and delivering smooth cross-platform Flutter experiences.
-            </p>
-            <p>
-              Currently completing my Informatics degree at Universitas Singaperbangsa Karawang (UNSIKA) with a 3.83 GPA, alongside an international study exchange at Wuhan Vocational College of Software and Engineering in China. Experiencing different software paradigms shaped my philosophy: write code that is clean, observable, and built for people.
-            </p>
-
-            <div class="cv-highlight-box">
-              <div class="cv-highlight-box__info">
-                <span class="cv-highlight-box__tag">CURRICULUM VITAE</span>
-                <p class="cv-highlight-box__desc">Full engineering background, professional history, and accredited coursework.</p>
-              </div>
-              <div class="cv-highlight-box__actions">
-                <a class="action-secondary" href="#experience">Jump to Experience ↓</a>
-                <a class="action-quiet" href="mailto:azulkarnaen@outlook.com?subject=CV%20Request%20-%20Ahmad%20Zulkarnaen">Request PDF via Email</a>
-              </div>
-            </div>
+        <div class="section-content">
+          <div class="section-head">
+            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">01</span> Profile & CV</p>
+            <h2 id="about-title" class="section-title">Curious about how complex systems hold together.</h2>
           </div>
 
-          <dl class="fact-list" aria-label="Candidate summary">
-            <div class="fact-card">
-              <dt>Location</dt>
-              <dd>Bogor & Karawang, Indonesia</dd>
+          <div class="section-body section-body--split">
+            <div class="prose-night">
+              <p>
+                I am Ahmad Zulkarnaen, a full-stack and mobile developer working between Bogor and Karawang, Indonesia. My engineering focus centers on building end-to-end applications: architecting scalable Laravel and REST backends, crafting responsive Next.js interfaces, and delivering smooth cross-platform Flutter experiences.
+              </p>
+              <p>
+                Currently completing my Informatics degree at Universitas Singaperbangsa Karawang (UNSIKA) with a 3.83 GPA, alongside an international study exchange at Wuhan Vocational College of Software and Engineering in China. Experiencing different software paradigms shaped my philosophy: write code that is clean, observable, and built for people.
+              </p>
+
+              <div class="cv-highlight-box">
+                <div class="cv-highlight-box__info">
+                  <span class="cv-highlight-box__tag">CURRICULUM VITAE</span>
+                  <p class="cv-highlight-box__desc">Full engineering background, professional history, and accredited coursework.</p>
+                </div>
+                <div class="cv-highlight-box__actions">
+                  <a class="action-secondary" href="#experience">Jump to Experience ↓</a>
+                  <a class="action-quiet" href="mailto:azulkarnaen@outlook.com?subject=CV%20Request%20-%20Ahmad%20Zulkarnaen">Request PDF via Email</a>
+                </div>
+              </div>
             </div>
-            <div class="fact-card">
-              <dt>Core Specialization</dt>
-              <dd>Full-stack Web & Flutter Mobile</dd>
-            </div>
-            <div class="fact-card">
-              <dt>Education & Academic Standing</dt>
-              <dd>S1 Informatics, UNSIKA (GPA 3.83 / 4.00)</dd>
-            </div>
-            <div class="fact-card">
-              <dt>Languages & Proficiency</dt>
-              <dd>Indonesian (Native), English (TOEIC 840)</dd>
-            </div>
-          </dl>
+
+            <dl class="fact-list" aria-label="Candidate summary">
+              <div class="fact-card">
+                <dt>Location</dt>
+                <dd>Bogor & Karawang, Indonesia</dd>
+              </div>
+              <div class="fact-card">
+                <dt>Core Specialization</dt>
+                <dd>Full-stack Web & Flutter Mobile</dd>
+              </div>
+              <div class="fact-card">
+                <dt>Education & Academic Standing</dt>
+                <dd>S1 Informatics, UNSIKA (GPA 3.83 / 4.00)</dd>
+              </div>
+              <div class="fact-card">
+                <dt>Languages & Proficiency</dt>
+                <dd>Indonesian (Native), English (TOEIC 840)</dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </section>
 
@@ -163,69 +167,71 @@ import SiteHeader from '../components/SiteHeader.astro';
           </div>
         </div>
 
-        <div class="section-head">
-          <p class="section-kicker"><span class="kicker-index" aria-hidden="true">02</span> Work Experience</p>
-          <h2 id="experience-title" class="section-title">Where I have worked and delivered.</h2>
-        </div>
+        <div class="section-content">
+          <div class="section-head">
+            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">02</span> Work Experience</p>
+            <h2 id="experience-title" class="section-title">Where I have worked and delivered.</h2>
+          </div>
 
-        <div class="section-body">
-          <div class="experience-layout">
-            <div class="entry-list">
-              <article class="entry-card">
-                <div class="entry-meta">
-                  <span class="entry-period">Nov 2025 - Apr 2026</span>
-                  <span class="entry-location">Depok, Indonesia</span>
-                  <span class="entry-badge">Mobile Engineering</span>
-                </div>
-                <div class="entry-content">
-                  <h3 class="entry-role">Mobile Developer <span class="entry-company">at Vixual</span></h3>
-                  <p class="entry-summary">Developed and maintained cross-platform mobile features using Flutter, with attention to responsive screens and reliable state management.</p>
-                  <ul class="entry-points">
-                    <li>Engineered complex Flutter client views, translating multi-step interaction flows into responsive, accessible screens.</li>
-                    <li>Integrated RESTful endpoints with robust error boundary handling and client-side data persistence.</li>
-                    <li>Partnered directly with UI/UX designers and backend peers in rapid sprint cycles to deliver tested release candidates.</li>
-                  </ul>
-                </div>
-              </article>
-
-              <article class="entry-card">
-                <div class="entry-meta">
-                  <span class="entry-period">Aug 2025 - Dec 2025</span>
-                  <span class="entry-location">East Jakarta, Indonesia</span>
-                  <span class="entry-badge">Full-stack Engineering</span>
-                </div>
-                <div class="entry-content">
-                  <h3 class="entry-role">Full-stack Developer Intern <span class="entry-company">at Citiasia Inc.</span></h3>
-                  <p class="entry-summary">Contributed to enterprise web and mobile solutions utilizing modular architectures in PHP, JavaScript, and Flutter.</p>
-                  <ul class="entry-points">
-                    <li>Implemented modular front-end components and responsive web views with clean separation of presentation and logic.</li>
-                    <li>Architected REST APIs and integrated Firebase services for real-time notifications and synchronized data store.</li>
-                    <li>Maintained collaborative Git branching workflows, automated testing integration, and CI/CD deployment pipelines.</li>
-                  </ul>
-                </div>
-              </article>
-            </div>
-
-            <!-- Leadership & Community Roles -->
-            <div class="leadership-block">
-              <h3 class="leadership-block__title">Leadership & Community Impact</h3>
-              <div class="leadership-grid">
-                <div class="leadership-card">
-                  <div class="leadership-card__header">
-                    <h4 class="leadership-role">Head of Education</h4>
-                    <span class="leadership-org">HIMTIKA</span>
+          <div class="section-body">
+            <div class="experience-layout">
+              <div class="entry-list">
+                <article class="entry-card">
+                  <div class="entry-meta">
+                    <span class="entry-period">Nov 2025 - Apr 2026</span>
+                    <span class="entry-location">Depok, Indonesia</span>
+                    <span class="entry-badge">Mobile Engineering</span>
                   </div>
-                  <p class="leadership-date">Jan 2025 - Nov 2025</p>
-                  <p class="leadership-desc">Designed technical study tracks, mentored junior undergraduates, and organized hands-on workshops in software development and programming foundations.</p>
-                </div>
-
-                <div class="leadership-card">
-                  <div class="leadership-card__header">
-                    <h4 class="leadership-role">Event Director</h4>
-                    <span class="leadership-org">Pekan IT 2024</span>
+                  <div class="entry-content">
+                    <h3 class="entry-role">Mobile Developer <span class="entry-company">at Vixual</span></h3>
+                    <p class="entry-summary">Developed and maintained cross-platform mobile features using Flutter, with attention to responsive screens and reliable state management.</p>
+                    <ul class="entry-points">
+                      <li>Engineered complex Flutter client views, translating multi-step interaction flows into responsive, accessible screens.</li>
+                      <li>Integrated RESTful endpoints with robust error boundary handling and client-side data persistence.</li>
+                      <li>Partnered directly with UI/UX designers and backend peers in rapid sprint cycles to deliver tested release candidates.</li>
+                    </ul>
                   </div>
-                  <p class="leadership-date">National Technology Program</p>
-                  <p class="leadership-desc">Led the end-to-end planning and execution of a national technology convention featuring 1,300+ attendees and competitive participants from 36 universities across Indonesia.</p>
+                </article>
+
+                <article class="entry-card">
+                  <div class="entry-meta">
+                    <span class="entry-period">Aug 2025 - Dec 2025</span>
+                    <span class="entry-location">East Jakarta, Indonesia</span>
+                    <span class="entry-badge">Full-stack Engineering</span>
+                  </div>
+                  <div class="entry-content">
+                    <h3 class="entry-role">Full-stack Developer Intern <span class="entry-company">at Citiasia Inc.</span></h3>
+                    <p class="entry-summary">Contributed to enterprise web and mobile solutions utilizing modular architectures in PHP, JavaScript, and Flutter.</p>
+                    <ul class="entry-points">
+                      <li>Implemented modular front-end components and responsive web views with clean separation of presentation and logic.</li>
+                      <li>Architected REST APIs and integrated Firebase services for real-time notifications and synchronized data store.</li>
+                      <li>Maintained collaborative Git branching workflows, automated testing integration, and CI/CD deployment pipelines.</li>
+                    </ul>
+                  </div>
+                </article>
+              </div>
+
+              <!-- Leadership & Community Roles -->
+              <div class="leadership-block">
+                <h3 class="leadership-block__title">Leadership & Community Impact</h3>
+                <div class="leadership-grid">
+                  <div class="leadership-card">
+                    <div class="leadership-card__header">
+                      <h4 class="leadership-role">Head of Education</h4>
+                      <span class="leadership-org">HIMTIKA</span>
+                    </div>
+                    <p class="leadership-date">Jan 2025 - Nov 2025</p>
+                    <p class="leadership-desc">Designed technical study tracks, mentored junior undergraduates, and organized hands-on workshops in software development and programming foundations.</p>
+                  </div>
+
+                  <div class="leadership-card">
+                    <div class="leadership-card__header">
+                      <h4 class="leadership-role">Event Director</h4>
+                      <span class="leadership-org">Pekan IT 2024</span>
+                    </div>
+                    <p class="leadership-date">National Technology Program</p>
+                    <p class="leadership-desc">Led the end-to-end planning and execution of a national technology convention featuring 1,300+ attendees and competitive participants from 36 universities across Indonesia.</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -244,84 +250,86 @@ import SiteHeader from '../components/SiteHeader.astro';
           </div>
         </div>
 
-        <div class="section-head">
-          <p class="section-kicker"><span class="kicker-index" aria-hidden="true">03</span> Selected Work</p>
-          <h2 id="work-title" class="section-title">Projects built with purpose.</h2>
-        </div>
+        <div class="section-content">
+          <div class="section-head">
+            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">03</span> Selected Work</p>
+            <h2 id="work-title" class="section-title">Projects built with purpose.</h2>
+          </div>
 
-        <div class="section-body">
-          <div class="project-list">
-            <article class="project-card">
-              <div class="project-card__header">
-                <div>
-                  <span class="project-card__num" aria-hidden="true">PROJECT 01</span>
-                  <h3 class="project-title">SISKA Mobile</h3>
+          <div class="section-body">
+            <div class="project-list">
+              <article class="project-card">
+                <div class="project-card__header">
+                  <div>
+                    <span class="project-card__num" aria-hidden="true">PROJECT 01</span>
+                    <h3 class="project-title">SISKA Mobile</h3>
+                  </div>
+                  <span class="project-kind">Academic Platform</span>
                 </div>
-                <span class="project-kind">Academic Platform</span>
-              </div>
-              <p class="project-text">
-                A production-ready academic information system built to streamline university administration, course registration, and real-time student evaluation. Features offline-first data caching and structured state management. Currently serves as my undergraduate thesis research.
-              </p>
-              <div class="project-card__footer">
-                <ul class="tag-list" aria-label="Technologies used in SISKA Mobile">
-                  <li>Flutter</li>
-                  <li>Dart</li>
-                  <li>REST API</li>
-                  <li>State Management</li>
-                </ul>
-                <div class="project-card__status">
-                  <span class="status-indicator"></span> Thesis Project
+                <p class="project-text">
+                  A production-ready academic information system built to streamline university administration, course registration, and real-time student evaluation. Features offline-first data caching and structured state management. Currently serves as my undergraduate thesis research.
+                </p>
+                <div class="project-card__footer">
+                  <ul class="tag-list" aria-label="Technologies used in SISKA Mobile">
+                    <li>Flutter</li>
+                    <li>Dart</li>
+                    <li>REST API</li>
+                    <li>State Management</li>
+                  </ul>
+                  <div class="project-card__status">
+                    <span class="status-indicator"></span> Thesis Project
+                  </div>
                 </div>
-              </div>
-            </article>
+              </article>
 
-            <article class="project-card">
-              <div class="project-card__header">
-                <div>
-                  <span class="project-card__num" aria-hidden="true">PROJECT 02</span>
-                  <h3 class="project-title">Lungsurin</h3>
+              <article class="project-card">
+                <div class="project-card__header">
+                  <div>
+                    <span class="project-card__num" aria-hidden="true">PROJECT 02</span>
+                    <h3 class="project-title">Lungsurin</h3>
+                  </div>
+                  <span class="project-kind">ICT Business Platform</span>
                 </div>
-                <span class="project-kind">ICT Business Platform</span>
-              </div>
-              <p class="project-text">
-                Mobile application and service integration built for an ICT business venture. Connects emerging tech initiatives with resource management workflows. Developed client-side modules in Flutter synchronized with a custom REST API.
-              </p>
-              <div class="project-card__footer">
-                <ul class="tag-list" aria-label="Technologies used in Lungsurin">
-                  <li>Flutter</li>
-                  <li>Dart</li>
-                  <li>REST API</li>
-                  <li>Backend Sync</li>
-                </ul>
-                <div class="project-card__status">
-                  <span class="status-indicator"></span> Shipped Product
+                <p class="project-text">
+                  Mobile application and service integration built for an ICT business venture. Connects emerging tech initiatives with resource management workflows. Developed client-side modules in Flutter synchronized with a custom REST API.
+                </p>
+                <div class="project-card__footer">
+                  <ul class="tag-list" aria-label="Technologies used in Lungsurin">
+                    <li>Flutter</li>
+                    <li>Dart</li>
+                    <li>REST API</li>
+                    <li>Backend Sync</li>
+                  </ul>
+                  <div class="project-card__status">
+                    <span class="status-indicator"></span> Shipped Product
+                  </div>
                 </div>
-              </div>
-            </article>
+              </article>
 
-            <article class="project-card">
-              <div class="project-card__header">
-                <div>
-                  <span class="project-card__num" aria-hidden="true">PROJECT 03</span>
-                  <h3 class="project-title">Citiasia Modular</h3>
+              <article class="project-card">
+                <div class="project-card__header">
+                  <div>
+                    <span class="project-card__num" aria-hidden="true">PROJECT 03</span>
+                    <h3 class="project-title">Citiasia Modular</h3>
+                  </div>
+                  <span class="project-kind">Enterprise Modules</span>
                 </div>
-                <span class="project-kind">Enterprise Modules</span>
-              </div>
-              <p class="project-text">
-                Enterprise client service integration developed during internship at Citiasia Inc. Structured with modular codebases to support both browser interfaces and handheld devices. Implemented Firebase cloud messaging and granular access control.
-              </p>
-              <div class="project-card__footer">
-                <ul class="tag-list" aria-label="Technologies used in Citiasia Modular Services">
-                  <li>PHP</li>
-                  <li>JavaScript</li>
-                  <li>Flutter</li>
-                  <li>Firebase</li>
-                </ul>
-                <div class="project-card__status">
-                  <span class="status-indicator"></span> Enterprise
+                <p class="project-text">
+                  Enterprise client service integration developed during internship at Citiasia Inc. Structured with modular codebases to support both browser interfaces and handheld devices. Implemented Firebase cloud messaging and granular access control.
+                </p>
+                <div class="project-card__footer">
+                  <ul class="tag-list" aria-label="Technologies used in Citiasia Modular Services">
+                    <li>PHP</li>
+                    <li>JavaScript</li>
+                    <li>Flutter</li>
+                    <li>Firebase</li>
+                  </ul>
+                  <div class="project-card__status">
+                    <span class="status-indicator"></span> Enterprise
+                  </div>
                 </div>
-              </div>
-            </article>
+              </article>
+            </div>
           </div>
         </div>
       </section>
@@ -337,74 +345,76 @@ import SiteHeader from '../components/SiteHeader.astro';
           </div>
         </div>
 
-        <div class="section-head">
-          <p class="section-kicker"><span class="kicker-index" aria-hidden="true">04</span> Toolkit</p>
-          <h2 id="toolkit-title" class="section-title">Languages, frameworks, and engineering habits.</h2>
-        </div>
+        <div class="section-content">
+          <div class="section-head">
+            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">04</span> Toolkit</p>
+            <h2 id="toolkit-title" class="section-title">Languages, frameworks, and engineering habits.</h2>
+          </div>
 
-        <div class="section-body">
-          <div class="toolkit-grid">
-            <div class="toolkit-category">
-              <div class="toolkit-category__head">
-                <span class="toolkit-category__glyph" aria-hidden="true">01</span>
-                <h3>Languages</h3>
+          <div class="section-body">
+            <div class="toolkit-grid">
+              <div class="toolkit-category">
+                <div class="toolkit-category__head">
+                  <span class="toolkit-category__glyph" aria-hidden="true">01</span>
+                  <h3>Languages</h3>
+                </div>
+                <ul class="pill-list">
+                  <li>PHP</li>
+                  <li>JavaScript</li>
+                  <li>TypeScript</li>
+                  <li>Dart</li>
+                  <li>HTML5</li>
+                  <li>CSS3 & SCSS</li>
+                  <li>Java</li>
+                  <li>Kotlin</li>
+                  <li>SQL</li>
+                </ul>
               </div>
-              <ul class="pill-list">
-                <li>PHP</li>
-                <li>JavaScript</li>
-                <li>TypeScript</li>
-                <li>Dart</li>
-                <li>HTML5</li>
-                <li>CSS3 & SCSS</li>
-                <li>Java</li>
-                <li>Kotlin</li>
-                <li>SQL</li>
-              </ul>
-            </div>
 
-            <div class="toolkit-category">
-              <div class="toolkit-category__head">
-                <span class="toolkit-category__glyph" aria-hidden="true">02</span>
-                <h3>Frameworks & UI</h3>
+              <div class="toolkit-category">
+                <div class="toolkit-category__head">
+                  <span class="toolkit-category__glyph" aria-hidden="true">02</span>
+                  <h3>Frameworks & UI</h3>
+                </div>
+                <ul class="pill-list">
+                  <li>Laravel</li>
+                  <li>Next.js</li>
+                  <li>React</li>
+                  <li>Flutter</li>
+                  <li>Tailwind CSS</li>
+                  <li>Astro</li>
+                </ul>
               </div>
-              <ul class="pill-list">
-                <li>Laravel</li>
-                <li>Next.js</li>
-                <li>React</li>
-                <li>Flutter</li>
-                <li>Tailwind CSS</li>
-                <li>Astro</li>
-              </ul>
-            </div>
 
-            <div class="toolkit-category">
-              <div class="toolkit-category__head">
-                <span class="toolkit-category__glyph" aria-hidden="true">03</span>
-                <h3>Backend & Data</h3>
+              <div class="toolkit-category">
+                <div class="toolkit-category__head">
+                  <span class="toolkit-category__glyph" aria-hidden="true">03</span>
+                  <h3>Backend & Data</h3>
+                </div>
+                <ul class="pill-list">
+                  <li>RESTful APIs</li>
+                  <li>Firebase</li>
+                  <li>MySQL</li>
+                  <li>PostgreSQL</li>
+                  <li>Node.js</li>
+                  <li>SSR & SSG</li>
+                </ul>
               </div>
-              <ul class="pill-list">
-                <li>RESTful APIs</li>
-                <li>Firebase</li>
-                <li>MySQL</li>
-                <li>PostgreSQL</li>
-                <li>Node.js</li>
-                <li>SSR & SSG</li>
-              </ul>
-            </div>
 
-            <div class="toolkit-category">
-              <div class="toolkit-category__head">
-                <span class="toolkit-category__glyph" aria-hidden="true">04</span>
-                <h3>Practice & Ops</h3>
+              <div class="toolkit-category">
+                <div class="toolkit-category__head">
+                  <span class="toolkit-category__glyph" aria-hidden="true">04</span>
+                  <h3>Practice & Ops</h3>
+                </div>
+                <ul class="pill-list">
+                  <li>Git & GitHub</li>
+                  <li>CI/CD Pipelines</li>
+                  <li>Docker Basics</li>
+                  <li>Agile & Scrum</li>
+                  <li>Clean Architecture</li>
+                  <li>Testing & Review</li>
+                </ul>
               </div>
-              <ul class="pill-list">
-                <li>Git & GitHub</li>
-                <li>CI/CD Pipelines</li>
-                <li>Docker Basics</li>
-                <li>Agile & Scrum</li>
-                <li>Clean Architecture</li>
-                <li>Testing & Review</li>
-              </ul>
             </div>
           </div>
         </div>
@@ -421,73 +431,75 @@ import SiteHeader from '../components/SiteHeader.astro';
           </div>
         </div>
 
-        <div class="section-head">
-          <p class="section-kicker"><span class="kicker-index" aria-hidden="true">05</span> Education & Credentials</p>
-          <h2 id="education-title" class="section-title">Academic path and industry certifications.</h2>
-        </div>
-
-        <div class="section-body education-layout">
-          <div class="education-column">
-            <article class="edu-card">
-              <div class="edu-card__header">
-                <span class="edu-card__period">Aug 2023 - Present</span>
-                <span class="edu-card__location">Karawang, Indonesia</span>
-              </div>
-              <h3 class="edu-card__title">S1 Informatics</h3>
-              <p class="edu-card__institution">Singaperbangsa Karawang University (UNSIKA)</p>
-              <div class="edu-card__highlight">Current Cumulative GPA: 3.83 / 4.00</div>
-              <p class="edu-card__note">
-                Advanced studies in software engineering, database architecture, mobile application paradigms, and algorithms. Currently conducting thesis research on mobile academic management systems.
-              </p>
-            </article>
-
-            <article class="edu-card">
-              <div class="edu-card__header">
-                <span class="edu-card__period">Mar 2026 - Jun 2026</span>
-                <span class="edu-card__location">Wuhan, China</span>
-              </div>
-              <h3 class="edu-card__title">International Student Exchange</h3>
-              <p class="edu-card__institution">Wuhan Vocational College of Software and Engineering</p>
-              <div class="edu-card__highlight">Selected via Irootech & UNSIKA Academic Partnership</div>
-              <p class="edu-card__note">
-                Immersive academic study within China's tech ecosystem, studying applied software engineering, manufacturing technology, and cross-cultural technical methodologies.
-              </p>
-            </article>
+        <div class="section-content">
+          <div class="section-head">
+            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">05</span> Education & Credentials</p>
+            <h2 id="education-title" class="section-title">Academic path and industry certifications.</h2>
           </div>
 
-          <aside class="credentials-column">
-            <div class="credentials-box">
-              <h3 class="credentials-box__title">Verified Certifications</h3>
-              <ul class="cert-list">
-                <li class="cert-item">
-                  <div class="cert-item__icon" aria-hidden="true">✦</div>
-                  <div class="cert-item__info">
-                    <span class="cert-name">GitHub Foundations</span>
-                    <span class="cert-meta">GitHub Certified / Issued Mar 2025</span>
-                  </div>
-                </li>
-                <li class="cert-item">
-                  <div class="cert-item__icon" aria-hidden="true">✦</div>
-                  <div class="cert-item__info">
-                    <span class="cert-name">Junior Web Developer</span>
-                    <span class="cert-meta">BNSP Indonesia / Issued Aug 2023</span>
-                  </div>
-                </li>
-                <li class="cert-item">
-                  <div class="cert-item__icon" aria-hidden="true">✦</div>
-                  <div class="cert-item__info">
-                    <span class="cert-name">TOEIC Official Certificate</span>
-                    <span class="cert-meta">Score 840 / Professional Working Proficiency</span>
-                  </div>
-                </li>
-              </ul>
+          <div class="section-body education-layout">
+            <div class="education-column">
+              <article class="edu-card">
+                <div class="edu-card__header">
+                  <span class="edu-card__period">Aug 2023 - Present</span>
+                  <span class="edu-card__location">Karawang, Indonesia</span>
+                </div>
+                <h3 class="edu-card__title">S1 Informatics</h3>
+                <p class="edu-card__institution">Singaperbangsa Karawang University (UNSIKA)</p>
+                <div class="edu-card__highlight">Current Cumulative GPA: 3.83 / 4.00</div>
+                <p class="edu-card__note">
+                  Advanced studies in software engineering, database architecture, mobile application paradigms, and algorithms. Currently conducting thesis research on mobile academic management systems.
+                </p>
+              </article>
+
+              <article class="edu-card">
+                <div class="edu-card__header">
+                  <span class="edu-card__period">Mar 2026 - Jun 2026</span>
+                  <span class="edu-card__location">Wuhan, China</span>
+                </div>
+                <h3 class="edu-card__title">International Student Exchange</h3>
+                <p class="edu-card__institution">Wuhan Vocational College of Software and Engineering</p>
+                <div class="edu-card__highlight">Selected via Irootech & UNSIKA Academic Partnership</div>
+                <p class="edu-card__note">
+                  Immersive academic study within China's tech ecosystem, studying applied software engineering, manufacturing technology, and cross-cultural technical methodologies.
+                </p>
+              </article>
             </div>
 
-            <div class="credentials-status">
-              <p class="credentials-status__label">Academic Inquiries</p>
-              <p class="credentials-status__text">Transcripts, syllabi, or verification letters available upon formal request.</p>
-            </div>
-          </aside>
+            <aside class="credentials-column">
+              <div class="credentials-box">
+                <h3 class="credentials-box__title">Verified Certifications</h3>
+                <ul class="cert-list">
+                  <li class="cert-item">
+                    <div class="cert-item__icon" aria-hidden="true">✦</div>
+                    <div class="cert-item__info">
+                      <span class="cert-name">GitHub Foundations</span>
+                      <span class="cert-meta">GitHub Certified / Issued Mar 2025</span>
+                    </div>
+                  </li>
+                  <li class="cert-item">
+                    <div class="cert-item__icon" aria-hidden="true">✦</div>
+                    <div class="cert-item__info">
+                      <span class="cert-name">Junior Web Developer</span>
+                      <span class="cert-meta">BNSP Indonesia / Issued Aug 2023</span>
+                    </div>
+                  </li>
+                  <li class="cert-item">
+                    <div class="cert-item__icon" aria-hidden="true">✦</div>
+                    <div class="cert-item__info">
+                      <span class="cert-name">TOEIC Official Certificate</span>
+                      <span class="cert-meta">Score 840 / Professional Working Proficiency</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="credentials-status">
+                <p class="credentials-status__label">Academic Inquiries</p>
+                <p class="credentials-status__text">Transcripts, syllabi, or verification letters available upon formal request.</p>
+              </div>
+            </aside>
+          </div>
         </div>
       </section>
 
@@ -502,7 +514,7 @@ import SiteHeader from '../components/SiteHeader.astro';
           </div>
         </div>
 
-        <div class="contact-slide-content">
+        <div class="contact-slide-content section-content">
           <div class="section-head">
             <p class="section-kicker"><span class="kicker-index" aria-hidden="true">06</span> Contact</p>
             <h2 id="contact-title" class="section-title">Have something worth building?</h2>
