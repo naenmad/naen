@@ -269,7 +269,7 @@ input:focus-visible {
   will-change: transform;
 }
 
-/* Flying Cat Note Artwork */
+/* Flying Cat Note Artwork (Hero Section) */
 .cat-image-layer {
   position: relative;
   z-index: 2;
@@ -278,15 +278,127 @@ input:focus-visible {
   margin-top: 0.25rem;
   transform: translate3d(var(--parallax-x, 0px), var(--parallax-y, 0px), 0) rotate(-6deg);
   transform-origin: center;
-  will-change: transform;
+  transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease;
+  will-change: transform, opacity;
+}
+
+#top:not(.is-section-active) .cat-image-layer {
+  transform: translate3d(140px, -20px, 0) rotate(8deg) scale(0.9);
+  opacity: 0;
 }
 
 .cat-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 14px 28px rgba(3, 5, 11, 0.7));
+  filter: drop-shadow(0 6px 20px rgba(184, 198, 217, 0.38)) drop-shadow(0 14px 28px rgba(3, 5, 11, 0.7));
   animation: cat-bob 7.5s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   FLYING CAT COMPANIONS (Per-Section Atmospheric Flight)
+   ========================================================================== */
+.section-cat-flyer {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  width: clamp(7rem, 11vw, 11.5rem);
+  opacity: 0;
+  will-change: transform, opacity;
+  transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease;
+}
+
+.section-cat-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 6px 20px rgba(184, 198, 217, 0.38)) drop-shadow(0 2px 8px rgba(3, 5, 11, 0.85));
+}
+
+.section-cat-flyer__bob {
+  animation: cat-flyer-bob 6.5s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Left-origin flyer: enters from left, exits to left */
+.section-cat-flyer--left {
+  left: clamp(1rem, 3.5vw, 2.5rem);
+  transform: translate3d(-140px, -20px, 0) rotate(-8deg) scale(0.92);
+}
+
+.section.is-section-active .section-cat-flyer--left {
+  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  opacity: 0.88;
+}
+
+/* Right-origin flyer: enters from right, exits to right */
+.section-cat-flyer--right {
+  right: clamp(1rem, 3.5vw, 2.5rem);
+  transform: translate3d(140px, -20px, 0) rotate(8deg) scale(0.92);
+}
+
+.section.is-section-active .section-cat-flyer--right {
+  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  opacity: 0.88;
+}
+
+/* Per-Section Vertical Positioning & Fine Tuning */
+.section-cat-flyer--about {
+  top: clamp(2.5rem, 7vh, 4.5rem);
+}
+
+.section-cat-flyer--experience {
+  top: clamp(2rem, 6vh, 4rem);
+}
+
+.section-cat-flyer--work {
+  bottom: clamp(2rem, 7vh, 4.5rem);
+}
+
+.section-cat-flyer--toolkit {
+  top: clamp(2.5rem, 6vh, 4rem);
+}
+
+.section-cat-flyer--education {
+  top: clamp(3rem, 8vh, 5.5rem);
+}
+
+.section-cat-flyer--contact {
+  top: clamp(3.5rem, 10vh, 6.5rem);
+}
+
+/* Mobile responsive flight parameters */
+@media (max-width: 959px) {
+  .section-cat-flyer {
+    width: clamp(4.5rem, 14vw, 6.5rem);
+    opacity: 0;
+  }
+
+  .section-cat-flyer--left {
+    left: 0.75rem;
+    transform: translate3d(-70px, -12px, 0) scale(0.9);
+  }
+
+  .section.is-section-active .section-cat-flyer--left {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.65;
+  }
+
+  .section-cat-flyer--right {
+    right: 0.75rem;
+    transform: translate3d(70px, -12px, 0) scale(0.9);
+  }
+
+  .section.is-section-active .section-cat-flyer--right {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.65;
+  }
+
+  .section-cat-flyer--work {
+    bottom: auto;
+    top: 1rem;
+  }
 }
 
 /* ==========================================================================
@@ -1084,6 +1196,14 @@ input:focus-visible {
   .section--contact {
     padding-bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 5.5rem);
   }
+}
+
+/* Section Content Elevation (over background flyers) */
+.section-head,
+.section-body,
+.contact-slide-content {
+  position: relative;
+  z-index: 2;
 }
 
 /* Section Head */
@@ -2152,6 +2272,18 @@ input:focus-visible {
   }
 }
 
+@keyframes cat-flyer-bob {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-9px) rotate(1.2deg);
+  }
+  100% {
+    transform: translateY(3px) rotate(-0.8deg);
+  }
+}
+
 @keyframes star-pulse {
   0%, 100% {
     opacity: 0.35;
@@ -2209,8 +2341,23 @@ input:focus-visible {
   .star,
   .particle,
   .passing-object,
-  .cat-image {
+  .cat-image,
+  .section-cat-flyer__bob {
     animation: none !important;
+  }
+
+  .section-cat-flyer,
+  .hero-note .cat-image-layer {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .section.is-section-active .section-cat-flyer {
+    opacity: 0.8 !important;
+  }
+
+  .section:not(.is-section-active) .section-cat-flyer {
+    opacity: 0 !important;
   }
 }
 
@@ -2223,6 +2370,7 @@ input:focus-visible {
   .cosmic-scene,
   .hero-actions,
   .hero-note,
+  .section-cat-flyer,
   .index-dialog,
   .site-footer__status-box,
   .site-footer__top-btn {

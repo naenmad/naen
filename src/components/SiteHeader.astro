@@ -212,9 +212,19 @@ const sections = [
 
   let currentActiveId = 'top';
 
+  // Section DOM elements
+  const sectionEls = sections
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
   const setActiveSection = (id: string) => {
     if (!sectionMeta[id]) return;
     currentActiveId = id;
+
+    // Toggle active section class for flight animations
+    sectionEls.forEach((sec) => {
+      sec.classList.toggle('is-section-active', sec.id === id);
+    });
 
     if (readoutIndex) readoutIndex.textContent = sectionMeta[id].index;
     if (readoutLabel) readoutLabel.textContent = sectionMeta[id].label;
@@ -242,11 +252,7 @@ const sections = [
     });
   };
 
-  // IntersectionObserver for tracking active section
-  const sectionEls = sections
-    .map((id) => document.getElementById(id))
-    .filter((el): el is HTMLElement => el !== null);
-
+  // IntersectionObserver for tracking active section and triggering transitions
   if ('IntersectionObserver' in window && sectionEls.length > 0) {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -257,12 +263,20 @@ const sections = [
         });
       },
       {
-        rootMargin: '-20% 0px -40% 0px',
-        threshold: [0.1, 0.4],
+        rootMargin: '-25% 0px -25% 0px',
+        threshold: 0.15,
       }
     );
 
     sectionEls.forEach((el) => observer.observe(el));
+  }
+
+  // Set initial active state based on hash or top
+  const initialHash = window.location.hash.replace('#', '');
+  if (initialHash && sectionMeta[initialHash]) {
+    setActiveSection(initialHash);
+  } else {
+    setActiveSection('top');
   }
 
   // Dialog Controls

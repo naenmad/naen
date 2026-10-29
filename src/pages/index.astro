@@ -49,7 +49,7 @@ import SiteHeader from '../components/SiteHeader.astro';
 
     <main id="content">
       <!-- Section 00: Opening / Hero -->
-      <section id="top" class="section section--hero" aria-labelledby="intro-title">
+      <section id="top" class="section section--hero is-section-active" aria-labelledby="intro-title">
         <div class="hero-grid">
           <div class="foreground-parallax" data-parallax="0.018">
             <div class="intro-status">
@@ -85,8 +85,8 @@ import SiteHeader from '../components/SiteHeader.astro';
             </div>
             <div class="cat-image-layer parallax-item" data-parallax="0.24">
               <picture>
-                <source srcset="/cat-flying.webp" type="image/webp" />
-                <img class="cat-image" src="/cat-flying.webp" alt="Minimal silhouette artwork of a flying cat under the stars" width="1200" height="1200" decoding="async" />
+                <source srcset="/cats/cat-1.webp" type="image/webp" />
+                <img class="cat-image" src="/cats/cat-1.svg" alt="Minimal white silhouette of a flying cat gliding under the stars" width="1553" height="1362" decoding="async" />
               </picture>
             </div>
             <p class="hero-note__caption">Usually accompanied by a cat.</p>
@@ -96,6 +96,15 @@ import SiteHeader from '../components/SiteHeader.astro';
 
       <!-- Section 01: Profile -->
       <section id="about" class="section" aria-labelledby="about-title">
+        <div class="section-cat-flyer section-cat-flyer--left section-cat-flyer--about" aria-hidden="true">
+          <div class="section-cat-flyer__bob">
+            <picture>
+              <source srcset="/cats/cat-2.webp" type="image/webp" />
+              <img class="section-cat-img" src="/cats/cat-2.svg" alt="" width="1499" height="1237" loading="lazy" decoding="async" />
+            </picture>
+          </div>
+        </div>
+
         <div class="section-head">
           <p class="section-kicker"><span class="kicker-index" aria-hidden="true">01</span> Profile & CV</p>
           <h2 id="about-title" class="section-title">Curious about how complex systems hold together.</h2>
@@ -145,6 +154,15 @@ import SiteHeader from '../components/SiteHeader.astro';
 
       <!-- Section 02: Experience -->
       <section id="experience" class="section" aria-labelledby="experience-title">
+        <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--experience" aria-hidden="true">
+          <div class="section-cat-flyer__bob">
+            <picture>
+              <source srcset="/cats/cat-3.webp" type="image/webp" />
+              <img class="section-cat-img" src="/cats/cat-3.svg" alt="" width="1382" height="1348" loading="lazy" decoding="async" />
+            </picture>
+          </div>
+        </div>
+
         <div class="section-head">
           <p class="section-kicker"><span class="kicker-index" aria-hidden="true">02</span> Work Experience</p>
           <h2 id="experience-title" class="section-title">Where I have worked and delivered.</h2>
@@ -217,6 +235,15 @@ import SiteHeader from '../components/SiteHeader.astro';
 
       <!-- Section 03: Selected Work -->
       <section id="work" class="section" aria-labelledby="work-title">
+        <div class="section-cat-flyer section-cat-flyer--left section-cat-flyer--work" aria-hidden="true">
+          <div class="section-cat-flyer__bob">
+            <picture>
+              <source srcset="/cats/cat-4.webp" type="image/webp" />
+              <img class="section-cat-img" src="/cats/cat-4.svg" alt="" width="1389" height="1411" loading="lazy" decoding="async" />
+            </picture>
+          </div>
+        </div>
+
         <div class="section-head">
           <p class="section-kicker"><span class="kicker-index" aria-hidden="true">03</span> Selected Work</p>
           <h2 id="work-title" class="section-title">Projects built with purpose.</h2>
@@ -301,6 +328,15 @@ import SiteHeader from '../components/SiteHeader.astro';
 
       <!-- Section 04: Toolkit -->
       <section id="toolkit" class="section" aria-labelledby="toolkit-title">
+        <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--toolkit" aria-hidden="true">
+          <div class="section-cat-flyer__bob">
+            <picture>
+              <source srcset="/cats/cat-5.webp" type="image/webp" />
+              <img class="section-cat-img" src="/cats/cat-5.svg" alt="" width="1632" height="1707" loading="lazy" decoding="async" />
+            </picture>
+          </div>
+        </div>
+
         <div class="section-head">
           <p class="section-kicker"><span class="kicker-index" aria-hidden="true">04</span> Toolkit</p>
           <h2 id="toolkit-title" class="section-title">Languages, frameworks, and engineering habits.</h2>
@@ -376,6 +412,15 @@ import SiteHeader from '../components/SiteHeader.astro';
 
       <!-- Section 05: Education & Credentials -->
       <section id="education" class="section" aria-labelledby="education-title">
+        <div class="section-cat-flyer section-cat-flyer--left section-cat-flyer--education" aria-hidden="true">
+          <div class="section-cat-flyer__bob">
+            <picture>
+              <source srcset="/cats/cat-2.webp" type="image/webp" />
+              <img class="section-cat-img" src="/cats/cat-2.svg" alt="" width="1499" height="1237" loading="lazy" decoding="async" />
+            </picture>
+          </div>
+        </div>
+
         <div class="section-head">
           <p class="section-kicker"><span class="kicker-index" aria-hidden="true">05</span> Education & Credentials</p>
           <h2 id="education-title" class="section-title">Academic path and industry certifications.</h2>
@@ -448,6 +493,15 @@ import SiteHeader from '../components/SiteHeader.astro';
 
       <!-- Section 06: Contact & Finale (Slide 06) -->
       <section id="contact" class="section section--contact" aria-labelledby="contact-title">
+        <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--contact" aria-hidden="true">
+          <div class="section-cat-flyer__bob">
+            <picture>
+              <source srcset="/cats/cat-3.webp" type="image/webp" />
+              <img class="section-cat-img" src="/cats/cat-3.svg" alt="" width="1382" height="1348" loading="lazy" decoding="async" />
+            </picture>
+          </div>
+        </div>
+
         <div class="contact-slide-content">
           <div class="section-head">
             <p class="section-kicker"><span class="kicker-index" aria-hidden="true">06</span> Contact</p>
