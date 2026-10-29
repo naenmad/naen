@@ -44,42 +44,6 @@ import SiteHeader from '../components/SiteHeader.astro';
       </div>
     </div>
 
-    <!-- Cosmic 3D Cat Stage (Single persistent viewport rig across all sections) -->
-    <div class="cosmic-cat-stage" id="cosmic-cat-stage" aria-hidden="true">
-      <div class="cat-camera-rig" id="cat-camera-rig">
-        <div class="cat-actor cat-actor--0" data-pose="0">
-          <picture>
-            <source srcset="/cats/cat-1.webp" type="image/webp" />
-            <img class="cat-actor-img" src="/cats/cat-1.svg" alt="" width="1553" height="1362" decoding="async" />
-          </picture>
-        </div>
-        <div class="cat-actor cat-actor--1" data-pose="1">
-          <picture>
-            <source srcset="/cats/cat-2.webp" type="image/webp" />
-            <img class="cat-actor-img" src="/cats/cat-2.svg" alt="" width="1499" height="1237" decoding="async" />
-          </picture>
-        </div>
-        <div class="cat-actor cat-actor--2" data-pose="2">
-          <picture>
-            <source srcset="/cats/cat-3.webp" type="image/webp" />
-            <img class="cat-actor-img" src="/cats/cat-3.svg" alt="" width="1382" height="1348" decoding="async" />
-          </picture>
-        </div>
-        <div class="cat-actor cat-actor--3" data-pose="3">
-          <picture>
-            <source srcset="/cats/cat-4.webp" type="image/webp" />
-            <img class="cat-actor-img" src="/cats/cat-4.svg" alt="" width="1389" height="1411" decoding="async" />
-          </picture>
-        </div>
-        <div class="cat-actor cat-actor--4" data-pose="4">
-          <picture>
-            <source srcset="/cats/cat-5.webp" type="image/webp" />
-            <img class="cat-actor-img" src="/cats/cat-5.svg" alt="" width="1632" height="1707" decoding="async" />
-          </picture>
-        </div>
-      </div>
-    </div>
-
     <!-- Header Navigation -->
     <SiteHeader />
 
@@ -120,7 +84,12 @@ import SiteHeader from '../components/SiteHeader.astro';
                 <span class="constellation-hairline"></span>
                 <span class="constellation-dot constellation-dot--soft"></span>
               </div>
-              <div class="hero-cat-target" id="hero-cat-target" aria-hidden="true"></div>
+              <div class="cat-image-layer section-cat-flyer section-cat-flyer--hero" data-side="right" aria-hidden="true">
+                <picture>
+                  <source srcset="/cats/cat-1.webp" type="image/webp" />
+                  <img class="cat-image" src="/cats/cat-1.svg" alt="Minimal white silhouette of a flying cat gliding under the stars" width="1553" height="1362" decoding="async" />
+                </picture>
+              </div>
               <p class="hero-note__caption">Usually accompanied by a cat.</p>
             </aside>
           </div>
@@ -129,7 +98,12 @@ import SiteHeader from '../components/SiteHeader.astro';
 
       <!-- Section 01: Profile -->
       <section id="about" class="section" aria-labelledby="about-title">
-        <div class="cat-section-anchor cat-section-anchor--left cat-section-anchor--about" aria-hidden="true"></div>
+        <div class="section-cat-flyer section-cat-flyer--left section-cat-flyer--about" data-side="left" aria-hidden="true">
+          <picture>
+            <source srcset="/cats/cat-2.webp" type="image/webp" />
+            <img class="section-cat-img" src="/cats/cat-2.svg" alt="" width="1499" height="1237" loading="lazy" decoding="async" />
+          </picture>
+        </div>
 
         <div class="section-content">
           <div class="section-head">
@@ -182,7 +156,12 @@ import SiteHeader from '../components/SiteHeader.astro';
 
       <!-- Section 02: Experience -->
       <section id="experience" class="section" aria-labelledby="experience-title">
-        <div class="cat-section-anchor cat-section-anchor--right cat-section-anchor--experience" aria-hidden="true"></div>
+        <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--experience" data-side="right" aria-hidden="true">
+          <picture>
+            <source srcset="/cats/cat-3.webp" type="image/webp" />
+            <img class="section-cat-img" src="/cats/cat-3.svg" alt="" width="1382" height="1348" loading="lazy" decoding="async" />
+          </picture>
+        </div>
 
         <div class="section-content">
           <div class="section-head">
@@ -258,7 +237,12 @@ import SiteHeader from '../components/SiteHeader.astro';
 
       <!-- Section 03: Selected Work -->
       <section id="work" class="section" aria-labelledby="work-title">
-        <div class="cat-section-anchor cat-section-anchor--left cat-section-anchor--work" aria-hidden="true"></div>
+        <div class="section-cat-flyer section-cat-flyer--left section-cat-flyer--work" data-side="left" aria-hidden="true">
+          <picture>
+            <source srcset="/cats/cat-4.webp" type="image/webp" />
+            <img class="section-cat-img" src="/cats/cat-4.svg" alt="" width="1389" height="1411" loading="lazy" decoding="async" />
+          </picture>
+        </div>
 
         <div class="section-content">
           <div class="section-head">
@@ -346,7 +330,12 @@ import SiteHeader from '../components/SiteHeader.astro';
 
       <!-- Section 04: Toolkit -->
       <section id="toolkit" class="section" aria-labelledby="toolkit-title">
-        <div class="cat-section-anchor cat-section-anchor--right cat-section-anchor--toolkit" aria-hidden="true"></div>
+        <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--toolkit" data-side="right" aria-hidden="true">
+          <picture>
+            <source srcset="/cats/cat-5.webp" type="image/webp" />
+            <img class="section-cat-img" src="/cats/cat-5.svg" alt="" width="1632" height="1707" loading="lazy" decoding="async" />
+          </picture>
+        </div>
 
         <div class="section-content">
           <div class="section-head">
@@ -425,7 +414,12 @@ import SiteHeader from '../components/SiteHeader.astro';
 
       <!-- Section 05: Education & Credentials -->
       <section id="education" class="section" aria-labelledby="education-title">
-        <div class="cat-section-anchor cat-section-anchor--left cat-section-anchor--education" aria-hidden="true"></div>
+        <div class="section-cat-flyer section-cat-flyer--left section-cat-flyer--education" data-side="left" aria-hidden="true">
+          <picture>
+            <source srcset="/cats/cat-2.webp" type="image/webp" />
+            <img class="section-cat-img" src="/cats/cat-2.svg" alt="" width="1499" height="1237" loading="lazy" decoding="async" />
+          </picture>
+        </div>
 
         <div class="section-content">
           <div class="section-head">
@@ -501,7 +495,12 @@ import SiteHeader from '../components/SiteHeader.astro';
 
       <!-- Section 06: Contact & Finale (Slide 06) -->
       <section id="contact" class="section section--contact" aria-labelledby="contact-title">
-        <div class="cat-section-anchor cat-section-anchor--right cat-section-anchor--contact" aria-hidden="true"></div>
+        <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--contact" data-side="right" aria-hidden="true">
+          <picture>
+            <source srcset="/cats/cat-3.webp" type="image/webp" />
+            <img class="section-cat-img" src="/cats/cat-3.svg" alt="" width="1382" height="1348" loading="lazy" decoding="async" />
+          </picture>
+        </div>
 
         <div class="contact-slide-content section-content">
           <div class="section-head">
@@ -583,78 +582,77 @@ import SiteHeader from '../components/SiteHeader.astro';
   </div>
 
   <script>
-    // 3D Celestial Cat Companion Engine
-    // Single persistent camera rig with continuous scroll lockstep, 3D deep space dive,
-    // equal power pose cross-fade, and interactive cursor parallax.
+    // Scroll-Coupled Per-Section Cat Companions with 3D Depth & Parallax
+    // Each section has its own distinct cat that flies out to the screen edge when leaving,
+    // and flies in from the screen edge (from small to full size) in direct lockstep with scroll.
 
-    interface Waypoint {
-      id: string;
-      pose: number;
-      targetX: number;
-      targetY: number;
-      docTop: number;
+    interface CatSectionCompanion {
+      section: HTMLElement;
+      flyer: HTMLElement;
+      side: 'left' | 'right';
+      isHero?: boolean;
     }
 
-    const init3DCatCompanion = () => {
+    const initPerSectionCatEngine = () => {
       const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const rig = document.getElementById('cat-camera-rig') as HTMLElement | null;
-      if (!rig) return;
 
-      const actorElements = Array.from(
-        rig.querySelectorAll<HTMLElement>('.cat-actor')
-      );
-      if (actorElements.length === 0) return;
+      const items: CatSectionCompanion[] = [
+        {
+          section: document.getElementById('top')!,
+          flyer: document.querySelector<HTMLElement>('#top .section-cat-flyer')!,
+          side: 'right',
+          isHero: true,
+        },
+        {
+          section: document.getElementById('about')!,
+          flyer: document.querySelector<HTMLElement>('#about .section-cat-flyer')!,
+          side: 'left',
+        },
+        {
+          section: document.getElementById('experience')!,
+          flyer: document.querySelector<HTMLElement>('#experience .section-cat-flyer')!,
+          side: 'right',
+        },
+        {
+          section: document.getElementById('work')!,
+          flyer: document.querySelector<HTMLElement>('#work .section-cat-flyer')!,
+          side: 'left',
+        },
+        {
+          section: document.getElementById('toolkit')!,
+          flyer: document.querySelector<HTMLElement>('#toolkit .section-cat-flyer')!,
+          side: 'right',
+        },
+        {
+          section: document.getElementById('education')!,
+          flyer: document.querySelector<HTMLElement>('#education .section-cat-flyer')!,
+          side: 'left',
+        },
+        {
+          section: document.getElementById('contact')!,
+          flyer: document.querySelector<HTMLElement>('#contact .section-cat-flyer')!,
+          side: 'right',
+        },
+      ].filter((item): item is CatSectionCompanion => item.section !== null && item.flyer !== null);
 
-      const sectionConfigs = [
-        { id: 'top', targetSel: '#hero-cat-target', pose: 0 },
-        { id: 'about', targetSel: '#about .cat-section-anchor', pose: 1 },
-        { id: 'experience', targetSel: '#experience .cat-section-anchor', pose: 2 },
-        { id: 'work', targetSel: '#work .cat-section-anchor', pose: 3 },
-        { id: 'toolkit', targetSel: '#toolkit .cat-section-anchor', pose: 4 },
-        { id: 'education', targetSel: '#education .cat-section-anchor', pose: 1 },
-        { id: 'contact', targetSel: '#contact .cat-section-anchor', pose: 2 },
-      ];
+      if (items.length === 0) return;
 
-      let waypoints: Waypoint[] = [];
-      let isVisible = !document.hidden;
+      if (isReduced) {
+        items.forEach((item) => {
+          item.flyer.style.opacity = '0.9';
+          item.flyer.style.transform = 'none';
+        });
+        return;
+      }
 
-      // Mouse interactive parallax coordinates (normalized to [-1, 1])
+      // Mouse interactive parallax
       let mouseTargetX = 0;
       let mouseTargetY = 0;
       let mouseCurrentX = 0;
       let mouseCurrentY = 0;
-
-      const measureWaypoints = () => {
-        const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
-        const newWaypoints: Waypoint[] = [];
-
-        sectionConfigs.forEach((cfg) => {
-          const sec = document.getElementById(cfg.id);
-          const target = document.querySelector<HTMLElement>(cfg.targetSel);
-          if (!sec || !target) return;
-
-          const secRect = sec.getBoundingClientRect();
-          const targetRect = target.getBoundingClientRect();
-          const docTop = secRect.top + scrollY;
-
-          // Target center relative to viewport when section is at scroll snap center
-          const targetX = targetRect.left + targetRect.width / 2;
-          const targetY = (targetRect.top - secRect.top) + targetRect.height / 2;
-
-          newWaypoints.push({
-            id: cfg.id,
-            pose: cfg.pose,
-            targetX,
-            targetY,
-            docTop,
-          });
-        });
-
-        waypoints = newWaypoints;
-      };
+      let isVisible = !document.hidden;
 
       const handleMouseMove = (e: MouseEvent) => {
-        if (isReduced) return;
         const w = window.innerWidth;
         const h = window.innerHeight;
         mouseTargetX = Math.max(-1, Math.min(1, (e.clientX - w / 2) / (w / 2)));
@@ -668,142 +666,112 @@ import SiteHeader from '../components/SiteHeader.astro';
 
       window.addEventListener('mousemove', handleMouseMove, { passive: true });
       document.addEventListener('mouseleave', handleMouseLeave);
-
-      const render = (now: number) => {
-        if (!isVisible || waypoints.length < 2) {
-          requestAnimationFrame(render);
-          return;
-        }
-
-        const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
-        const n = waypoints.length;
-
-        // Find current section interval [i, i+1] and progress p in [0, 1]
-        let i = 0;
-        let p = 0;
-
-        if (scrollY <= waypoints[0].docTop) {
-          i = 0;
-          p = 0;
-        } else if (scrollY >= waypoints[n - 1].docTop) {
-          i = n - 2;
-          p = 1.0;
-        } else {
-          for (let k = 0; k < n - 1; k++) {
-            const topK = waypoints[k].docTop;
-            const topNext = waypoints[k + 1].docTop;
-            if (scrollY >= topK && scrollY < topNext) {
-              i = k;
-              const span = topNext - topK;
-              p = span > 0 ? (scrollY - topK) / span : 0;
-              break;
-            }
-          }
-        }
-        p = Math.max(0, Math.min(1, p));
-
-        const wFrom = waypoints[i];
-        const wTo = waypoints[i + 1];
-
-        // Hermite smoothstep for natural space travel curve
-        const t = p * p * (3.0 - 2.0 * p);
-        const baseX = wFrom.targetX + (wTo.targetX - wFrom.targetX) * t;
-        const baseY = wFrom.targetY + (wTo.targetY - wFrom.targetY) * t;
-
-        // Equal-power cross-fade for seamless pose transformation in deep space
-        const poseFrom = wFrom.pose;
-        const poseTo = wTo.pose;
-        const opFrom = Math.pow(Math.cos((p * Math.PI) / 2), 2);
-        const opTo = Math.pow(Math.sin((p * Math.PI) / 2), 2);
-
-        actorElements.forEach((actor, actorIdx) => {
-          let op = 0;
-          if (poseFrom === poseTo) {
-            op = actorIdx === poseFrom ? 1 : 0;
-          } else if (actorIdx === poseFrom) {
-            op = opFrom;
-          } else if (actorIdx === poseTo) {
-            op = opTo;
-          }
-          actor.style.opacity = op.toFixed(3);
-        });
-
-        const rigW = rig.offsetWidth || 160;
-        const rigH = rig.offsetHeight || 160;
-        const halfW = rigW / 2;
-        const halfH = rigH / 2;
-
-        if (isReduced) {
-          const posX = (baseX - halfW).toFixed(1);
-          const posY = (baseY - halfH).toFixed(1);
-          rig.style.transform = `translate3d(${posX}px, ${posY}px, 0px)`;
-          requestAnimationFrame(render);
-          return;
-        }
-
-        // 3D dive into deep celestial distance:
-        // Z plunges to -580px, scale drops from 1.0 down to 0.28 (small in the far galaxy)
-        const sinP = Math.sin(p * Math.PI);
-        const cosP = Math.cos(p * Math.PI);
-        const z = -580 * sinP;
-        const diveScale = 1.0 - 0.72 * sinP;
-
-        // Upward celestial arch during trajectory
-        const arcY = -sinP * 48;
-
-        // 3D orientation banking and pitching
-        const dx = wTo.targetX - wFrom.targetX;
-        const dir = dx >= 0 ? 1 : -1;
-        const bankZ = dir * sinP * 24;
-        const yawY = dir * sinP * 28;
-        const pitchX = -cosP * sinP * 18;
-
-        // Subtle nocturnal idle breathing float
-        const idleY = Math.sin(now * 0.0018) * 6;
-        const idleRotZ = Math.cos(now * 0.0012) * 1.5;
-
-        // Cursor parallax lerp
-        mouseCurrentX += (mouseTargetX - mouseCurrentX) * 0.08;
-        mouseCurrentY += (mouseTargetY - mouseCurrentY) * 0.08;
-        const mouseOffsetX = mouseCurrentX * 28;
-        const mouseOffsetY = mouseCurrentY * 22;
-        const mouseRotY = mouseCurrentX * 14;
-        const mouseRotX = -mouseCurrentY * 12;
-
-        const finalX = (baseX + mouseOffsetX - halfW).toFixed(2);
-        const finalY = (baseY + arcY + idleY + mouseOffsetY - halfH).toFixed(2);
-        const finalZ = z.toFixed(1);
-        const rotX = (pitchX + mouseRotX).toFixed(2);
-        const rotY = (yawY + mouseRotY).toFixed(2);
-        const rotZ = (bankZ + idleRotZ).toFixed(2);
-
-        rig.style.transform = `translate3d(${finalX}px, ${finalY}px, ${finalZ}px) rotateX(${rotX}deg) rotateY(${rotY}deg) rotateZ(${rotZ}deg) scale(${diveScale.toFixed(3)})`;
-
-        requestAnimationFrame(render);
-      };
-
-      // Visibility change pauses/resumes loop to conserve resources
       document.addEventListener('visibilitychange', () => {
         isVisible = !document.hidden;
       });
 
-      const handleResize = () => {
-        measureWaypoints();
+      const render = (now: number) => {
+        if (!isVisible) {
+          requestAnimationFrame(render);
+          return;
+        }
+
+        const H = window.innerHeight;
+        const W = window.innerWidth;
+        const isMobile = W < 960;
+        const travelX = isMobile ? W * 0.42 : Math.min(460, Math.max(300, W * 0.28));
+
+        // Smooth mouse lerp
+        mouseCurrentX += (mouseTargetX - mouseCurrentX) * 0.08;
+        mouseCurrentY += (mouseTargetY - mouseCurrentY) * 0.08;
+
+        const idleY = Math.sin(now * 0.002) * 5;
+
+        items.forEach((item) => {
+          const rect = item.section.getBoundingClientRect();
+          const sectionCenter = rect.top + rect.height / 2;
+          const viewportCenter = H / 2;
+          const d = (sectionCenter - viewportCenter) / H;
+
+          // If completely out of view, hide
+          if (Math.abs(d) >= 1.25) {
+            item.flyer.style.opacity = '0';
+            return;
+          }
+
+          const sign = item.side === 'left' ? -1 : 1;
+          let offsetX = 0;
+          let offsetY = 0;
+          let scale = 1.0;
+          let zDepth = 0;
+          let rotZ = 0;
+          let rotY = 0;
+          let rotX = 0;
+          let opacity = 0;
+
+          if (d > 0) {
+            // ENTERING: section is below viewport, user is scrolling down
+            // d goes from 1.0 down to 0.0
+            const p = Math.max(0, Math.min(1, 1.0 - d));
+            const t = p * p * (3.0 - 2.0 * p);
+
+            // Starts outside the screen, arrives at 0
+            offsetX = sign * (1.0 - t) * travelX;
+            offsetY = d * (isMobile ? 45 : 85);
+            // Grows from small (far away) to full size (up close)
+            scale = 0.18 + 0.82 * t;
+            zDepth = -380.0 * (1.0 - t);
+            rotZ = sign * (1.0 - t) * 18.0;
+            rotY = sign * (1.0 - t) * 22.0;
+            rotX = -(1.0 - t) * 14.0;
+            opacity = Math.min(1.0, p * 2.0);
+          } else {
+            // EXITING: section is above viewport, user continues scrolling down
+            // d goes from 0.0 down to -1.0
+            const pExit = Math.max(0, Math.min(1, Math.abs(d)));
+            const tExit = pExit * pExit * (3.0 - 2.0 * pExit);
+
+            // Flies out towards the screen edge until disappearing
+            offsetX = sign * tExit * travelX;
+            offsetY = d * (isMobile ? 45 : 85);
+            scale = 1.0 - 0.25 * tExit;
+            zDepth = -220.0 * tExit;
+            rotZ = -sign * tExit * 18.0;
+            rotY = -sign * tExit * 22.0;
+            rotX = tExit * 12.0;
+            opacity = Math.max(0, 1.0 - pExit * 1.8);
+          }
+
+          // Active section subtle mouse parallax and idle floating
+          const isNearCenter = Math.abs(d) < 0.4;
+          const activeFactor = isNearCenter ? (1.0 - Math.abs(d) / 0.4) : 0;
+          const mouseOffsetX = mouseCurrentX * 16 * activeFactor;
+          const mouseOffsetY = mouseCurrentY * 12 * activeFactor;
+          const mouseRotY = mouseCurrentX * 10 * activeFactor;
+          const mouseRotX = -mouseCurrentY * 8 * activeFactor;
+          const sectionIdleY = idleY * activeFactor;
+
+          const finalX = (offsetX + mouseOffsetX).toFixed(1);
+          const finalY = (offsetY + sectionIdleY + mouseOffsetY).toFixed(1);
+          const finalZ = zDepth.toFixed(1);
+          const totalRotX = (rotX + mouseRotX).toFixed(1);
+          const totalRotY = (rotY + mouseRotY).toFixed(1);
+          const totalRotZ = (rotZ).toFixed(1);
+
+          item.flyer.style.transform = `translate3d(${finalX}px, ${finalY}px, ${finalZ}px) scale(${scale.toFixed(3)}) rotateX(${totalRotX}deg) rotateY(${totalRotY}deg) rotateZ(${totalRotZ}deg)`;
+          item.flyer.style.opacity = opacity.toFixed(3);
+        });
+
+        requestAnimationFrame(render);
       };
 
-      window.addEventListener('resize', handleResize, { passive: true });
-      window.addEventListener('orientationchange', () => {
-        setTimeout(handleResize, 100);
-      });
-
-      measureWaypoints();
       requestAnimationFrame(render);
     };
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init3DCatCompanion);
+      document.addEventListener('DOMContentLoaded', initPerSectionCatEngine);
     } else {
-      init3DCatCompanion();
+      initPerSectionCatEngine();
     }
   </script>
 </BaseLayout>
