@@ -230,6 +230,9 @@ const sections = [
       sec.classList.toggle('is-section-active', match);
     });
 
+    // Notify cat stage of section change
+    window.dispatchEvent(new CustomEvent('section-changed', { detail: { id } }));
+
     if (readoutIndex) readoutIndex.textContent = sectionMeta[id].index;
     if (readoutLabel) readoutLabel.textContent = sectionMeta[id].label;
     if (mobileReadoutIndex) mobileReadoutIndex.textContent = sectionMeta[id].index;
@@ -267,7 +270,7 @@ const sections = [
         });
       },
       {
-        rootMargin: '-25% 0px -25% 0px',
+        rootMargin: '-10% 0px -10% 0px',
         threshold: 0.15,
       }
     );

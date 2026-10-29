@@ -271,6 +271,9 @@ input:focus-visible {
 
 /* ==========================================================================
    PER-SECTION FLYING CAT COMPANIONS (Comet Swoop & Celestial Scale Animation)
+   Each section has its own distinct cat companion.
+   When entering, the cat flies in from outside the screen, scaling up from tiny (far away)
+   to full size like a glowing celestial comet.
    ========================================================================== */
 .hero-note .cat-image-layer {
   position: relative;
@@ -295,20 +298,35 @@ input:focus-visible {
   z-index: 10;
   pointer-events: none;
   user-select: none;
-  width: clamp(7.5rem, 11vw, 12rem);
+  width: clamp(5.5rem, 7.5vw, 8.5rem);
   opacity: 0;
+  transform: scale(0.08);
   will-change: transform, opacity, filter;
   transform-origin: center center;
-  transform-style: preserve-3d;
+  perspective: 1000px;
 }
 
 .section-cat-flyer--hero {
   position: relative;
   z-index: 2;
   width: 100%;
+  opacity: 1;
+  transform: none;
 }
 
+/* 3D Cursor Parallax & Celestial Floating */
 .cat-float-wrap {
+  width: 100%;
+  height: 100%;
+  transform: translate3d(var(--mouse-tx, 0px), var(--mouse-ty, 0px), 0)
+             rotateX(var(--mouse-rx, 0deg))
+             rotateY(var(--mouse-ry, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 0.12s cubic-bezier(0.2, 0.8, 0.4, 1);
+  will-change: transform;
+}
+
+.cat-float-inner {
   width: 100%;
   height: 100%;
   animation: cat-celestial-float 6.5s ease-in-out infinite alternate;
@@ -317,71 +335,77 @@ input:focus-visible {
 
 /* Base Horizontal Resting Spots */
 .section-cat-flyer--left {
-  left: clamp(2rem, 5vw, 5.5rem);
+  left: clamp(1rem, 2.5vw, 2.5rem);
 }
 
 .section-cat-flyer--right {
-  right: clamp(2rem, 5vw, 5.5rem);
+  right: clamp(1.5rem, 3vw, 3.5rem);
 }
 
-/* Per-Section Vertical Resting Spots */
+/* Per-Section Vertical Resting Spots (aligned below fixed header) */
 .section-cat-flyer--about {
-  top: clamp(2.5rem, 7vh, 4.5rem);
+  top: clamp(4.25rem, 8vh, 5.75rem);
 }
 
 .section-cat-flyer--experience {
-  top: clamp(2rem, 6vh, 4rem);
+  top: clamp(4.25rem, 8vh, 5.75rem);
 }
 
 .section-cat-flyer--work {
-  top: clamp(2rem, 6vh, 4rem);
+  top: clamp(4.25rem, 8vh, 5.75rem);
 }
 
 .section-cat-flyer--toolkit {
-  top: clamp(2.5rem, 6vh, 4rem);
+  top: clamp(4.25rem, 8vh, 5.75rem);
 }
 
 .section-cat-flyer--education {
-  top: clamp(3rem, 8vh, 5.5rem);
+  top: clamp(4.25rem, 8vh, 5.75rem);
 }
 
 .section-cat-flyer--contact {
-  top: clamp(3.5rem, 10vh, 6.5rem);
+  top: clamp(4.25rem, 8vh, 5.75rem);
 }
 
 /* ==========================================================================
    COMET ENTRANCE & EXIT ANIMATIONS
-   Scaling from small in deep space to full original size upon arrival
+   Active section: swoop in from deep space (tiny scale -> full size)
+   Departing section: swoop out toward screen edge into deep space
    ========================================================================== */
 .section.is-section-active .section-cat-flyer--left {
-  animation: comet-enter-left 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: comet-enter-left 1.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.section.is-section-active .section-cat-flyer--right {
-  animation: comet-enter-right 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.section.is-section-active .section-cat-flyer--right:not(.section-cat-flyer--hero) {
+  animation: comet-enter-right 1.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .section.was-active:not(.is-section-active) .section-cat-flyer--left {
-  animation: comet-exit-left 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: comet-exit-left 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.section.was-active:not(.is-section-active) .section-cat-flyer--right {
-  animation: comet-exit-right 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+.section.was-active:not(.is-section-active) .section-cat-flyer--right:not(.section-cat-flyer--hero) {
+  animation: comet-exit-right 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-/* Comet Enter from Left: comes from small (0.12) to big (1.0) */
+/* Comet Enter from Left: comes from small (0.08) off-screen to full size (1.0) */
 @keyframes comet-enter-left {
   0% {
-    transform: translate3d(-380px, -90px, 0) scale(0.12) rotate(-24deg);
+    transform: translate3d(calc(-100% - 60vw), -25vh, 0) scale(0.08) rotate(-32deg);
     opacity: 0;
-    filter: drop-shadow(0 0 25px rgba(184, 198, 217, 0.95)) drop-shadow(0 0 50px rgba(184, 198, 217, 0.6));
+    filter: drop-shadow(0 0 45px rgba(184, 198, 217, 1)) drop-shadow(0 0 80px rgba(184, 198, 217, 0.8));
   }
-  20% {
+  15% {
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate3d(-15vw, -6vh, 0) scale(0.45) rotate(-12deg);
     opacity: 1;
+    filter: drop-shadow(0 0 35px rgba(184, 198, 217, 0.85)) drop-shadow(0 0 60px rgba(184, 198, 217, 0.5));
   }
-  75% {
-    transform: translate3d(16px, 6px, 0) scale(1.05) rotate(2.5deg);
-    filter: drop-shadow(0 0 20px rgba(184, 198, 217, 0.65)) drop-shadow(0 10px 24px rgba(3, 5, 11, 0.75));
+  80% {
+    transform: translate3d(1.5vw, 0.5vh, 0) scale(1.06) rotate(2deg);
+    filter: drop-shadow(0 0 20px rgba(184, 198, 217, 0.6)) drop-shadow(0 10px 24px rgba(3, 5, 11, 0.75));
   }
   100% {
     transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
@@ -390,19 +414,24 @@ input:focus-visible {
   }
 }
 
-/* Comet Enter from Right: comes from small (0.12) to big (1.0) */
+/* Comet Enter from Right: comes from small (0.08) off-screen to full size (1.0) */
 @keyframes comet-enter-right {
   0% {
-    transform: translate3d(380px, -90px, 0) scale(0.12) rotate(24deg);
+    transform: translate3d(calc(100% + 60vw), -25vh, 0) scale(0.08) rotate(32deg);
     opacity: 0;
-    filter: drop-shadow(0 0 25px rgba(184, 198, 217, 0.95)) drop-shadow(0 0 50px rgba(184, 198, 217, 0.6));
+    filter: drop-shadow(0 0 45px rgba(184, 198, 217, 1)) drop-shadow(0 0 80px rgba(184, 198, 217, 0.8));
   }
-  20% {
+  15% {
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate3d(15vw, -6vh, 0) scale(0.45) rotate(12deg);
     opacity: 1;
+    filter: drop-shadow(0 0 35px rgba(184, 198, 217, 0.85)) drop-shadow(0 0 60px rgba(184, 198, 217, 0.5));
   }
-  75% {
-    transform: translate3d(-16px, 6px, 0) scale(1.05) rotate(-2.5deg);
-    filter: drop-shadow(0 0 20px rgba(184, 198, 217, 0.65)) drop-shadow(0 10px 24px rgba(3, 5, 11, 0.75));
+  80% {
+    transform: translate3d(-1.5vw, 0.5vh, 0) scale(1.06) rotate(-2deg);
+    filter: drop-shadow(0 0 20px rgba(184, 198, 217, 0.6)) drop-shadow(0 10px 24px rgba(3, 5, 11, 0.75));
   }
   100% {
     transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
@@ -417,11 +446,12 @@ input:focus-visible {
     transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
     opacity: 1;
   }
-  25% {
-    opacity: 0.8;
+  30% {
+    opacity: 0.85;
+    transform: translate3d(-12vw, 3vh, 0) scale(0.65) rotate(-14deg);
   }
   100% {
-    transform: translate3d(-420px, 80px, 0) scale(0.2) rotate(-20deg);
+    transform: translate3d(calc(-100% - 60vw), 15vh, 0) scale(0.06) rotate(-38deg);
     opacity: 0;
   }
 }
@@ -432,11 +462,12 @@ input:focus-visible {
     transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
     opacity: 1;
   }
-  25% {
-    opacity: 0.8;
+  30% {
+    opacity: 0.85;
+    transform: translate3d(12vw, 3vh, 0) scale(0.65) rotate(14deg);
   }
   100% {
-    transform: translate3d(420px, 80px, 0) scale(0.2) rotate(20deg);
+    transform: translate3d(calc(100% + 60vw), 15vh, 0) scale(0.06) rotate(38deg);
     opacity: 0;
   }
 }
@@ -468,62 +499,6 @@ input:focus-visible {
   .section-cat-flyer--right {
     right: 1rem;
     top: 1.25rem;
-  }
-
-  @keyframes comet-enter-left {
-    0% {
-      transform: translate3d(-200px, -60px, 0) scale(0.12) rotate(-20deg);
-      opacity: 0;
-    }
-    20% {
-      opacity: 1;
-    }
-    75% {
-      transform: translate3d(8px, 4px, 0) scale(1.04) rotate(2deg);
-    }
-    100% {
-      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-      opacity: 1;
-    }
-  }
-
-  @keyframes comet-enter-right {
-    0% {
-      transform: translate3d(200px, -60px, 0) scale(0.12) rotate(20deg);
-      opacity: 0;
-    }
-    20% {
-      opacity: 1;
-    }
-    75% {
-      transform: translate3d(-8px, 4px, 0) scale(1.04) rotate(-2deg);
-    }
-    100% {
-      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-      opacity: 1;
-    }
-  }
-
-  @keyframes comet-exit-left {
-    0% {
-      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-      opacity: 1;
-    }
-    100% {
-      transform: translate3d(-220px, 60px, 0) scale(0.2) rotate(-16deg);
-      opacity: 0;
-    }
-  }
-
-  @keyframes comet-exit-right {
-    0% {
-      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-      opacity: 1;
-    }
-    100% {
-      transform: translate3d(220px, 60px, 0) scale(0.2) rotate(16deg);
-      opacity: 0;
-    }
   }
 }
 
@@ -1297,7 +1272,7 @@ input:focus-visible {
     justify-content: center;
     padding-top: var(--header-h);
     padding-bottom: 1.5rem;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .section--contact {
