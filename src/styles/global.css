@@ -269,102 +269,126 @@ input:focus-visible {
   will-change: transform;
 }
 
-/* Flying Cat Note Artwork (Hero Section) */
-.hero-note .cat-image-layer {
+/* Flying Cat Note Target Anchor (Hero Section) */
+.hero-note .hero-cat-target {
   position: relative;
   z-index: 2;
   width: min(16rem, 100%);
   aspect-ratio: 1;
   margin-top: 0.25rem;
-  transform-origin: center center;
-  will-change: transform, opacity;
-}
-
-.cat-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 6px 22px rgba(184, 198, 217, 0.42)) drop-shadow(0 14px 28px rgba(3, 5, 11, 0.7));
-  animation: cat-bob 7.5s ease-in-out infinite;
+  pointer-events: none;
 }
 
 /* ==========================================================================
-   FLYING CAT COMPANIONS (Scroll-Driven Deep Space Perspective)
+   COSMIC 3D CAT COMPANION (Fixed Viewport Stage & Camera Rig)
    ========================================================================== */
-.section-cat-flyer {
+.cosmic-cat-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  overflow: hidden;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+}
+
+.cat-camera-rig {
   position: absolute;
-  z-index: 1;
+  top: 0;
+  left: 0;
+  width: clamp(7.5rem, 11vw, 12rem);
+  aspect-ratio: 1;
+  transform-style: preserve-3d;
+  transform-origin: 50% 50%;
+  will-change: transform;
   pointer-events: none;
   user-select: none;
-  width: clamp(7.5rem, 11vw, 12rem);
+}
+
+.cat-actor {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 0;
-  will-change: transform, opacity;
-  transform-origin: center center;
+  will-change: opacity;
+  pointer-events: none;
+  user-select: none;
 }
 
-.section-cat-img {
+.cat-actor picture {
+  display: contents;
+}
+
+.cat-actor-img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain;
   display: block;
-  filter: drop-shadow(0 6px 22px rgba(184, 198, 217, 0.42)) drop-shadow(0 2px 10px rgba(3, 5, 11, 0.88));
+  filter: drop-shadow(0 6px 22px rgba(184, 198, 217, 0.45)) drop-shadow(0 14px 28px rgba(3, 5, 11, 0.82));
 }
 
-.section-cat-flyer__bob {
-  animation: cat-flyer-bob 6.5s ease-in-out infinite alternate;
-  will-change: transform;
+/* Invisible Target Anchors inside Sections */
+.cat-section-anchor {
+  position: absolute;
+  width: clamp(7.5rem, 11vw, 12rem);
+  aspect-ratio: 1;
+  pointer-events: none;
+  visibility: hidden;
+  user-select: none;
 }
 
-/* Base Horizontal Resting Spots */
-.section-cat-flyer--left {
+.cat-section-anchor--left {
   left: clamp(2rem, 5vw, 5.5rem);
 }
 
-.section-cat-flyer--right {
+.cat-section-anchor--right {
   right: clamp(2rem, 5vw, 5.5rem);
 }
 
-/* Per-Section Vertical Positioning */
-.section-cat-flyer--about {
+.cat-section-anchor--about {
   top: clamp(2.5rem, 7vh, 4.5rem);
 }
 
-.section-cat-flyer--experience {
+.cat-section-anchor--experience {
   top: clamp(2rem, 6vh, 4rem);
 }
 
-.section-cat-flyer--work {
-  bottom: clamp(2rem, 7vh, 4.5rem);
+.cat-section-anchor--work {
+  top: clamp(2rem, 6vh, 4rem);
 }
 
-.section-cat-flyer--toolkit {
+.cat-section-anchor--toolkit {
   top: clamp(2.5rem, 6vh, 4rem);
 }
 
-.section-cat-flyer--education {
+.cat-section-anchor--education {
   top: clamp(3rem, 8vh, 5.5rem);
 }
 
-.section-cat-flyer--contact {
+.cat-section-anchor--contact {
   top: clamp(3.5rem, 10vh, 6.5rem);
 }
 
 /* Mobile responsive sizing */
 @media (max-width: 959px) {
-  .section-cat-flyer {
-    width: clamp(4.5rem, 15vw, 6.5rem);
+  .cat-camera-rig {
+    width: clamp(4.5rem, 14vw, 6.5rem);
   }
 
-  .section-cat-flyer--left {
+  .cat-section-anchor {
+    width: clamp(4.5rem, 14vw, 6.5rem);
+  }
+
+  .cat-section-anchor--left {
     left: 1rem;
+    top: 1.25rem;
   }
 
-  .section-cat-flyer--right {
+  .cat-section-anchor--right {
     right: 1rem;
-  }
-
-  .section-cat-flyer--work {
-    bottom: auto;
-    top: 1rem;
+    top: 1.25rem;
   }
 }
 
@@ -2255,66 +2279,6 @@ input:focus-visible {
 /* ==========================================================================
    ANIMATIONS
    ========================================================================== */
-@keyframes cat-bob {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-8px) rotate(1.5deg);
-  }
-}
-
-@keyframes cat-flyer-bob {
-  0% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-9px) rotate(1.2deg);
-  }
-  100% {
-    transform: translateY(3px) rotate(-0.8deg);
-  }
-}
-
-@keyframes star-pulse {
-  0%, 100% {
-    opacity: 0.35;
-    transform: scale(0.92);
-  }
-  50% {
-    opacity: 0.95;
-    transform: scale(1.18);
-  }
-}
-
-@keyframes particle-drift {
-  0% {
-    translate: -1rem 0;
-    opacity: 0;
-  }
-  20%, 75% {
-    opacity: 0.4;
-  }
-  100% {
-    translate: 8rem -3rem;
-    opacity: 0;
-  }
-}
-
-@keyframes passing-object {
-  0%, 60% {
-    left: -12rem;
-    opacity: 0;
-  }
-  68% {
-    opacity: 0.75;
-  }
-  82%, 100% {
-    left: 115%;
-    opacity: 0;
-  }
-}
-
 /* Reduced Motion Mode */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -2332,24 +2296,12 @@ input:focus-visible {
 
   .star,
   .particle,
-  .passing-object,
-  .cat-image,
-  .section-cat-flyer__bob {
+  .passing-object {
     animation: none !important;
   }
 
-  .section-cat-flyer,
-  .hero-note .cat-image-layer {
+  .cat-camera-rig {
     transition: none !important;
-    transform: none !important;
-  }
-
-  .section.is-section-active .section-cat-flyer {
-    opacity: 0.8 !important;
-  }
-
-  .section:not(.is-section-active) .section-cat-flyer {
-    opacity: 0 !important;
   }
 }
 
@@ -2360,9 +2312,12 @@ input:focus-visible {
   .section-rail,
   .to-top,
   .cosmic-scene,
+  .cosmic-cat-stage,
+  .cat-camera-rig,
+  .hero-cat-target,
+  .cat-section-anchor,
   .hero-actions,
   .hero-note,
-  .section-cat-flyer,
   .index-dialog,
   .site-footer__status-box,
   .site-footer__top-btn {
