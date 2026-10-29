@@ -592,4 +592,135 @@ import SiteHeader from '../components/SiteHeader.astro';
       </section>
     </main>
   </div>
+
+  <script>
+    // Real-time Scroll-Driven Perspective Engine (Dari Jauh ke Dekat / Kecil ke Besar)
+    interface CatItem {
+      section: HTMLElement;
+      flyer: HTMLElement;
+      side: 'left' | 'right';
+      isHero?: boolean;
+    }
+
+    const initCatScrollEngine = () => {
+      const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const catItems: CatItem[] = [
+        {
+          section: document.getElementById('top')!,
+          flyer: document.querySelector<HTMLElement>('#top .cat-image-layer')!,
+          side: 'right',
+          isHero: true,
+        },
+        {
+          section: document.getElementById('about')!,
+          flyer: document.querySelector<HTMLElement>('#about .section-cat-flyer')!,
+          side: 'left',
+        },
+        {
+          section: document.getElementById('experience')!,
+          flyer: document.querySelector<HTMLElement>('#experience .section-cat-flyer')!,
+          side: 'right',
+        },
+        {
+          section: document.getElementById('work')!,
+          flyer: document.querySelector<HTMLElement>('#work .section-cat-flyer')!,
+          side: 'left',
+        },
+        {
+          section: document.getElementById('toolkit')!,
+          flyer: document.querySelector<HTMLElement>('#toolkit .section-cat-flyer')!,
+          side: 'right',
+        },
+        {
+          section: document.getElementById('education')!,
+          flyer: document.querySelector<HTMLElement>('#education .section-cat-flyer')!,
+          side: 'left',
+        },
+        {
+          section: document.getElementById('contact')!,
+          flyer: document.querySelector<HTMLElement>('#contact .section-cat-flyer')!,
+          side: 'right',
+        },
+      ].filter((item): item is CatItem => item.section !== null && item.flyer !== null);
+
+      if (isReduced) {
+        catItems.forEach((item) => {
+          item.flyer.style.opacity = '0.9';
+          item.flyer.style.transform = 'none';
+        });
+        return;
+      }
+
+      let ticking = false;
+
+      const updateCats = () => {
+        ticking = false;
+        const H = window.innerHeight;
+        const W = window.innerWidth;
+        const isMobile = W < 960;
+        const travel = isMobile ? W * 0.45 : Math.min(420, Math.max(260, W * 0.26));
+
+        catItems.forEach((item) => {
+          const rect = item.section.getBoundingClientRect();
+          // Distance from section center to viewport center, normalized by H
+          const sectionCenter = rect.top + rect.height / 2;
+          const viewportCenter = H / 2;
+          const d = (sectionCenter - viewportCenter) / H;
+
+          // If completely outside visible range, hide and skip
+          if (Math.abs(d) >= 1.05) {
+            item.flyer.style.opacity = '0';
+            return;
+          }
+
+          const dist = Math.min(1.0, Math.abs(d));
+          // Smooth Hermite interpolation (smoothstep)
+          const rawT = 1.0 - dist;
+          const t = rawT * rawT * (3.0 - 2.0 * rawT);
+
+          // Perspective scale: grows from tiny in deep space (0.12) to full size (1.0)
+          // using power curve for cinematic distance depth:
+          const scale = 0.12 + 0.88 * Math.pow(t, 1.25);
+
+          // Horizontal displacement: starts off to the side, reaches 0 at center
+          const sign = item.side === 'left' ? -1 : 1;
+          const offsetX = sign * (1.0 - t) * travel;
+
+          // Vertical displacement along trajectory
+          const offsetY = d * (isMobile ? 70 : 130);
+
+          // Rotation tilts along flight curve
+          const rotate = sign * d * 18;
+
+          // Opacity: fades in as it approaches, fully bright at center
+          const opacity = Math.min(0.95, t * 1.5);
+
+          if (item.isHero) {
+            item.flyer.style.transform = `translate3d(${offsetX.toFixed(1)}px, ${offsetY.toFixed(1)}px, 0) scale(${scale.toFixed(3)}) rotate(${(-6 + rotate).toFixed(1)}deg)`;
+          } else {
+            item.flyer.style.transform = `translate3d(${offsetX.toFixed(1)}px, ${offsetY.toFixed(1)}px, 0) scale(${scale.toFixed(3)}) rotate(${rotate.toFixed(1)}deg)`;
+          }
+          item.flyer.style.opacity = opacity.toFixed(3);
+        });
+      };
+
+      const requestTick = () => {
+        if (!ticking) {
+          requestAnimationFrame(updateCats);
+          ticking = true;
+        }
+      };
+
+      window.addEventListener('scroll', requestTick, { passive: true });
+      window.addEventListener('resize', requestTick, { passive: true });
+      updateCats();
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCatScrollEngine);
+    } else {
+      initCatScrollEngine();
+    }
+  </script>
 </BaseLayout>

@@ -277,21 +277,7 @@ input:focus-visible {
   aspect-ratio: 1;
   margin-top: 0.25rem;
   transform-origin: center center;
-  transform: translate3d(var(--parallax-x, 0px), var(--parallax-y, 0px), 0) rotate(-6deg);
   will-change: transform, opacity;
-  transition: transform 0.85s cubic-bezier(0.7, 0, 0.84, 0), opacity 0.4s ease-in;
-}
-
-#top:not(.is-section-active) .hero-note .cat-image-layer {
-  transform: translate3d(calc(50vw + 14rem), -30px, 0) scale(0.12) rotate(16deg);
-  opacity: 0;
-  transition: transform 0.85s cubic-bezier(0.7, 0, 0.84, 0), opacity 0.4s ease-in;
-}
-
-#top.is-section-active .hero-note .cat-image-layer {
-  transform: translate3d(var(--parallax-x, 0px), var(--parallax-y, 0px), 0) scale(1) rotate(-6deg);
-  opacity: 1;
-  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease-out;
 }
 
 .cat-image {
@@ -303,7 +289,7 @@ input:focus-visible {
 }
 
 /* ==========================================================================
-   FLYING CAT COMPANIONS (Per-Section Atmospheric Flight)
+   FLYING CAT COMPANIONS (Scroll-Driven Deep Space Perspective)
    ========================================================================== */
 .section-cat-flyer {
   position: absolute;
@@ -314,7 +300,6 @@ input:focus-visible {
   opacity: 0;
   will-change: transform, opacity;
   transform-origin: center center;
-  transition: transform 0.85s cubic-bezier(0.7, 0, 0.84, 0), opacity 0.4s ease-in;
 }
 
 .section-cat-img {
@@ -329,33 +314,16 @@ input:focus-visible {
   will-change: transform;
 }
 
-/* Left-origin flyer: enters from left screen edge, tiny scale -> full scale */
+/* Base Horizontal Resting Spots */
 .section-cat-flyer--left {
-  left: clamp(1.5rem, 4vw, 4rem);
-  transform: translate3d(calc(-100% - clamp(1.5rem, 4vw, 4rem) - 8rem), 40px, 0) scale(0.12) rotate(-16deg);
-  opacity: 0;
+  left: clamp(2rem, 5vw, 5.5rem);
 }
 
-.section.is-section-active .section-cat-flyer--left {
-  transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-  opacity: 0.92;
-  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease-out;
-}
-
-/* Right-origin flyer: enters from right screen edge, tiny scale -> full scale */
 .section-cat-flyer--right {
-  right: clamp(1.5rem, 4vw, 4rem);
-  transform: translate3d(calc(100% + clamp(1.5rem, 4vw, 4rem) + 8rem), 40px, 0) scale(0.12) rotate(16deg);
-  opacity: 0;
+  right: clamp(2rem, 5vw, 5.5rem);
 }
 
-.section.is-section-active .section-cat-flyer--right {
-  transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-  opacity: 0.92;
-  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease-out;
-}
-
-/* Per-Section Vertical Positioning & Fine Tuning */
+/* Per-Section Vertical Positioning */
 .section-cat-flyer--about {
   top: clamp(2.5rem, 7vh, 4.5rem);
 }
@@ -380,35 +348,18 @@ input:focus-visible {
   top: clamp(3.5rem, 10vh, 6.5rem);
 }
 
-/* Mobile responsive flight parameters */
+/* Mobile responsive sizing */
 @media (max-width: 959px) {
   .section-cat-flyer {
     width: clamp(4.5rem, 15vw, 6.5rem);
-    opacity: 0;
-    transition: transform 0.75s ease-in, opacity 0.35s ease-in;
-  }
-
-  .section.is-section-active .section-cat-flyer {
-    opacity: 0.8;
-    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease-out;
   }
 
   .section-cat-flyer--left {
     left: 1rem;
-    transform: translate3d(-100vw, 20px, 0) scale(0.15) rotate(-10deg);
-  }
-
-  .section.is-section-active .section-cat-flyer--left {
-    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
   }
 
   .section-cat-flyer--right {
     right: 1rem;
-    transform: translate3d(100vw, 20px, 0) scale(0.15) rotate(10deg);
-  }
-
-  .section.is-section-active .section-cat-flyer--right {
-    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
   }
 
   .section-cat-flyer--work {
@@ -1162,7 +1113,7 @@ input:focus-visible {
 /* Desktop Presentation Mode: 1 Section = 1 Page Snap */
 @media (min-width: 960px) and (min-height: 600px) {
   html {
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
     scroll-behavior: smooth;
     overflow-y: scroll;
     height: 100%;

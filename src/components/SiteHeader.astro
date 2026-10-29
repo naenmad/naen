@@ -376,36 +376,6 @@ const sections = [
     }
   });
 
-  // Desktop Mouse Wheel Snap Assist:
-  let isWheelThrottled = false;
-  window.addEventListener('wheel', (event) => {
-    if (window.innerWidth < 960) return; // Only desktop
-    if (dialog && dialog.open) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    if (Math.abs(event.deltaY) < 22) return;
-
-    if (isWheelThrottled) {
-      event.preventDefault();
-      return;
-    }
-
-    const currentIdx = sections.indexOf(currentActiveId);
-    if (event.deltaY > 0 && currentIdx < sections.length - 1) {
-      event.preventDefault();
-      isWheelThrottled = true;
-      const target = document.getElementById(sections[currentIdx + 1]);
-      target?.scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => { isWheelThrottled = false; }, 750);
-    } else if (event.deltaY < 0 && currentIdx > 0) {
-      event.preventDefault();
-      isWheelThrottled = true;
-      const target = document.getElementById(sections[currentIdx - 1]);
-      target?.scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => { isWheelThrottled = false; }, 750);
-    }
-  }, { passive: false });
-
   // Floating to-top button visibility on scroll (Desktop)
   const handleScroll = () => {
     if (!toTopBtn) return;
