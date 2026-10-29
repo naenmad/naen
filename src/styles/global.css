@@ -270,7 +270,7 @@ input:focus-visible {
 }
 
 /* ==========================================================================
-   PER-SECTION FLYING CAT COMPANIONS (Scroll-Driven Enter/Exit & 3D Depth)
+   PER-SECTION FLYING CAT COMPANIONS (Comet Swoop & Celestial Scale Animation)
    ========================================================================== */
 .hero-note .cat-image-layer {
   position: relative;
@@ -279,14 +279,13 @@ input:focus-visible {
   aspect-ratio: 1;
   margin-top: 0.25rem;
   transform-origin: center center;
-  will-change: transform, opacity;
   pointer-events: none;
 }
 
-.cat-image {
+.cat-image,
+.section-cat-img {
   width: 100%;
-  height: 100%;
-  object-fit: contain;
+  height: auto;
   display: block;
   filter: drop-shadow(0 6px 22px rgba(184, 198, 217, 0.45)) drop-shadow(0 14px 28px rgba(3, 5, 11, 0.82));
 }
@@ -298,19 +297,25 @@ input:focus-visible {
   user-select: none;
   width: clamp(7.5rem, 11vw, 12rem);
   opacity: 0;
-  will-change: transform, opacity;
+  will-change: transform, opacity, filter;
   transform-origin: center center;
   transform-style: preserve-3d;
 }
 
-.section-cat-img {
+.section-cat-flyer--hero {
+  position: relative;
+  z-index: 2;
   width: 100%;
-  height: auto;
-  display: block;
-  filter: drop-shadow(0 6px 22px rgba(184, 198, 217, 0.45)) drop-shadow(0 14px 28px rgba(3, 5, 11, 0.82));
 }
 
-/* Horizontal Resting Spots */
+.cat-float-wrap {
+  width: 100%;
+  height: 100%;
+  animation: cat-celestial-float 6.5s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Base Horizontal Resting Spots */
 .section-cat-flyer--left {
   left: clamp(2rem, 5vw, 5.5rem);
 }
@@ -344,6 +349,111 @@ input:focus-visible {
   top: clamp(3.5rem, 10vh, 6.5rem);
 }
 
+/* ==========================================================================
+   COMET ENTRANCE & EXIT ANIMATIONS
+   Scaling from small in deep space to full original size upon arrival
+   ========================================================================== */
+.section.is-section-active .section-cat-flyer--left {
+  animation: comet-enter-left 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.section.is-section-active .section-cat-flyer--right {
+  animation: comet-enter-right 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.section.was-active:not(.is-section-active) .section-cat-flyer--left {
+  animation: comet-exit-left 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.section.was-active:not(.is-section-active) .section-cat-flyer--right {
+  animation: comet-exit-right 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Comet Enter from Left: comes from small (0.12) to big (1.0) */
+@keyframes comet-enter-left {
+  0% {
+    transform: translate3d(-380px, -90px, 0) scale(0.12) rotate(-24deg);
+    opacity: 0;
+    filter: drop-shadow(0 0 25px rgba(184, 198, 217, 0.95)) drop-shadow(0 0 50px rgba(184, 198, 217, 0.6));
+  }
+  20% {
+    opacity: 1;
+  }
+  75% {
+    transform: translate3d(16px, 6px, 0) scale(1.05) rotate(2.5deg);
+    filter: drop-shadow(0 0 20px rgba(184, 198, 217, 0.65)) drop-shadow(0 10px 24px rgba(3, 5, 11, 0.75));
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+    filter: drop-shadow(0 6px 22px rgba(184, 198, 217, 0.45)) drop-shadow(0 14px 28px rgba(3, 5, 11, 0.82));
+  }
+}
+
+/* Comet Enter from Right: comes from small (0.12) to big (1.0) */
+@keyframes comet-enter-right {
+  0% {
+    transform: translate3d(380px, -90px, 0) scale(0.12) rotate(24deg);
+    opacity: 0;
+    filter: drop-shadow(0 0 25px rgba(184, 198, 217, 0.95)) drop-shadow(0 0 50px rgba(184, 198, 217, 0.6));
+  }
+  20% {
+    opacity: 1;
+  }
+  75% {
+    transform: translate3d(-16px, 6px, 0) scale(1.05) rotate(-2.5deg);
+    filter: drop-shadow(0 0 20px rgba(184, 198, 217, 0.65)) drop-shadow(0 10px 24px rgba(3, 5, 11, 0.75));
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+    filter: drop-shadow(0 6px 22px rgba(184, 198, 217, 0.45)) drop-shadow(0 14px 28px rgba(3, 5, 11, 0.82));
+  }
+}
+
+/* Comet Exit to Left */
+@keyframes comet-exit-left {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(-420px, 80px, 0) scale(0.2) rotate(-20deg);
+    opacity: 0;
+  }
+}
+
+/* Comet Exit to Right */
+@keyframes comet-exit-right {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(420px, 80px, 0) scale(0.2) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+/* Subtle Nocturnal Hover Float */
+@keyframes cat-celestial-float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1.2deg);
+  }
+  100% {
+    transform: translateY(4px) rotate(-0.8deg);
+  }
+}
+
 /* Mobile responsive sizing */
 @media (max-width: 959px) {
   .section-cat-flyer {
@@ -358,6 +468,62 @@ input:focus-visible {
   .section-cat-flyer--right {
     right: 1rem;
     top: 1.25rem;
+  }
+
+  @keyframes comet-enter-left {
+    0% {
+      transform: translate3d(-200px, -60px, 0) scale(0.12) rotate(-20deg);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    75% {
+      transform: translate3d(8px, 4px, 0) scale(1.04) rotate(2deg);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+
+  @keyframes comet-enter-right {
+    0% {
+      transform: translate3d(200px, -60px, 0) scale(0.12) rotate(20deg);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    75% {
+      transform: translate3d(-8px, 4px, 0) scale(1.04) rotate(-2deg);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+
+  @keyframes comet-exit-left {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translate3d(-220px, 60px, 0) scale(0.2) rotate(-16deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes comet-exit-right {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translate3d(220px, 60px, 0) scale(0.2) rotate(16deg);
+      opacity: 0;
+    }
   }
 }
 

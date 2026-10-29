@@ -49,7 +49,7 @@ import SiteHeader from '../components/SiteHeader.astro';
 
     <main id="content">
       <!-- Section 00: Opening / Hero -->
-      <section id="top" class="section section--hero is-section-active" aria-labelledby="intro-title">
+      <section id="top" class="section section--hero is-section-active was-active" aria-labelledby="intro-title">
         <div class="section-content">
           <div class="hero-grid">
             <div class="foreground-parallax" data-parallax="0.018">
@@ -84,11 +84,13 @@ import SiteHeader from '../components/SiteHeader.astro';
                 <span class="constellation-hairline"></span>
                 <span class="constellation-dot constellation-dot--soft"></span>
               </div>
-              <div class="cat-image-layer section-cat-flyer section-cat-flyer--hero" data-side="right" aria-hidden="true">
-                <picture>
-                  <source srcset="/cats/cat-1.webp" type="image/webp" />
-                  <img class="cat-image" src="/cats/cat-1.svg" alt="Minimal white silhouette of a flying cat gliding under the stars" width="1553" height="1362" decoding="async" />
-                </picture>
+              <div class="cat-image-layer section-cat-flyer section-cat-flyer--hero section-cat-flyer--right" data-side="right" aria-hidden="true">
+                <div class="cat-float-wrap">
+                  <picture>
+                    <source srcset="/cats/cat-1.webp" type="image/webp" />
+                    <img class="cat-image" src="/cats/cat-1.svg" alt="Minimal white silhouette of a flying cat gliding under the stars" width="1553" height="1362" decoding="async" />
+                  </picture>
+                </div>
               </div>
               <p class="hero-note__caption">Usually accompanied by a cat.</p>
             </aside>
@@ -99,10 +101,12 @@ import SiteHeader from '../components/SiteHeader.astro';
       <!-- Section 01: Profile -->
       <section id="about" class="section" aria-labelledby="about-title">
         <div class="section-cat-flyer section-cat-flyer--left section-cat-flyer--about" data-side="left" aria-hidden="true">
-          <picture>
-            <source srcset="/cats/cat-2.webp" type="image/webp" />
-            <img class="section-cat-img" src="/cats/cat-2.svg" alt="" width="1499" height="1237" loading="lazy" decoding="async" />
-          </picture>
+          <div class="cat-float-wrap">
+            <picture>
+              <source srcset="/cats/cat-2.webp" type="image/webp" />
+              <img class="section-cat-img" src="/cats/cat-2.svg" alt="" width="1499" height="1237" loading="lazy" decoding="async" />
+            </picture>
+          </div>
         </div>
 
         <div class="section-content">
@@ -157,10 +161,12 @@ import SiteHeader from '../components/SiteHeader.astro';
       <!-- Section 02: Experience -->
       <section id="experience" class="section" aria-labelledby="experience-title">
         <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--experience" data-side="right" aria-hidden="true">
-          <picture>
-            <source srcset="/cats/cat-3.webp" type="image/webp" />
-            <img class="section-cat-img" src="/cats/cat-3.svg" alt="" width="1382" height="1348" loading="lazy" decoding="async" />
-          </picture>
+          <div class="cat-float-wrap">
+            <picture>
+              <source srcset="/cats/cat-3.webp" type="image/webp" />
+              <img class="section-cat-img" src="/cats/cat-3.svg" alt="" width="1382" height="1348" loading="lazy" decoding="async" />
+            </picture>
+          </div>
         </div>
 
         <div class="section-content">
@@ -238,10 +244,12 @@ import SiteHeader from '../components/SiteHeader.astro';
       <!-- Section 03: Selected Work -->
       <section id="work" class="section" aria-labelledby="work-title">
         <div class="section-cat-flyer section-cat-flyer--left section-cat-flyer--work" data-side="left" aria-hidden="true">
-          <picture>
-            <source srcset="/cats/cat-4.webp" type="image/webp" />
-            <img class="section-cat-img" src="/cats/cat-4.svg" alt="" width="1389" height="1411" loading="lazy" decoding="async" />
-          </picture>
+          <div class="cat-float-wrap">
+            <picture>
+              <source srcset="/cats/cat-4.webp" type="image/webp" />
+              <img class="section-cat-img" src="/cats/cat-4.svg" alt="" width="1389" height="1411" loading="lazy" decoding="async" />
+            </picture>
+          </div>
         </div>
 
         <div class="section-content">
@@ -331,10 +339,12 @@ import SiteHeader from '../components/SiteHeader.astro';
       <!-- Section 04: Toolkit -->
       <section id="toolkit" class="section" aria-labelledby="toolkit-title">
         <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--toolkit" data-side="right" aria-hidden="true">
-          <picture>
-            <source srcset="/cats/cat-5.webp" type="image/webp" />
-            <img class="section-cat-img" src="/cats/cat-5.svg" alt="" width="1632" height="1707" loading="lazy" decoding="async" />
-          </picture>
+          <div class="cat-float-wrap">
+            <picture>
+              <source srcset="/cats/cat-5.webp" type="image/webp" />
+              <img class="section-cat-img" src="/cats/cat-5.svg" alt="" width="1632" height="1707" loading="lazy" decoding="async" />
+            </picture>
+          </div>
         </div>
 
         <div class="section-content">
@@ -415,10 +425,12 @@ import SiteHeader from '../components/SiteHeader.astro';
       <!-- Section 05: Education & Credentials -->
       <section id="education" class="section" aria-labelledby="education-title">
         <div class="section-cat-flyer section-cat-flyer--left section-cat-flyer--education" data-side="left" aria-hidden="true">
-          <picture>
-            <source srcset="/cats/cat-2.webp" type="image/webp" />
-            <img class="section-cat-img" src="/cats/cat-2.svg" alt="" width="1499" height="1237" loading="lazy" decoding="async" />
-          </picture>
+          <div class="cat-float-wrap">
+            <picture>
+              <source srcset="/cats/cat-2.webp" type="image/webp" />
+              <img class="section-cat-img" src="/cats/cat-2.svg" alt="" width="1499" height="1237" loading="lazy" decoding="async" />
+            </picture>
+          </div>
         </div>
 
         <div class="section-content">
@@ -496,10 +508,12 @@ import SiteHeader from '../components/SiteHeader.astro';
       <!-- Section 06: Contact & Finale (Slide 06) -->
       <section id="contact" class="section section--contact" aria-labelledby="contact-title">
         <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--contact" data-side="right" aria-hidden="true">
-          <picture>
-            <source srcset="/cats/cat-3.webp" type="image/webp" />
-            <img class="section-cat-img" src="/cats/cat-3.svg" alt="" width="1382" height="1348" loading="lazy" decoding="async" />
-          </picture>
+          <div class="cat-float-wrap">
+            <picture>
+              <source srcset="/cats/cat-3.webp" type="image/webp" />
+              <img class="section-cat-img" src="/cats/cat-3.svg" alt="" width="1382" height="1348" loading="lazy" decoding="async" />
+            </picture>
+          </div>
         </div>
 
         <div class="contact-slide-content section-content">
@@ -586,82 +600,30 @@ import SiteHeader from '../components/SiteHeader.astro';
     // Each section has its own distinct cat that flies out to the screen edge when leaving,
     // and flies in from the screen edge (from small to full size) in direct lockstep with scroll.
 
-    interface CatSectionCompanion {
-      section: HTMLElement;
-      flyer: HTMLElement;
-      side: 'left' | 'right';
-      isHero?: boolean;
-    }
-
     const initPerSectionCatEngine = () => {
       const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (isReduced) return;
 
-      const items: CatSectionCompanion[] = [
-        {
-          section: document.getElementById('top')!,
-          flyer: document.querySelector<HTMLElement>('#top .section-cat-flyer')!,
-          side: 'right',
-          isHero: true,
-        },
-        {
-          section: document.getElementById('about')!,
-          flyer: document.querySelector<HTMLElement>('#about .section-cat-flyer')!,
-          side: 'left',
-        },
-        {
-          section: document.getElementById('experience')!,
-          flyer: document.querySelector<HTMLElement>('#experience .section-cat-flyer')!,
-          side: 'right',
-        },
-        {
-          section: document.getElementById('work')!,
-          flyer: document.querySelector<HTMLElement>('#work .section-cat-flyer')!,
-          side: 'left',
-        },
-        {
-          section: document.getElementById('toolkit')!,
-          flyer: document.querySelector<HTMLElement>('#toolkit .section-cat-flyer')!,
-          side: 'right',
-        },
-        {
-          section: document.getElementById('education')!,
-          flyer: document.querySelector<HTMLElement>('#education .section-cat-flyer')!,
-          side: 'left',
-        },
-        {
-          section: document.getElementById('contact')!,
-          flyer: document.querySelector<HTMLElement>('#contact .section-cat-flyer')!,
-          side: 'right',
-        },
-      ].filter((item): item is CatSectionCompanion => item.section !== null && item.flyer !== null);
+      const floatWraps = Array.from(document.querySelectorAll<HTMLElement>('.cat-float-wrap'));
+      if (floatWraps.length === 0) return;
 
-      if (items.length === 0) return;
-
-      if (isReduced) {
-        items.forEach((item) => {
-          item.flyer.style.opacity = '0.9';
-          item.flyer.style.transform = 'none';
-        });
-        return;
-      }
-
-      // Mouse interactive parallax
-      let mouseTargetX = 0;
-      let mouseTargetY = 0;
-      let mouseCurrentX = 0;
-      let mouseCurrentY = 0;
+      // Interactive 3D Cursor Depth on Float Wraps
+      let targetMouseX = 0;
+      let targetMouseY = 0;
+      let currMouseX = 0;
+      let currMouseY = 0;
       let isVisible = !document.hidden;
 
       const handleMouseMove = (e: MouseEvent) => {
         const w = window.innerWidth;
         const h = window.innerHeight;
-        mouseTargetX = Math.max(-1, Math.min(1, (e.clientX - w / 2) / (w / 2)));
-        mouseTargetY = Math.max(-1, Math.min(1, (e.clientY - h / 2) / (h / 2)));
+        targetMouseX = Math.max(-1, Math.min(1, (e.clientX - w / 2) / (w / 2)));
+        targetMouseY = Math.max(-1, Math.min(1, (e.clientY - h / 2) / (h / 2)));
       };
 
       const handleMouseLeave = () => {
-        mouseTargetX = 0;
-        mouseTargetY = 0;
+        targetMouseX = 0;
+        targetMouseY = 0;
       };
 
       window.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -670,102 +632,23 @@ import SiteHeader from '../components/SiteHeader.astro';
         isVisible = !document.hidden;
       });
 
-      const render = (now: number) => {
-        if (!isVisible) {
-          requestAnimationFrame(render);
-          return;
+      const updateMouseParallax = () => {
+        if (isVisible && floatWraps.length > 0) {
+          currMouseX += (targetMouseX - currMouseX) * 0.08;
+          currMouseY += (targetMouseY - currMouseY) * 0.08;
+
+          const tx = (currMouseX * 14).toFixed(1) + 'px';
+          const ty = (currMouseY * 10).toFixed(1) + 'px';
+
+          floatWraps.forEach((wrap) => {
+            wrap.style.setProperty('--mouse-tx', tx);
+            wrap.style.setProperty('--mouse-ty', ty);
+          });
         }
-
-        const H = window.innerHeight;
-        const W = window.innerWidth;
-        const isMobile = W < 960;
-        const travelX = isMobile ? W * 0.42 : Math.min(460, Math.max(300, W * 0.28));
-
-        // Smooth mouse lerp
-        mouseCurrentX += (mouseTargetX - mouseCurrentX) * 0.08;
-        mouseCurrentY += (mouseTargetY - mouseCurrentY) * 0.08;
-
-        const idleY = Math.sin(now * 0.002) * 5;
-
-        items.forEach((item) => {
-          const rect = item.section.getBoundingClientRect();
-          const sectionCenter = rect.top + rect.height / 2;
-          const viewportCenter = H / 2;
-          const d = (sectionCenter - viewportCenter) / H;
-
-          // If completely out of view, hide
-          if (Math.abs(d) >= 1.25) {
-            item.flyer.style.opacity = '0';
-            return;
-          }
-
-          const sign = item.side === 'left' ? -1 : 1;
-          let offsetX = 0;
-          let offsetY = 0;
-          let scale = 1.0;
-          let zDepth = 0;
-          let rotZ = 0;
-          let rotY = 0;
-          let rotX = 0;
-          let opacity = 0;
-
-          if (d > 0) {
-            // ENTERING: section is below viewport, user is scrolling down
-            // d goes from 1.0 down to 0.0
-            const p = Math.max(0, Math.min(1, 1.0 - d));
-            const t = p * p * (3.0 - 2.0 * p);
-
-            // Starts outside the screen, arrives at 0
-            offsetX = sign * (1.0 - t) * travelX;
-            offsetY = d * (isMobile ? 45 : 85);
-            // Grows from small (far away) to full size (up close)
-            scale = 0.18 + 0.82 * t;
-            zDepth = -380.0 * (1.0 - t);
-            rotZ = sign * (1.0 - t) * 18.0;
-            rotY = sign * (1.0 - t) * 22.0;
-            rotX = -(1.0 - t) * 14.0;
-            opacity = Math.min(1.0, p * 2.0);
-          } else {
-            // EXITING: section is above viewport, user continues scrolling down
-            // d goes from 0.0 down to -1.0
-            const pExit = Math.max(0, Math.min(1, Math.abs(d)));
-            const tExit = pExit * pExit * (3.0 - 2.0 * pExit);
-
-            // Flies out towards the screen edge until disappearing
-            offsetX = sign * tExit * travelX;
-            offsetY = d * (isMobile ? 45 : 85);
-            scale = 1.0 - 0.25 * tExit;
-            zDepth = -220.0 * tExit;
-            rotZ = -sign * tExit * 18.0;
-            rotY = -sign * tExit * 22.0;
-            rotX = tExit * 12.0;
-            opacity = Math.max(0, 1.0 - pExit * 1.8);
-          }
-
-          // Active section subtle mouse parallax and idle floating
-          const isNearCenter = Math.abs(d) < 0.4;
-          const activeFactor = isNearCenter ? (1.0 - Math.abs(d) / 0.4) : 0;
-          const mouseOffsetX = mouseCurrentX * 16 * activeFactor;
-          const mouseOffsetY = mouseCurrentY * 12 * activeFactor;
-          const mouseRotY = mouseCurrentX * 10 * activeFactor;
-          const mouseRotX = -mouseCurrentY * 8 * activeFactor;
-          const sectionIdleY = idleY * activeFactor;
-
-          const finalX = (offsetX + mouseOffsetX).toFixed(1);
-          const finalY = (offsetY + sectionIdleY + mouseOffsetY).toFixed(1);
-          const finalZ = zDepth.toFixed(1);
-          const totalRotX = (rotX + mouseRotX).toFixed(1);
-          const totalRotY = (rotY + mouseRotY).toFixed(1);
-          const totalRotZ = (rotZ).toFixed(1);
-
-          item.flyer.style.transform = `translate3d(${finalX}px, ${finalY}px, ${finalZ}px) scale(${scale.toFixed(3)}) rotateX(${totalRotX}deg) rotateY(${totalRotY}deg) rotateZ(${totalRotZ}deg)`;
-          item.flyer.style.opacity = opacity.toFixed(3);
-        });
-
-        requestAnimationFrame(render);
+        requestAnimationFrame(updateMouseParallax);
       };
 
-      requestAnimationFrame(render);
+      requestAnimationFrame(updateMouseParallax);
     };
 
     if (document.readyState === 'loading') {

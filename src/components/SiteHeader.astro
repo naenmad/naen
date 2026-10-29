@@ -223,7 +223,11 @@ const sections = [
 
     // Toggle active section class for flight animations
     sectionEls.forEach((sec) => {
-      sec.classList.toggle('is-section-active', sec.id === id);
+      const match = sec.id === id;
+      if (match) {
+        sec.classList.add('was-active');
+      }
+      sec.classList.toggle('is-section-active', match);
     });
 
     if (readoutIndex) readoutIndex.textContent = sectionMeta[id].index;
