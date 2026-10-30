@@ -485,20 +485,69 @@ input:focus-visible {
   }
 }
 
-/* Mobile responsive sizing */
+/* Mobile responsive sizing & positioning (non-overlapping layout) */
 @media (max-width: 959px) {
-  .section-cat-flyer {
-    width: clamp(4.5rem, 14vw, 6.5rem);
+  .hero-note {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.25rem;
+    text-align: center;
+  }
+
+  .hero-note .cat-image-layer {
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    width: min(9rem, 45vw);
+    aspect-ratio: 1;
+    margin-inline: auto;
+  }
+
+  .section-cat-flyer:not(.section-cat-flyer--hero) {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    width: clamp(3.25rem, 10vw, 4.25rem);
+    height: auto;
+    margin-bottom: 0.5rem;
+    display: block;
+    pointer-events: none;
   }
 
   .section-cat-flyer--left {
-    left: 1rem;
-    top: 1.25rem;
+    left: auto;
+    margin-left: 1.25rem;
+    margin-right: auto;
   }
 
-  .section-cat-flyer--right {
-    right: 1rem;
-    top: 1.25rem;
+  .section-cat-flyer--right:not(.section-cat-flyer--hero) {
+    right: auto;
+    margin-left: auto;
+    margin-right: 1.25rem;
+  }
+
+  .section-cat-flyer--about,
+  .section-cat-flyer--experience,
+  .section-cat-flyer--work,
+  .section-cat-flyer--toolkit,
+  .section-cat-flyer--education,
+  .section-cat-flyer--contact {
+    top: auto;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 959px) {
+  .section-cat-flyer--left {
+    margin-left: max(2rem, calc((100% - var(--container-max)) / 2 + 2rem));
+  }
+
+  .section-cat-flyer--right:not(.section-cat-flyer--hero) {
+    margin-right: max(2rem, calc((100% - var(--container-max)) / 2 + 2rem));
   }
 }
 
@@ -1592,12 +1641,6 @@ input:focus-visible {
   background: var(--frost-soft);
 }
 
-.hero-note__caption {
-  margin: 0.65rem 0 0;
-  font-size: 0.82rem;
-  color: var(--muted);
-  letter-spacing: 0.02em;
-}
 
 /* ==========================================================================
    SECTION 01: PROFILE & CV
@@ -2412,6 +2455,12 @@ input:focus-visible {
 
   .cat-camera-rig {
     transition: none !important;
+  }
+
+  .section-cat-flyer {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
