@@ -1,4 +1,6 @@
 ---
+import ArrowIcon from './ArrowIcon.astro';
+
 const sections = [
   { id: 'top', index: '00', label: 'Opening', note: 'Overview' },
   { id: 'about', index: '01', label: 'About', note: 'Who I am, and where' },
@@ -51,54 +53,34 @@ const sections = [
       <span class="index-toggle__text">Sections</span>
       <kbd class="index-toggle__kbd" aria-hidden="true">J</kbd>
     </button>
+
+    <!-- Mobile: motion toggle and section menu, on the wordmark row -->
+    <div class="mobile-actions">
+      <button class="tilt-toggle" type="button" data-tilt-toggle aria-pressed="false" hidden>
+        <span class="tilt-toggle__mark" aria-hidden="true">✦</span>
+        <span data-tilt-label>Tilt</span>
+      </button>
+
+      <button
+        class="mobile-menu"
+        type="button"
+        data-index-toggle
+        data-mobile-menu
+        aria-expanded="false"
+        aria-controls="section-index"
+        aria-haspopup="dialog"
+        aria-label="Open section menu"
+      >
+        <span class="mobile-menu__index" data-mobile-readout-index>00</span>
+        <span class="mobile-menu__label">Menu</span>
+        <span class="mobile-menu__bars" aria-hidden="true">
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
   </div>
 </header>
-
-<!-- Mobile Floating Bottom Navigation Dock -->
-<nav class="mobile-dock" aria-label="Mobile bottom navigation">
-  <button
-    type="button"
-    class="mobile-dock__status"
-    data-index-toggle
-    aria-label="Current section coordinate. Tap to jump to section."
-  >
-    <span class="mobile-dock__star" aria-hidden="true">✦</span>
-    <span class="mobile-dock__idx" data-mobile-readout-index>00</span>
-    <span class="mobile-dock__sep" aria-hidden="true">/</span>
-    <span class="mobile-dock__label" data-mobile-readout-label>Opening</span>
-  </button>
-
-  <div class="mobile-dock__actions">
-    <button
-      type="button"
-      class="mobile-dock__btn mobile-dock__btn--sections"
-      data-index-toggle
-      aria-expanded="false"
-      aria-controls="section-index"
-      aria-haspopup="dialog"
-      aria-label="Open section menu"
-    >
-      <span class="mobile-dock__bars" aria-hidden="true">
-        <span class="mobile-dock__bar"></span>
-        <span class="mobile-dock__bar"></span>
-      </span>
-      <span>Menu</span>
-    </button>
-
-    <button
-      type="button"
-      class="mobile-dock__btn mobile-dock__btn--top"
-      data-mobile-top
-      aria-label="Scroll back to top"
-      title="Back to top"
-    >
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <polyline points="18 15 12 9 6 15"></polyline>
-      </svg>
-      <span class="sr-only">Top</span>
-    </button>
-  </div>
-</nav>
 
 <!-- Desktop Side Constellation Rail -->
 <nav class="section-rail" aria-label="Constellation section rail">
@@ -148,7 +130,7 @@ const sections = [
               <span class="index-dialog__label">{section.label}</span>
               <span class="index-dialog__note">{section.note}</span>
             </div>
-            <span class="index-dialog__arrow" aria-hidden="true">→</span>
+            <ArrowIcon class="index-dialog__arrow" direction="right" />
           </a>
         </li>
       ))}
@@ -156,10 +138,10 @@ const sections = [
 
     <div class="index-dialog__footer">
       <a class="index-dialog__action" href="#top" data-index-link="top">
-        <span aria-hidden="true">↑</span> Back to top
+        <ArrowIcon direction="up" /> Back to top
       </a>
       <a class="index-dialog__action" href="mailto:azulkarnaen@outlook.com">
-        <span aria-hidden="true">✉</span> azulkarnaen@outlook.com
+        azulkarnaen@outlook.com
       </a>
     </div>
   </div>
@@ -195,6 +177,7 @@ const sections = [
   const readoutLabel = document.querySelector<HTMLElement>('[data-readout-label]');
   const mobileReadoutIndex = document.querySelector<HTMLElement>('[data-mobile-readout-index]');
   const mobileReadoutLabel = document.querySelector<HTMLElement>('[data-mobile-readout-label]');
+  const mobileMenu = document.querySelector<HTMLButtonElement>('[data-mobile-menu]');
   const railLinks = document.querySelectorAll<HTMLAnchorElement>('[data-section-link]');
   const desktopLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
   const dialogLinks = document.querySelectorAll<HTMLAnchorElement>('[data-index-link]');
@@ -202,7 +185,6 @@ const sections = [
   const toggleBtns = document.querySelectorAll<HTMLButtonElement>('[data-index-toggle]');
   const closeBtn = document.querySelector<HTMLButtonElement>('[data-index-close]');
   const toTopBtn = document.querySelector<HTMLAnchorElement>('[data-to-top]');
-  const mobileTopBtns = document.querySelectorAll<HTMLButtonElement>('[data-mobile-top]');
 
   let currentActiveId = 'top';
 
@@ -231,6 +213,9 @@ const sections = [
     if (readoutLabel) readoutLabel.textContent = sectionMeta[id].label;
     if (mobileReadoutIndex) mobileReadoutIndex.textContent = sectionMeta[id].index;
     if (mobileReadoutLabel) mobileReadoutLabel.textContent = sectionMeta[id].label;
+    if (mobileMenu) {
+      mobileMenu.setAttribute('aria-label', `Open section menu. Current section: ${sectionMeta[id].label}`);
+    }
 
     railLinks.forEach((link) => {
       const match = link.getAttribute('data-section-link') === id;
@@ -400,13 +385,4 @@ const sections = [
       history.pushState(null, '', '#top');
     });
   }
-
-  // Mobile Bottom Dock Top Button
-  mobileTopBtns.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      history.pushState(null, '', '#top');
-    });
-  });
 </script>

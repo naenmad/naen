@@ -67,24 +67,31 @@ const {
 
       const paint = () => {
         const mode = skyMode();
-        const depth = mode === 'lite' ? 0.42 : 1;
+        const depth = mode === 'lite' ? 0.6 : 1;
         const pointerDepth = mode === 'full' ? 1 : 0;
-        const tiltDepth = tiltEnabled ? 0.14 : 0;
-        const limit = window.innerHeight * 0.34;
+        const tiltDepth = tiltEnabled ? 0.2 : 0;
+        const limit = window.innerHeight * 0.57;
         skyPlanes.forEach((plane) => {
           const rate = Number(plane.dataset.rate ?? 0);
           if (!rate) return;
-          const px = easedX * rate * 0.05 * pointerDepth + easedTiltX * rate * tiltDepth;
+          if (mode === 'lite' && plane.dataset.touch === 'static') {
+            if (plane.style.getPropertyValue('--py') !== '0px') {
+              plane.style.setProperty('--px', '0px');
+              plane.style.setProperty('--py', '0px');
+            }
+            return;
+          }
+          const px = easedX * rate * 0.08 * pointerDepth + easedTiltX * rate * tiltDepth;
           const raw =
             -scrollFactor * rate * depth +
-            easedY * rate * 0.05 * pointerDepth +
+            easedY * rate * 0.08 * pointerDepth +
             easedTiltY * rate * tiltDepth;
           const py = Math.min(limit, Math.max(-limit, raw));
           plane.style.setProperty('--px', `${px.toFixed(2)}px`);
           plane.style.setProperty('--py', `${py.toFixed(2)}px`);
         });
         // The hero text only drifts on desktop. On touch it is the main reading area.
-        const heroShift = mode === 'full' ? -Math.min(1, scrollFactor) * 90 : 0;
+        const heroShift = mode === 'full' ? -Math.min(1, scrollFactor) * 110 : 0;
         heroPlane?.style.setProperty('--py', `${heroShift.toFixed(2)}px`);
       };
 
@@ -165,7 +172,7 @@ const {
         tiltY = 0;
         tiltBaseBeta = null;
         tiltToggle?.setAttribute('aria-pressed', 'false');
-        if (tiltLabel) tiltLabel.textContent = 'Tilt the sky';
+        if (tiltLabel) tiltLabel.textContent = 'Tilt';
         requestFrame();
       };
 
@@ -174,7 +181,7 @@ const {
         tiltBaseBeta = null;
         attachTilt();
         tiltToggle?.setAttribute('aria-pressed', 'true');
-        if (tiltLabel) tiltLabel.textContent = 'Tilt is on';
+        if (tiltLabel) tiltLabel.textContent = 'Tilt on';
         requestFrame();
       };
 
@@ -255,6 +262,12 @@ const {
       touchQuery.addEventListener('change', sync);
 
       sync();
+    </script>
+
+    <script>
+      import { initInteractionFX } from '../scripts/interaction-fx';
+
+      initInteractionFX();
     </script>
   </body>
 </html>

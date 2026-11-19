@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import ArrowIcon from '../components/ArrowIcon.astro';
 
 // Deterministic star field: the same sky on every build, generated once at build time
 // so the page ships no runtime star logic and no hydration cost.
@@ -34,9 +35,9 @@ const createStars = (
   }));
 
 // Three planes, far to near: small and dim in the distance, sparse and brighter up close.
-const farStars = createStars('far', 52, [1, 1.6], [0.18, 0.5], 0.08);
-const midStars = createStars('mid', 36, [1.3, 2], [0.28, 0.68], 0.16);
-const nearStars = createStars('near', 15, [1.8, 2.8], [0.5, 0.95], 0.45);
+const farStars = createStars('far', 62, [1, 1.6], [0.18, 0.5], 0.08);
+const midStars = createStars('mid', 43, [1.3, 2], [0.28, 0.68], 0.16);
+const nearStars = createStars('near', 18, [1.8, 2.8], [0.5, 0.95], 0.45);
 
 const dustMotes = Array.from({ length: 6 }, (_, index) => ({
   id: `mote-${index}`,
@@ -50,17 +51,17 @@ const dustMotes = Array.from({ length: 6 }, (_, index) => ({
 // Four named-feeling anchor stars. A uniform field cannot show parallax, because there is
 // nothing to track; these are the landmarks the eye follows while the sky drifts.
 const anchorStars = [
-  { id: 'anchor-a', x: 21.5, y: 30, size: 2.6, opacity: 0.95, delay: -3, duration: 16 },
-  { id: 'anchor-b', x: 63, y: 22, size: 3, opacity: 1, delay: -9, duration: 19 },
-  { id: 'anchor-c', x: 76.5, y: 64, size: 2.4, opacity: 0.9, delay: -6, duration: 14 },
-  { id: 'anchor-d', x: 9, y: 57, size: 2.2, opacity: 0.85, delay: -12, duration: 21 },
+  { id: 'anchor-a', x: 21.5, y: 34, size: 2.6, opacity: 0.95, delay: -3, duration: 16 },
+  { id: 'anchor-b', x: 63, y: 30, size: 3, opacity: 1, delay: -9, duration: 19 },
+  { id: 'anchor-c', x: 76.5, y: 62, size: 2.4, opacity: 0.9, delay: -6, duration: 14 },
+  { id: 'anchor-d', x: 9, y: 55, size: 2.2, opacity: 0.85, delay: -12, duration: 21 },
 ];
 
 // The band is not a texture: it is unresolved star grain packed along one diagonal,
 // which is what makes a galaxy read as a galaxy instead of as fog.
 const BAND_ORIGIN = { x: 4, y: 91 };
 const BAND_SLOPE = -0.848;
-const bandStars = Array.from({ length: 260 }, (_, index) => {
+const bandStars = Array.from({ length: 310 }, (_, index) => {
   const x = between(3, 97);
   // Distance from the core falls off sharply, so the grain gathers in the middle of the band.
   const pull = Math.pow(random(), 1.8);
@@ -89,11 +90,11 @@ const bandStars = Array.from({ length: 260 }, (_, index) => {
   <div class="night-sky min-h-screen overflow-x-clip">
     <!-- Atmospheric Scene: five planes of depth plus a rare passer-by -->
     <div class="cosmic-scene" aria-hidden="true">
-      <div class="sky-layer sky-layer--nebula" data-rate="7">
+      <div class="sky-layer sky-layer--nebula" data-rate="12" data-touch="static">
         <div class="sky-plate sky-plate--nebula"></div>
       </div>
 
-      <div class="sky-layer sky-layer--band" data-rate="15">
+      <div class="sky-layer sky-layer--band" data-rate="26" data-touch="static">
         <div class="sky-plate sky-plate--band"></div>
         {bandStars.map((star) => (
           <span
@@ -103,7 +104,7 @@ const bandStars = Array.from({ length: 260 }, (_, index) => {
         ))}
       </div>
 
-      <div class="sky-layer sky-layer--dust" data-rate="34">
+      <div class="sky-layer sky-layer--dust" data-rate="62">
         {dustMotes.map((mote) => (
           <span
             class="dust-mote"
@@ -112,7 +113,7 @@ const bandStars = Array.from({ length: 260 }, (_, index) => {
         ))}
       </div>
 
-      <div class="sky-layer sky-layer--stars" data-rate="50">
+      <div class="sky-layer sky-layer--stars" data-rate="90">
         {farStars.map((star) => (
           <span
             class:list={['star', { 'star--twinkle': star.twinkle }]}
@@ -121,7 +122,7 @@ const bandStars = Array.from({ length: 260 }, (_, index) => {
         ))}
       </div>
 
-      <div class="sky-layer sky-layer--stars" data-rate="62">
+      <div class="sky-layer sky-layer--stars" data-rate="110">
         {midStars.map((star) => (
           <span
             class:list={['star', 'star--mid', { 'star--twinkle': star.twinkle }]}
@@ -130,7 +131,7 @@ const bandStars = Array.from({ length: 260 }, (_, index) => {
         ))}
       </div>
 
-      <div class="sky-layer sky-layer--stars" data-rate="73">
+      <div class="sky-layer sky-layer--stars" data-rate="130">
         {nearStars.map((star) => (
           <span
             class:list={['star', 'star--near', { 'star--twinkle': star.twinkle }]}
@@ -184,14 +185,10 @@ const bandStars = Array.from({ length: 260 }, (_, index) => {
                 <a class="action-primary" href="https://rx.cv/naenmad" target="_blank" rel="noreferrer">Read the CV</a>
                 <a class="action-secondary" href="#elsewhere">Get in touch</a>
                 <a class="action-quiet" href="https://github.com/naenmad" target="_blank" rel="noreferrer">
-                  GitHub <span aria-hidden="true">↗</span>
+                  GitHub
+                  <ArrowIcon />
                 </a>
               </div>
-
-              <button class="tilt-toggle" type="button" data-tilt-toggle aria-pressed="false" hidden>
-                <span class="tilt-toggle__mark" aria-hidden="true">✦</span>
-                <span data-tilt-label>Tilt the sky</span>
-              </button>
             </div>
 
             <aside class="hero-note" aria-label="A small visual note">
@@ -219,6 +216,17 @@ const bandStars = Array.from({ length: 260 }, (_, index) => {
 
       <!-- 01: About -->
       <section id="about" class="section" aria-labelledby="about-title">
+        <div class="section-cat-flyer section-cat-flyer--left section-cat-flyer--about" data-side="left" aria-hidden="true">
+          <div class="cat-float-wrap">
+            <div class="cat-float-inner">
+              <picture>
+                <source srcset="/cats/cat-2.webp" type="image/webp" />
+                <img class="section-cat-img" src="/cats/cat-2.svg" alt="" width="1499" height="1237" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+          </div>
+        </div>
+
         <svg class="about-moon" viewBox="0 0 400 400" aria-hidden="true" focusable="false">
           <path d="M 300 60 A 150 150 0 1 0 300 340 A 138 138 0 0 1 300 60 Z" />
         </svg>
@@ -244,6 +252,17 @@ const bandStars = Array.from({ length: 260 }, (_, index) => {
 
       <!-- 02: Principles -->
       <section id="principles" class="section" aria-labelledby="principles-title">
+        <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--principles" data-side="right" aria-hidden="true">
+          <div class="cat-float-wrap">
+            <div class="cat-float-inner">
+              <picture>
+                <source srcset="/cats/cat-4.webp" type="image/webp" />
+                <img class="section-cat-img" src="/cats/cat-4.svg" alt="" width="1389" height="1411" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+          </div>
+        </div>
+
         <div class="section-content">
           <div class="section-head">
             <p class="section-kicker"><span class="kicker-index" aria-hidden="true">02</span> Principles</p>
@@ -280,6 +299,17 @@ const bandStars = Array.from({ length: 260 }, (_, index) => {
 
       <!-- 03: Notes -->
       <section id="notes" class="section" aria-labelledby="notes-title">
+        <div class="section-cat-flyer section-cat-flyer--left section-cat-flyer--notes" data-side="left" aria-hidden="true">
+          <div class="cat-float-wrap">
+            <div class="cat-float-inner">
+              <picture>
+                <source srcset="/cats/cat-5.webp" type="image/webp" />
+                <img class="section-cat-img" src="/cats/cat-5.svg" alt="" width="1632" height="1707" loading="lazy" decoding="async" />
+              </picture>
+            </div>
+          </div>
+        </div>
+
         <div class="section-content">
           <div class="section-head">
             <p class="section-kicker"><span class="kicker-index" aria-hidden="true">03</span> Notes</p>
@@ -334,28 +364,27 @@ const bandStars = Array.from({ length: 260 }, (_, index) => {
                 <a class="elsewhere-link" href="https://rx.cv/naenmad" target="_blank" rel="noreferrer">
                   <span class="elsewhere-label">CV</span>
                   <span class="elsewhere-value">rx.cv/naenmad</span>
-                  <span class="elsewhere-arrow" aria-hidden="true">↗</span>
+                  <ArrowIcon class="elsewhere-arrow" />
                 </a>
               </li>
               <li>
                 <a class="elsewhere-link" href="https://linkedin.com/in/naen" target="_blank" rel="noreferrer">
                   <span class="elsewhere-label">LinkedIn</span>
                   <span class="elsewhere-value">linkedin.com/in/naen</span>
-                  <span class="elsewhere-arrow" aria-hidden="true">↗</span>
+                  <ArrowIcon class="elsewhere-arrow" />
                 </a>
               </li>
               <li>
                 <a class="elsewhere-link" href="https://github.com/naenmad" target="_blank" rel="noreferrer">
                   <span class="elsewhere-label">GitHub</span>
                   <span class="elsewhere-value">github.com/naenmad</span>
-                  <span class="elsewhere-arrow" aria-hidden="true">↗</span>
+                  <ArrowIcon class="elsewhere-arrow" />
                 </a>
               </li>
               <li>
                 <a class="elsewhere-link" href="mailto:azulkarnaen@outlook.com">
                   <span class="elsewhere-label">Email</span>
                   <span class="elsewhere-value">azulkarnaen@outlook.com</span>
-                  <span class="elsewhere-arrow" aria-hidden="true"></span>
                 </a>
               </li>
             </ul>

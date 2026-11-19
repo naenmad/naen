@@ -112,7 +112,7 @@ The cat is a secondary character, not the main visual asset.
 - Prefer a small recurring detail, silhouette, caption, or authored illustration over a large cartoon mascot.
 - Do not generate a logo, cat portrait, avatar, or profile image without explicit confirmation of its form and source.
 - If no approved cat asset exists, use text or a clearly labeled placeholder rather than disguising a generated image as personal.
-- A cat reference should appear at most in one or two meaningful places so it remains a discovery.
+- Each section carries one small cat companion at a different resting spot, so the page has a recurring discovery rather than a single cameo. Keep them small and secondary.
 - The cat's tone is calm, independent, and observant. Avoid childish, exaggerated, or sticker-like treatment.
 
 **Reason:** The cat should make the portfolio feel personal without competing with the work or pretending to be a brand mascot.
@@ -135,6 +135,7 @@ MOTION is 2. Motion is atmospheric but restrained.
 - Use hover and focus transitions to confirm interaction.
 - Stars may pulse at different intervals, while small particles drift slowly through the scene.
 - One passing object may cross the sky occasionally, and a click or tap can send one across the scene.
+- A small star follows the pointer over links and buttons, and a click releases a brief stardust burst. Both are decorative, use the same star vocabulary as the sky, and are removed for reduced motion.
 - The approved minimal cat silhouette may sway slowly as a low-contrast background detail.
 - A restrained scroll parallax separates the nebula, dust, stars, and hero foreground into depth layers. On touch devices it runs a reduced scroll parallax, plus an opt-in device tilt. It is fully disabled for reduced-motion preferences.
 - Do not use scroll choreography or animation on every element.
@@ -198,6 +199,8 @@ The universe and cat concepts define the direction. The approved asset for this 
 - **No invented assets or claims:** keeps the portfolio personal and trustworthy.
 - **Lite touch parallax:** touch devices get a scroll-only version at 42% amplitude, because the owner asked for the depth to be perceptible on a phone. Pointer tilt and hero text drift stay desktop-only, and reduced motion still disables all of it.
 - **Five-part page:** the site is Opening, About, Principles, Notes, and Elsewhere. Work history and projects live on the CV, LinkedIn, and GitHub, so the page stays a personal place instead of a CV in web form.
+- **One cat per section:** the owner asked for a cat in every section because the page felt too quiet. They reuse the approved silhouettes, alternate sides, and stay small so they do not become mascots.
 - **Opt-in device tilt:** on touch devices a small control lets the visitor tilt the sky with the device orientation. It is opt-in because iOS requires a tap for motion permission, the amplitude stays small, and reduced motion disables it.
 - **About moon:** one large, faint crescent gives the about section a second celestial landmark and a quiet counterweight to the text.
 - **Click to wish:** a click or tap in the sky sends a single shooting star and the cat reacts. It is decorative, never blocks text selection, and is removed under reduced motion.
+- **Control stardust:** every link and button answers hover with a cursor star and click with a short stardust burst, so the interface feels like the same sky rather than a set of separate widgets.
