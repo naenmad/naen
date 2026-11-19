@@ -1,26 +1,137 @@
 ---
+import '@fontsource/space-grotesk/latin-400.css';
+import '@fontsource/space-grotesk/latin-500.css';
+import '@fontsource/space-grotesk/latin-600.css';
+import '@fontsource/space-grotesk/latin-700.css';
+import '@fontsource/ibm-plex-sans/latin-400.css';
+import '@fontsource/ibm-plex-sans/latin-500.css';
+import '@fontsource/ibm-plex-sans/latin-600.css';
+import spaceGrotesk700 from '@fontsource/space-grotesk/files/space-grotesk-latin-700-normal.woff2?url';
+import plex400 from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2?url';
 import '../styles/global.css';
 
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
 }
 
 const {
-  title = 'naen.me | Software Engineer',
-  description = 'A dark corner for software, systems, and things worth noticing.',
+  title = 'Ahmad Zulkarnaen | Full-stack and Mobile Developer',
+  description = 'Ahmad Zulkarnaen (naen) is a full-stack and mobile developer in Bogor and Karawang, Indonesia, building with Laravel, Next.js, and Flutter.',
+  noindex = false,
 } = Astro.props;
+
+const base = (import.meta.env.SITE ?? 'https://naen.me').replace(/\/$/, '');
+const canonical = new URL(Astro.url.pathname, `${base}/`).href;
+const ogImage = `${base}/og.png`;
+const ogAlt = 'naen.me on a dark star field, with the line: I build software beneath open skies.';
+
+const personId = `${base}/#person`;
+const websiteId = `${base}/#website`;
+const profileId = `${base}/#profile`;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': websiteId,
+      url: `${base}/`,
+      name: 'naen.me',
+      description,
+      inLanguage: 'en',
+      publisher: { '@id': personId },
+    },
+    {
+      '@type': 'Person',
+      '@id': personId,
+      name: 'Ahmad Zulkarnaen',
+      alternateName: ['naen', 'naenmad'],
+      url: `${base}/`,
+      jobTitle: 'Full-stack and mobile developer',
+      email: 'azulkarnaen@outlook.com',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Bogor',
+        addressRegion: 'West Java',
+        addressCountry: 'ID',
+      },
+      sameAs: [
+        'https://rx.cv/naenmad',
+        'https://linkedin.com/in/naen',
+        'https://github.com/naenmad',
+      ],
+      knowsAbout: [
+        'Laravel',
+        'Next.js',
+        'Flutter',
+        'TypeScript',
+        'REST APIs',
+        'Mobile development',
+      ],
+    },
+    {
+      '@type': 'ProfilePage',
+      '@id': profileId,
+      url: `${base}/`,
+      name: 'Ahmad Zulkarnaen',
+      isPartOf: { '@id': websiteId },
+      mainEntity: { '@id': personId },
+      inLanguage: 'en',
+    },
+  ],
+};
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="author" content="Ahmad Zulkarnaen" />
+    <meta
+      name="robots"
+      content={noindex
+        ? 'noindex, follow'
+        : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
+    />
     <meta name="theme-color" content="#0b1020" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="application-name" content="naen.me" />
+    <meta name="apple-mobile-web-app-title" content="naen.me" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href={spaceGrotesk700} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={plex400} as="font" type="font/woff2" crossorigin />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
+    {!noindex && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="naen.me" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {!noindex && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogAlt} />
     <title>{title}</title>
+    {!noindex && (
+      <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(structuredData)}
+      ></script>
+    )}
+    <slot name="head" />
   </head>
   <body>
     <a class="skip-link" href="#content">Skip to content</a>
@@ -274,6 +385,31 @@ const {
       import { initCelestialDrift } from '../scripts/celestial-drift';
 
       initCelestialDrift();
+    </script>
+
+    <script>
+      import { initSkyWishes } from '../scripts/sky-wish';
+      import { initMeteorWatch } from '../scripts/meteor-watch';
+
+      initSkyWishes();
+      initMeteorWatch();
+    </script>
+
+    <script>
+      // Dawn arrives with the last scroll: the arc stays dark until the page is nearly over.
+      const dawn = document.querySelector<HTMLElement>('[data-dawn]');
+      if (dawn) {
+        const paintDawn = () => {
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = max > 0 ? window.scrollY / max : 0;
+          const value = Math.max(0, Math.min(1, (progress - 0.38) / 0.62));
+          dawn.style.setProperty('--dawn', value.toFixed(3));
+        };
+
+        window.addEventListener('scroll', paintDawn, { passive: true });
+        window.addEventListener('resize', paintDawn, { passive: true });
+        paintDawn();
+      }
     </script>
   </body>
 </html>

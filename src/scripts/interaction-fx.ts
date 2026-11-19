@@ -2,6 +2,9 @@
 // a star follows the cursor over links and buttons, and a click throws stardust.
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)');
 const INTERACTIVE = 'a, button, [role="button"]';
+const PAW_DISTANCE = 38;
+const PAW_INTERVAL = 80;
+const PAW_LIMIT = 12;
 
 export const initInteractionFX = () => {
   let star: SVGSVGElement | null = null;
@@ -58,6 +61,51 @@ export const initInteractionFX = () => {
     if (!starFrame) starFrame = requestAnimationFrame(paintStar);
   };
 
+  // The paw cursor leaves prints while it crosses the sky. Prints are spaced by
+  // distance rather than by frame, so a resting pointer leaves nothing behind.
+  const paws: SVGSVGElement[] = [];
+  let lastPaw = { x: 0, y: 0, at: 0, placed: false };
+
+  const dropPaw = (x: number, y: number, angle: number) => {
+    const paw = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    paw.setAttribute('viewBox', '0 0 32 32');
+    paw.setAttribute('class', 'paw-trail');
+    paw.setAttribute('aria-hidden', 'true');
+    paw.innerHTML =
+      '<g fill="rgba(238,242,246,0.05)" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">' +
+      '<ellipse cx="16" cy="21" rx="6.4" ry="5.2" />' +
+      '<ellipse cx="7.5" cy="13.5" rx="2.4" ry="3.1" />' +
+      '<ellipse cx="12.8" cy="8.8" rx="2.4" ry="3.1" />' +
+      '<ellipse cx="19.2" cy="8.8" rx="2.4" ry="3.1" />' +
+      '<ellipse cx="24.5" cy="13.5" rx="2.4" ry="3.1" />' +
+      '</g>';
+    paw.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${angle.toFixed(1)}deg)`;
+    document.body.append(paw);
+    paws.push(paw);
+    if (paws.length > PAW_LIMIT) paws.shift()?.remove();
+    window.setTimeout(() => {
+      paw.remove();
+      const index = paws.indexOf(paw);
+      if (index >= 0) paws.splice(index, 1);
+    }, 1300);
+  };
+
+  const trailPaw = (event: PointerEvent, target: Element | null) => {
+    if (REDUCED.matches || event.pointerType === 'touch') return;
+    if (target?.closest('header, nav, dialog, footer, a, button, [role="button"]')) return;
+
+    const now = performance.now();
+    const dx = event.clientX - lastPaw.x;
+    const dy = event.clientY - lastPaw.y;
+    const travelled = Math.hypot(dx, dy);
+    const ready = !lastPaw.placed || (now - lastPaw.at > PAW_INTERVAL && travelled > PAW_DISTANCE);
+    if (!ready) return;
+
+    const angle = lastPaw.placed ? (Math.atan2(dy, dx) * 180) / Math.PI + 90 + (Math.random() - 0.5) * 9 : 0;
+    dropPaw(event.clientX, event.clientY, angle);
+    lastPaw = { x: event.clientX, y: event.clientY, at: now, placed: true };
+  };
+
   const burst = (x: number, y: number, host: HTMLElement) => {
     if (REDUCED.matches) return;
     const container = document.createElement('span');
@@ -88,6 +136,7 @@ export const initInteractionFX = () => {
   window.addEventListener('pointermove', (event) => {
     if (event.pointerType === 'touch') return;
     const target = event.target instanceof Element ? event.target : null;
+    trailPaw(event, target);
     const interactive = target?.closest(INTERACTIVE);
     if (!interactive) {
       hideStar();

@@ -2,154 +2,25 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import ArrowIcon from '../components/ArrowIcon.astro';
+import CosmicScene from '../components/CosmicScene.astro';
+import { illuminatedFraction, moonAge, moonLitPath } from '../scripts/lunar';
 
-// Deterministic star field: the same sky on every build, generated once at build time
-// so the page ships no runtime star logic and no hydration cost.
-const seededRandom = (seed: number) => {
-  let state = seed >>> 0;
-  return () => {
-    state = (state * 1664525 + 1013904223) >>> 0;
-    return state / 4294967296;
-  };
-};
-
-const random = seededRandom(20261119);
-const between = (min: number, max: number) => min + random() * (max - min);
-
-const createStars = (
-  prefix: string,
-  count: number,
-  size: [number, number],
-  opacity: [number, number],
-  twinkleRate: number,
-) =>
-  Array.from({ length: count }, (_, index) => ({
-    id: `${prefix}-${index}`,
-    x: Number(between(0.6, 99.4).toFixed(2)),
-    y: Number(between(0.6, 99.4).toFixed(2)),
-    size: Number(between(size[0], size[1]).toFixed(2)),
-    opacity: Number(between(opacity[0], opacity[1]).toFixed(2)),
-    twinkle: random() < twinkleRate,
-    delay: Number(between(-19, 0).toFixed(2)),
-    duration: Number(between(10, 21).toFixed(2)),
-  }));
-
-// Three planes, far to near: small and dim in the distance, sparse and brighter up close.
-const farStars = createStars('far', 62, [1, 1.6], [0.18, 0.5], 0.08);
-const midStars = createStars('mid', 43, [1.3, 2], [0.28, 0.68], 0.16);
-const nearStars = createStars('near', 18, [1.8, 2.8], [0.5, 0.95], 0.45);
-
-const dustMotes = Array.from({ length: 6 }, (_, index) => ({
-  id: `mote-${index}`,
-  x: Number(between(4, 96).toFixed(2)),
-  y: Number(between(4, 96).toFixed(2)),
-  size: Number(between(1.5, 3).toFixed(2)),
-  delay: Number(between(-14, 0).toFixed(2)),
-  duration: Number(between(16, 26).toFixed(2)),
-}));
-
-// Four named-feeling anchor stars. A uniform field cannot show parallax, because there is
-// nothing to track; these are the landmarks the eye follows while the sky drifts.
-const anchorStars = [
-  { id: 'anchor-a', x: 21.5, y: 34, size: 2.6, opacity: 0.95, delay: -3, duration: 16 },
-  { id: 'anchor-b', x: 63, y: 30, size: 3, opacity: 1, delay: -9, duration: 19 },
-  { id: 'anchor-c', x: 76.5, y: 62, size: 2.4, opacity: 0.9, delay: -6, duration: 14 },
-  { id: 'anchor-d', x: 9, y: 55, size: 2.2, opacity: 0.85, delay: -12, duration: 21 },
-];
-
-// The band is not a texture: it is unresolved star grain packed along one diagonal,
-// which is what makes a galaxy read as a galaxy instead of as fog.
-const BAND_ORIGIN = { x: 4, y: 91 };
-const BAND_SLOPE = -0.848;
-const bandStars = Array.from({ length: 310 }, (_, index) => {
-  const x = between(3, 97);
-  // Distance from the core falls off sharply, so the grain gathers in the middle of the band.
-  const pull = Math.pow(random(), 1.8);
-  const side = random() < 0.5 ? -1 : 1;
-  const y = BAND_ORIGIN.y + BAND_SLOPE * (x - BAND_ORIGIN.x) + side * pull * 8;
-  return {
-    id: `band-${index}`,
-    x: Number(Math.min(98, Math.max(2, x)).toFixed(2)),
-    y: Number(Math.min(98, Math.max(2, y)).toFixed(2)),
-    size: Number(between(0.8, 1.9).toFixed(2)),
-    opacity: Number((between(0.16, 0.62) * (1 - pull * 0.5)).toFixed(2)),
-    twinkle: random() < 0.08,
-    delay: Number(between(-18, 0).toFixed(2)),
-    duration: Number(between(12, 21).toFixed(2)),
-  };
-});
+// The first paint carries the moon of the build day. A small client script corrects it
+// for the visitor, so the shape is never a generic crescent.
+const moonAgeNow = moonAge(new Date());
+const moonPath = moonLitPath(moonAgeNow);
+const moonLit = illuminatedFraction(moonAgeNow) >= 0.01;
 ---
 
 <BaseLayout
-  title="naen.me | Ahmad Zulkarnaen"
-  description="Full-stack and mobile developer in Bogor and Karawang. A quiet corner for software, the night sky, and a cat."
+  title="Ahmad Zulkarnaen | Full-stack and Mobile Developer"
+  description="Ahmad Zulkarnaen (naen) is a full-stack and mobile developer in Bogor and Karawang, Indonesia, building with Laravel, Next.js, and Flutter."
 >
   <!-- Fixed chrome lives outside the sky wrapper, so it always paints above the page surface. -->
   <SiteHeader />
 
   <div class="night-sky min-h-screen overflow-x-clip">
-    <!-- Atmospheric Scene: five planes of depth plus a rare passer-by -->
-    <div class="cosmic-scene" aria-hidden="true">
-      <div class="sky-layer sky-layer--nebula" data-rate="12" data-touch="static">
-        <div class="sky-plate sky-plate--nebula"></div>
-      </div>
-
-      <div class="sky-layer sky-layer--band" data-rate="26" data-touch="static">
-        <div class="sky-plate sky-plate--band"></div>
-        {bandStars.map((star) => (
-          <span
-            class:list={['star', { 'star--twinkle': star.twinkle }]}
-            style={`left:${star.x}%;top:${star.y}%;--s:${star.size};--o:${star.opacity};--delay:${star.delay}s;--duration:${star.duration}s`}
-          ></span>
-        ))}
-      </div>
-
-      <div class="sky-layer sky-layer--dust" data-rate="62">
-        {dustMotes.map((mote) => (
-          <span
-            class="dust-mote"
-            style={`left:${mote.x}%;top:${mote.y}%;--s:${mote.size};--delay:${mote.delay}s;--duration:${mote.duration}s`}
-          ></span>
-        ))}
-      </div>
-
-      <div class="sky-layer sky-layer--stars" data-rate="90">
-        {farStars.map((star) => (
-          <span
-            class:list={['star', { 'star--twinkle': star.twinkle }]}
-            style={`left:${star.x}%;top:${star.y}%;--s:${star.size};--o:${star.opacity};--delay:${star.delay}s;--duration:${star.duration}s`}
-          ></span>
-        ))}
-      </div>
-
-      <div class="sky-layer sky-layer--stars" data-rate="110">
-        {midStars.map((star) => (
-          <span
-            class:list={['star', 'star--mid', { 'star--twinkle': star.twinkle }]}
-            style={`left:${star.x}%;top:${star.y}%;--s:${star.size};--o:${star.opacity};--delay:${star.delay}s;--duration:${star.duration}s`}
-          ></span>
-        ))}
-      </div>
-
-      <div class="sky-layer sky-layer--stars" data-rate="130">
-        {nearStars.map((star) => (
-          <span
-            class:list={['star', 'star--near', { 'star--twinkle': star.twinkle }]}
-            style={`left:${star.x}%;top:${star.y}%;--s:${star.size};--o:${star.opacity};--delay:${star.delay}s;--duration:${star.duration}s`}
-          ></span>
-        ))}
-        {anchorStars.map((star) => (
-          <span
-            class="star star--near star--anchor star--twinkle"
-            style={`left:${star.x}%;top:${star.y}%;--s:${star.size};--o:${star.opacity};--delay:${star.delay}s;--duration:${star.duration}s`}
-          ></span>
-        ))}
-      </div>
-
-      <span class="meteor" data-rate="0"></span>
-      <span class="wish" data-wish aria-hidden="true"></span>
-      <div class="sky-vignette"></div>
-    </div>
+    <CosmicScene />
 
     <main id="content">
       <!-- 00: Opening -->
@@ -227,8 +98,19 @@ const bandStars = Array.from({ length: 310 }, (_, index) => {
           </div>
         </div>
 
-        <svg class="about-moon" viewBox="0 0 400 400" data-drift="70" data-scale="0.08" data-rotate="2" data-pointer="10" aria-hidden="true" focusable="false">
-          <path d="M 300 60 A 150 150 0 1 0 300 340 A 138 138 0 0 1 300 60 Z" />
+        <svg class="about-moon" viewBox="0 0 400 400" data-drift="70" data-scale="0.08" data-rotate="2" data-pointer="10" data-moon-phase aria-hidden="true" focusable="false">
+          <defs>
+            <radialGradient id="about-moon-lit" cx="42%" cy="38%" r="70%">
+              <stop offset="0" stop-color="rgba(238,242,246,0.22)" />
+              <stop offset="0.68" stop-color="rgba(238,242,246,0.1)" />
+              <stop offset="1" stop-color="rgba(238,242,246,0.04)" />
+            </radialGradient>
+          </defs>
+          <!-- Bogor sits south of the equator, so the lit side is mirrored. -->
+          <g transform="rotate(180 200 200)">
+            <circle class="about-moon__disc" cx="200" cy="200" r="150" />
+            <path class="about-moon__lit" data-moon-lit d={moonPath} style={`opacity:${moonLit ? '1' : '0'}`} />
+          </g>
         </svg>
 
         <div class="section-content">
@@ -351,7 +233,7 @@ const bandStars = Array.from({ length: 310 }, (_, index) => {
         </div>
       </section>
 
-      <!-- 02: Elsewhere -->
+      <!-- 04: Elsewhere -->
       <section id="elsewhere" class="section section--elsewhere" aria-labelledby="elsewhere-title">
         <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--elsewhere" data-side="right" aria-hidden="true">
           <div class="cat-float-wrap">
@@ -409,6 +291,11 @@ const bandStars = Array.from({ length: 310 }, (_, index) => {
               <span class="status-indicator" aria-hidden="true"></span>
               Open to software roles and selected projects.
             </p>
+
+            <p class="elsewhere-sky" data-sky-event hidden>
+              <span class="elsewhere-sky__mark" aria-hidden="true">✦</span>
+              <span data-sky-event-text></span>
+            </p>
           </div>
         </div>
 
@@ -432,6 +319,8 @@ const bandStars = Array.from({ length: 310 }, (_, index) => {
   </div>
 
   <script>
+    import { initObservatory, initMoonPhase } from '../scripts/observatory';
+
     // Near-plane drift for the cat companions: a slow 3D tilt that parks itself
     // when the pointer rests, instead of running a frame loop forever.
     const initCatParallaxEngine = () => {
@@ -516,96 +405,16 @@ const bandStars = Array.from({ length: 310 }, (_, index) => {
       requestFrame();
     };
 
-    // A click in the sky sends one wish across it. Tapping to scroll does not fire.
-    const initSkyWishes = () => {
-      const wish = document.querySelector<HTMLElement>('[data-wish]');
-      if (!wish) return;
-      const cats = Array.from(document.querySelectorAll<HTMLElement>('.cat-float-wrap'));
-      const wishMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-      let wishTimer = 0;
-      let catTimer = 0;
-
-      const send = (x: number, y: number) => {
-        wish.classList.remove('is-flying');
-        wish.style.left = `${x}px`;
-        wish.style.top = `${y}px`;
-        void wish.offsetWidth;
-        wish.classList.add('is-flying');
-
-        window.clearTimeout(wishTimer);
-        wishTimer = window.setTimeout(() => wish.classList.remove('is-flying'), 1200);
-
-        cats.forEach((cat) => cat.classList.add('is-struck'));
-        window.clearTimeout(catTimer);
-        catTimer = window.setTimeout(() => {
-          cats.forEach((cat) => cat.classList.remove('is-struck'));
-        }, 700);
-      };
-
-      document.addEventListener('click', (event) => {
-        if (wishMotion.matches || event.defaultPrevented) return;
-        const target = event.target instanceof Element ? event.target : null;
-        if (target?.closest('a, button, input, textarea, select, dialog, header, nav, footer')) return;
-        send(event.clientX, event.clientY);
-      });
-    };
-
-    // A small live readout: the local hour in Bogor and the current moon phase.
-    const initObservatory = () => {
-      const timeEl = document.querySelector<HTMLElement>('[data-observatory-time]');
-      const moonEl = document.querySelector<HTMLElement>('[data-observatory-moon]');
-      if (!timeEl && !moonEl) return;
-
-      const SYNODIC = 29.530588853;
-      const NEW_MOON = Date.UTC(2000, 0, 6, 18, 14);
-      let clock: Intl.DateTimeFormat | null = null;
-      try {
-        clock = new Intl.DateTimeFormat('en-GB', {
-          timeZone: 'Asia/Jakarta',
-          hour: '2-digit',
-          minute: '2-digit',
-          hourCycle: 'h23',
-        });
-      } catch {
-        clock = null;
-      }
-
-      const phaseName = (age: number) => {
-        if (age < 1.85 || age >= 27.68) return 'New moon';
-        if (age < 5.54) return 'Waxing crescent';
-        if (age < 9.23) return 'First quarter';
-        if (age < 12.91) return 'Waxing gibbous';
-        if (age < 16.61) return 'Full moon';
-        if (age < 20.3) return 'Waning gibbous';
-        if (age < 23.99) return 'Last quarter';
-        return 'Waning crescent';
-      };
-
-      const update = () => {
-        const now = new Date();
-        if (timeEl && clock) timeEl.textContent = `${clock.format(now)} WIB`;
-        if (moonEl) {
-          const days = (now.getTime() - NEW_MOON) / 86_400_000;
-          const age = ((days % SYNODIC) + SYNODIC) % SYNODIC;
-          moonEl.textContent = phaseName(age);
-        }
-      };
-
-      update();
-      window.setInterval(update, 30_000);
+    const boot = () => {
+      initCatParallaxEngine();
+      initObservatory();
+      initMoonPhase();
     };
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        initCatParallaxEngine();
-        initSkyWishes();
-        initObservatory();
-      });
+      document.addEventListener('DOMContentLoaded', boot);
     } else {
-      initCatParallaxEngine();
-      initSkyWishes();
-      initObservatory();
+      boot();
     }
   </script>
 </BaseLayout>

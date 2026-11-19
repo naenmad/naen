@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -278,6 +277,26 @@ input:focus-visible {
   will-change: opacity;
 }
 
+.meteor--second {
+  top: 38%;
+  left: 44%;
+  width: clamp(3.5rem, 8vw, 7rem);
+  transform: rotate(31deg) scale(0.8);
+  animation-duration: 71s;
+  animation-delay: 33s;
+}
+
+/* During a real shower the sky gets busier, and Elsewhere says which one it is. */
+.cosmic-scene.is-meteor-active .meteor {
+  animation-duration: 22s;
+  animation-delay: 4s;
+}
+
+.cosmic-scene.is-meteor-active .meteor--second {
+  animation-duration: 31s;
+  animation-delay: 13s;
+}
+
 /* A wish: the streak a click sends across the sky. */
 .wish {
   position: absolute;
@@ -372,6 +391,43 @@ input:focus-visible {
     rgb(4 7 15 / 0.24) 80%,
     rgb(4 7 15 / 0.44) 100%
   );
+}
+
+/* The last stretch of the page sits closer to dawn. The arc is a hairline over a
+   soft glow; both are tied to scroll position, never to a timer. */
+.dawn {
+  position: absolute;
+  right: -10%;
+  bottom: -14vh;
+  left: -10%;
+  height: 62vh;
+  background:
+    radial-gradient(ellipse 56% 92% at 50% 100%, rgb(126 152 190 / 0.24), transparent 68%),
+    linear-gradient(180deg, transparent 0%, rgb(73 108 167 / 0.1) 48%, rgb(140 164 196 / 0.17) 100%);
+  opacity: calc(var(--dawn, 0) * 0.9);
+  transform: translate3d(0, calc((1 - var(--dawn, 0)) * 5vh), 0);
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.dawn__arc {
+  position: absolute;
+  top: 18%;
+  left: 4%;
+  width: 92%;
+  height: 18vh;
+  overflow: visible;
+  color: rgb(238 242 246 / 0.5);
+  opacity: 0.36;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+.dawn__arc path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
 }
 
 /* Hero foreground sits on its own plane: it only drifts while the hero leaves. */
@@ -994,14 +1050,9 @@ input:focus-visible {
   /* A scrim, so content fades under the wordmark instead of colliding with it. */
   .site-header {
     height: 3.9rem;
-    background: linear-gradient(
-      180deg,
-      #0a0f1d 0%,
-      #0a0f1d 34%,
-      rgb(10 15 29 / 0.92) 66%,
-      rgb(10 15 29 / 0) 100%
-    );
-    border-bottom: none;
+    /* Solid, not a fade: a gradient leaves half-cut headings ghosting under the bar. */
+    background: #0a0f1d;
+    border-bottom: 1px solid rgb(184 198 217 / 0.07);
     pointer-events: none;
   }
 
@@ -1183,6 +1234,32 @@ input:focus-visible {
   width: 1px;
   background: var(--frost-soft);
   z-index: -1;
+}
+
+.section-rail__fill {
+  position: absolute;
+  top: 1.375rem;
+  right: 1.15rem;
+  width: 1px;
+  height: calc((100% - 2.75rem) * var(--rail-progress, 0));
+  background: linear-gradient(180deg, rgb(184 198 217 / 0.06), rgb(184 198 217 / 0.5));
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* The traveling star is the rail's only moving part. It sits on the hairline and
+   marks how far through the page the reader is, not which section is hovered. */
+.section-rail__star {
+  position: absolute;
+  top: calc(1.375rem + (100% - 2.75rem) * var(--rail-progress, 0));
+  right: calc(1.15rem - 5px);
+  z-index: 2;
+  width: 11px;
+  height: 11px;
+  fill: var(--paper);
+  filter: drop-shadow(0 0 5px rgb(184 198 217 / 0.75));
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 .section-rail__list {
@@ -1766,7 +1843,7 @@ input:focus-visible {
 .intro-title {
   margin: 0 0 1.25rem;
   font-family: var(--display);
-  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  font-size: clamp(2.4rem, 5.6vw, 4.2rem);
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.04em;
@@ -1906,15 +1983,26 @@ input:focus-visible {
   position: absolute;
   top: 50%;
   right: 5vw;
-  width: min(24rem, 26vw);
+  width: min(20rem, 22vw);
   height: auto;
   transform: translateY(-50%) translate3d(var(--dx, 0px), var(--dy, 0px), 0) scale(var(--ds, 1)) rotate(var(--dr, 0deg));
   transform-origin: center;
   pointer-events: none;
-  fill: rgb(238 242 246 / 0.02);
-  stroke: rgb(184 198 217 / 0.22);
-  stroke-width: 1;
   will-change: transform;
+}
+
+/* A pale disc for the whole moon, and the lit region drawn from the real phase. */
+.about-moon__disc {
+  fill: rgb(238 242 246 / 0.01);
+  stroke: rgb(184 198 217 / 0.12);
+  stroke-width: 1;
+}
+
+.about-moon__lit {
+  fill: url(#about-moon-lit);
+  stroke: rgb(238 242 246 / 0.3);
+  stroke-width: 1;
+  stroke-linejoin: round;
 }
 
 .celestial {
@@ -2150,6 +2238,25 @@ input:focus-visible {
   color: var(--muted);
 }
 
+.elsewhere-sky {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0.85rem 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.elsewhere-sky[hidden] {
+  display: none;
+}
+
+.elsewhere-sky__mark {
+  font-size: 0.7rem;
+  color: var(--frost);
+  opacity: 0.7;
+}
+
 .status-indicator {
   width: 6px;
   height: 6px;
@@ -2233,6 +2340,178 @@ input:focus-visible {
 }
 
 /* ==========================================================================
+   NOT FOUND
+   The missing page keeps the same sky, a smaller frame, and a way home.
+   ========================================================================== */
+.lost-sky {
+  display: flex;
+  flex-direction: column;
+  min-height: 100lvh;
+}
+
+.lost {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--container-max);
+  min-height: 100svh;
+  margin-inline: auto;
+  padding: 1.5rem 1.25rem 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .lost {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lost {
+    padding: 2rem 3rem 1.5rem;
+  }
+}
+
+.lost__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.lost__home {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  font-family: var(--display);
+  font-size: 0.82rem;
+  color: var(--muted);
+  transition: color 0.15s ease;
+}
+
+.lost__home:hover {
+  color: var(--paper);
+}
+
+.lost__home .icon-arrow {
+  color: var(--frost);
+}
+
+.lost__main {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  padding-block: 3rem;
+}
+
+.lost__grid {
+  display: grid;
+  align-items: center;
+  gap: 2.5rem;
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .lost__grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(14rem, 0.55fr);
+    gap: 2rem 4rem;
+  }
+}
+
+.lost__title {
+  margin: 0 0 1.25rem;
+  max-width: 12ch;
+  font-family: var(--display);
+  font-size: clamp(2.7rem, 7vw, 5.4rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  color: var(--paper);
+}
+
+.lost__lead {
+  max-width: 34rem;
+  margin: 0 0 1.75rem;
+  font-size: clamp(0.98rem, 1.8vw, 1.1rem);
+  line-height: 1.65;
+  color: #cfdbe8;
+}
+
+.lost__note {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  justify-self: center;
+}
+
+.lost__constellation {
+  width: 7rem;
+  margin: 0;
+  opacity: 0.8;
+}
+
+.lost__cat {
+  width: clamp(9rem, 20vw, 14rem);
+  animation: cat-celestial-float 7.5s ease-in-out infinite alternate;
+}
+
+.lost__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--frost-soft);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.lost__footer p {
+  margin: 0;
+}
+
+.lost__footer a {
+  color: var(--frost);
+}
+
+.lost__coords {
+  letter-spacing: 0.04em;
+  opacity: 0.9;
+}
+
+@media (max-width: 899px) {
+  .lost {
+    padding-top: 1.15rem;
+  }
+
+  .lost__main {
+    padding-block: 2rem 1.5rem;
+  }
+
+  .lost__note {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .lost__constellation {
+    width: 5.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .lost__cat {
+    width: 7.5rem;
+  }
+}
+
+/* ==========================================================================
    INTERACTION FX
    A star follows the cursor over controls, and a click throws stardust.
    ========================================================================== */
@@ -2305,6 +2584,42 @@ input:focus-visible {
   animation: stardust-ring 520ms ease-out forwards;
 }
 
+/* Prints behind the paw cursor. The transform is set inline, so the animation
+   only touches opacity and never fights the angle. */
+.paw-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  color: #dce8f6;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 4px rgb(184 198 217 / 0.4));
+  animation: paw-fade 1.3s ease-out forwards;
+  will-change: opacity;
+}
+
+@keyframes paw-fade {
+  0% {
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.55;
+  }
+
+  55% {
+    opacity: 0.26;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes stardust-fly {
   0% {
     translate: 0 0;
@@ -2341,7 +2656,8 @@ input:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .cursor-star,
-  .stardust {
+  .stardust,
+  .paw-trail {
     display: none;
   }
 }

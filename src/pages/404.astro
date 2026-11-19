@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CosmicScene from '../components/CosmicScene.astro';
+import ArrowIcon from '../components/ArrowIcon.astro';
+---
+
+<BaseLayout
+  title="Drifted out of orbit | naen.me"
+  description="This address is not part of the sky. Head back to naen.me."
+  noindex
+>
+  <div class="night-sky lost-sky">
+    <CosmicScene />
+
+    <main id="content" class="lost">
+      <header class="lost__bar">
+        <a class="wordmark" href="/" aria-label="naen.me - Back to the front page">
+          <span class="wordmark__star" aria-hidden="true">✦</span>
+          naen<span class="wordmark__dot">.</span>me
+        </a>
+        <a class="lost__home" href="/">
+          Front page
+          <ArrowIcon direction="right" />
+        </a>
+      </header>
+
+      <div class="lost__main">
+        <div class="lost__grid">
+          <div class="lost__copy">
+            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">404</span> Off course</p>
+            <h1 class="lost__title">Drifted out of orbit.</h1>
+            <p class="lost__lead">
+              This address is not part of the sky. It may be an old link, or a typo with one letter too many. Everything else is still where you left it.
+            </p>
+
+            <div class="hero-actions">
+              <a class="action-primary" href="/">Return to the front</a>
+              <a class="action-secondary" href="https://rx.cv/naenmad" target="_blank" rel="noreferrer">Read the CV</a>
+              <a class="action-quiet" href="https://github.com/naenmad" target="_blank" rel="noreferrer">
+                GitHub
+                <ArrowIcon />
+              </a>
+            </div>
+          </div>
+
+          <aside class="lost__note" aria-hidden="true">
+            <svg class="constellation-mark lost__constellation" viewBox="0 0 96 40" focusable="false">
+              <line x1="9" y1="31" x2="45" y2="19" />
+              <line x1="45" y1="19" x2="86" y2="9" />
+              <circle class="constellation-star" cx="9" cy="31" r="2.2" />
+              <circle class="constellation-star constellation-star--mid" cx="45" cy="19" r="1.4" />
+              <circle class="constellation-star constellation-star--far" cx="86" cy="9" r="1" />
+            </svg>
+            <div class="lost__cat">
+              <picture>
+                <source srcset="/cats/cat-1.webp" type="image/webp" />
+                <img class="cat-image" src="/cats/cat-1.svg" alt="" width="1553" height="1362" decoding="async" />
+              </picture>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <footer class="lost__footer">
+        <p>
+          If a link sent you here, write to <a href="mailto:azulkarnaen@outlook.com">azulkarnaen@outlook.com</a>.
+        </p>
+        <p class="lost__coords">Bogor, 6.6° S, 106.8° E</p>
+      </footer>
+    </main>
+  </div>
+</BaseLayout>

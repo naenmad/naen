@@ -6,7 +6,7 @@ This document is the visual source of truth for naen.me. It describes the direct
 
 ## Design Read
 
-Reading this as: a personal software engineer portfolio for thoughtful technical readers, in a cool cinematic galaxy visual language, dial ENERGY 2 / RHYTHM 2 / MOTION 1.
+Reading this as: a personal software engineer portfolio for thoughtful technical readers, in a cool cinematic galaxy visual language, dial ENERGY 2 / RHYTHM 2 / MOTION 2.
 
 ## Core identity
 
@@ -139,6 +139,7 @@ MOTION is 2. Motion is atmospheric but restrained.
 - A small star follows the pointer over links and buttons, and a click releases a brief stardust burst. Both are decorative, use the same star vocabulary as the sky, and are removed for reduced motion.
 - The approved minimal cat silhouette may sway slowly as a low-contrast background detail.
 - A restrained scroll parallax separates the nebula, dust, stars, and hero foreground into depth layers. On touch devices it runs a reduced scroll parallax, plus an opt-in device tilt. It is fully disabled for reduced-motion preferences.
+- A traveling star marks progress on the section rail, the paw cursor leaves a short trail of prints over the sky, and the horizon reaches a cold dawn at the end. The trail and the wish are removed for reduced motion; the rail and horizon stay as position cues without eased motion.
 - Do not use scroll choreography or animation on every element.
 - Respect `prefers-reduced-motion` by removing nonessential transitions.
 - Never use motion to compensate for empty content.
@@ -207,3 +208,11 @@ The universe and cat concepts define the direction. The approved asset for this 
 - **Control stardust:** every link and button answers hover with a cursor star and click with a short stardust burst, so the interface feels like the same sky rather than a set of separate widgets.
 - **Paw cursor and cat entrances:** the open sky uses a small paw cursor, while controls keep the native pointer and prose keeps the text cursor. Each section cat arrives with a different depth animation, and the about cat avoids the pointer.
 - **Drifting bodies:** the about moon, a ringed planet in Principles, and a small planet in Notes move against their sections at different rates and scales, so the page reads as foreground, midground, and background instead of one flat scroll.
+- **Dawn arc:** the last stretch of the page sits under a cold pre-dawn horizon whose glow and hairline follow scroll position, so the night ends without a timer or an endless loop.
+- **Real moon phase:** the About moon draws the current illuminated fraction from the same synodic month as the header readout, mirrored for the southern hemisphere; the shape is the date, not a stock crescent.
+- **Paw trail:** the paw cursor leaves short-lived prints over the sky, spaced by distance so a resting pointer leaves nothing; controls and the page chrome stay clean.
+- **Living rail:** the section rail carries a traveling star and a progress hairline, so orientation is continuous between sections instead of a row of static dots.
+- **Meteor watch:** during a real shower the sky's meteors come more often, and Elsewhere names the active or next shower from the IMO calendar.
+- **404 sky:** the missing page reuses the same scene and type, with one cat, a constellation, and real exits, because a generic error card would break the place.
+- **Share card:** a 1200 by 630 image carries the wordmark, the opening line, and the cat for link previews, so the site looks like itself before it is opened.
+- **Solid mobile header:** the mobile bar is solid rather than a gradient fade, because a fade left half-cut headings ghosting under the fixed chrome at the page end.
