@@ -113,6 +113,7 @@ The cat is a secondary character, not the main visual asset.
 - Do not generate a logo, cat portrait, avatar, or profile image without explicit confirmation of its form and source.
 - If no approved cat asset exists, use text or a clearly labeled placeholder rather than disguising a generated image as personal.
 - Each section carries one small cat companion at a different resting spot, so the page has a recurring discovery rather than a single cameo. Keep them small and secondary.
+- Each cat has its own entrance: one grows in from depth, one rolls, one dashes in, one drifts. The about cat also moves away when the pointer comes close.
 - The cat's tone is calm, independent, and observant. Avoid childish, exaggerated, or sticker-like treatment.
 
 **Reason:** The cat should make the portfolio feel personal without competing with the work or pretending to be a brand mascot.
@@ -204,3 +205,5 @@ The universe and cat concepts define the direction. The approved asset for this 
 - **About moon:** one large, faint crescent gives the about section a second celestial landmark and a quiet counterweight to the text.
 - **Click to wish:** a click or tap in the sky sends a single shooting star and the cat reacts. It is decorative, never blocks text selection, and is removed under reduced motion.
 - **Control stardust:** every link and button answers hover with a cursor star and click with a short stardust burst, so the interface feels like the same sky rather than a set of separate widgets.
+- **Paw cursor and cat entrances:** the open sky uses a small paw cursor, while controls keep the native pointer and prose keeps the text cursor. Each section cat arrives with a different depth animation, and the about cat avoids the pointer.
+- **Drifting bodies:** the about moon, a ringed planet in Principles, and a small planet in Notes move against their sections at different rates and scales, so the page reads as foreground, midground, and background instead of one flat scroll.

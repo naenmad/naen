@@ -227,7 +227,7 @@ const bandStars = Array.from({ length: 310 }, (_, index) => {
           </div>
         </div>
 
-        <svg class="about-moon" viewBox="0 0 400 400" aria-hidden="true" focusable="false">
+        <svg class="about-moon" viewBox="0 0 400 400" data-drift="70" data-scale="0.08" data-rotate="2" data-pointer="10" aria-hidden="true" focusable="false">
           <path d="M 300 60 A 150 150 0 1 0 300 340 A 138 138 0 0 1 300 60 Z" />
         </svg>
 
@@ -252,6 +252,11 @@ const bandStars = Array.from({ length: 310 }, (_, index) => {
 
       <!-- 02: Principles -->
       <section id="principles" class="section" aria-labelledby="principles-title">
+        <svg class="celestial celestial--planet" viewBox="0 0 120 80" data-drift="110" data-scale="0.12" data-rotate="5" data-pointer="18" aria-hidden="true" focusable="false">
+          <ellipse cx="60" cy="40" rx="50" ry="11" transform="rotate(-18 60 40)" fill="none" stroke="currentColor" stroke-opacity="0.22" />
+          <circle cx="60" cy="40" r="25" fill="rgba(184,198,217,0.03)" stroke="currentColor" stroke-opacity="0.28" />
+        </svg>
+
         <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--principles" data-side="right" aria-hidden="true">
           <div class="cat-float-wrap">
             <div class="cat-float-inner">
@@ -299,6 +304,17 @@ const bandStars = Array.from({ length: 310 }, (_, index) => {
 
       <!-- 03: Notes -->
       <section id="notes" class="section" aria-labelledby="notes-title">
+        <svg class="celestial celestial--planet-small" viewBox="0 0 64 64" data-drift="150" data-scale="0.16" data-rotate="-8" data-pointer="26" aria-hidden="true" focusable="false">
+          <defs>
+            <radialGradient id="planet-small-fill" cx="35%" cy="30%" r="70%">
+              <stop offset="0" stop-color="rgba(238,242,246,0.18)" />
+              <stop offset="0.6" stop-color="rgba(73,108,167,0.10)" />
+              <stop offset="1" stop-color="rgba(11,16,32,0.05)" />
+            </radialGradient>
+          </defs>
+          <circle cx="32" cy="32" r="17" fill="url(#planet-small-fill)" stroke="rgb(184,198,217)" stroke-opacity="0.28" stroke-width="1" />
+        </svg>
+
         <div class="section-cat-flyer section-cat-flyer--left section-cat-flyer--notes" data-side="left" aria-hidden="true">
           <div class="cat-float-wrap">
             <div class="cat-float-inner">
@@ -431,6 +447,22 @@ const bandStars = Array.from({ length: 310 }, (_, index) => {
       let currentY = 0;
 
       const enabled = () => !catMotion.matches && !catTouch.matches;
+      const fleeCat = document.querySelector<HTMLElement>('.section-cat-flyer--about');
+      let fleeTimer = 0;
+
+      const checkFlee = (x: number, y: number) => {
+        if (!fleeCat) return;
+        const section = fleeCat.closest('.section');
+        if (!section?.classList.contains('is-section-active')) return;
+        const rect = fleeCat.getBoundingClientRect();
+        if (rect.width === 0) return;
+        const dx = x - (rect.left + rect.width / 2);
+        const dy = y - (rect.top + rect.height / 2);
+        if (Math.hypot(dx, dy) > Math.max(rect.width * 1.1, 150)) return;
+        fleeCat.classList.add('is-fleeing');
+        window.clearTimeout(fleeTimer);
+        fleeTimer = window.setTimeout(() => fleeCat.classList.remove('is-fleeing'), 900);
+      };
 
       const paint = () => {
         const tx = `${(currentX * 16).toFixed(2)}px`;
@@ -465,6 +497,7 @@ const bandStars = Array.from({ length: 310 }, (_, index) => {
         const halfHeight = window.innerHeight / 2;
         targetX = Math.max(-1, Math.min(1, (event.clientX - halfWidth) / halfWidth));
         targetY = Math.max(-1, Math.min(1, (event.clientY - halfHeight) / halfHeight));
+        checkFlee(event.clientX, event.clientY);
         requestFrame();
       }, { passive: true });
 

@@ -65,6 +65,34 @@ body {
   line-height: 1.6;
 }
 
+/* The open sky gets a paw. Text and controls keep their native cursors. */
+body {
+  cursor: url('/cursor-paw.png') 12 16, auto;
+}
+
+a,
+button,
+[role='button'],
+summary,
+label,
+select {
+  cursor: pointer;
+}
+
+p,
+li,
+h1,
+h2,
+h3,
+h4,
+dt,
+dd,
+blockquote,
+input,
+textarea {
+  cursor: auto;
+}
+
 ::selection {
   background: var(--frost);
   color: var(--sky);
@@ -516,6 +544,17 @@ input:focus-visible {
   top: calc(var(--header-h) + 1.75rem);
 }
 
+/* The about cat keeps its distance when the pointer comes close. */
+.section-cat-flyer--about {
+  transition: translate 0.55s cubic-bezier(0.2, 0.8, 0.3, 1), rotate 0.55s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.section-cat-flyer--about.is-fleeing {
+  translate: 3.25rem -1.75rem;
+  rotate: 8deg;
+  transition-duration: 0.22s;
+}
+
 /* Short desktop windows: keep the companion, just make room for the copy. */
 @media (min-width: 960px) and (max-height: 700px) {
   .section-cat-flyer:not(.section-cat-flyer--hero) {
@@ -529,12 +568,20 @@ input:focus-visible {
    Active section: swoop in from deep space (tiny scale -> full size)
    Departing section: swoop out toward screen edge into deep space
    ========================================================================== */
-.section.is-section-active .section-cat-flyer--left {
-  animation: comet-enter-left 1.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.section.is-section-active .section-cat-flyer--about {
+  animation: cat-enter-depth 1.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.section.is-section-active .section-cat-flyer--right:not(.section-cat-flyer--hero) {
-  animation: comet-enter-right 1.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.section.is-section-active .section-cat-flyer--principles {
+  animation: cat-enter-roll 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.section.is-section-active .section-cat-flyer--notes {
+  animation: cat-enter-dash 1.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.section.is-section-active .section-cat-flyer--elsewhere {
+  animation: cat-enter-drift 2.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .section.was-active:not(.is-section-active) .section-cat-flyer--left {
@@ -545,55 +592,83 @@ input:focus-visible {
   animation: comet-exit-right 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-/* Comet Enter from Left: comes from small (0.08) off-screen to full size (1.0) */
-@keyframes comet-enter-left {
+/* Each cat approaches the camera from a tiny, soft point, then settles. */
+@keyframes cat-enter-depth {
   0% {
-    transform: translate3d(calc(-100% - 60vw), -25vh, 0) scale(0.08) rotate(-32deg);
+    transform: translate3d(-2rem, 1.5rem, 0) scale(0.04) rotate(-8deg);
     opacity: 0;
-    filter: drop-shadow(0 0 45px rgba(184, 198, 217, 1)) drop-shadow(0 0 80px rgba(184, 198, 217, 0.8));
+    filter: blur(3px);
   }
-  15% {
-    opacity: 0.8;
-  }
-  50% {
-    transform: translate3d(-15vw, -6vh, 0) scale(0.45) rotate(-12deg);
+  20% {
     opacity: 1;
-    filter: drop-shadow(0 0 35px rgba(184, 198, 217, 0.85)) drop-shadow(0 0 60px rgba(184, 198, 217, 0.5));
   }
-  80% {
-    transform: translate3d(1.5vw, 0.5vh, 0) scale(1.06) rotate(2deg);
-    filter: drop-shadow(0 0 20px rgba(184, 198, 217, 0.6)) drop-shadow(0 10px 24px rgba(3, 5, 11, 0.75));
+  65% {
+    transform: translate3d(0.3rem, 0, 0) scale(0.92) rotate(1.5deg);
+    filter: blur(0);
   }
   100% {
     transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
     opacity: 1;
-    filter: drop-shadow(0 16px 28px rgba(3, 5, 11, 0.88)) drop-shadow(0 2px 10px rgba(3, 5, 11, 0.6));
+    filter: blur(0);
   }
 }
 
-/* Comet Enter from Right: comes from small (0.08) off-screen to full size (1.0) */
-@keyframes comet-enter-right {
+@keyframes cat-enter-roll {
   0% {
-    transform: translate3d(calc(100% + 60vw), -25vh, 0) scale(0.08) rotate(32deg);
+    transform: translate3d(2rem, -1.5rem, 0) scale(0.03) rotate(18deg);
     opacity: 0;
-    filter: drop-shadow(0 0 45px rgba(184, 198, 217, 1)) drop-shadow(0 0 80px rgba(184, 198, 217, 0.8));
+    filter: blur(3px);
+  }
+  18% {
+    opacity: 1;
+  }
+  60% {
+    transform: translate3d(0, 0, 0) scale(1.05) rotate(280deg);
+    filter: blur(0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(360deg);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes cat-enter-dash {
+  0% {
+    transform: translate3d(-4rem, -1rem, 0) scale(0.05) rotate(-14deg);
+    opacity: 0;
+    filter: blur(2px);
   }
   15% {
-    opacity: 0.8;
-  }
-  50% {
-    transform: translate3d(15vw, -6vh, 0) scale(0.45) rotate(12deg);
     opacity: 1;
-    filter: drop-shadow(0 0 35px rgba(184, 198, 217, 0.85)) drop-shadow(0 0 60px rgba(184, 198, 217, 0.5));
   }
-  80% {
-    transform: translate3d(-1.5vw, 0.5vh, 0) scale(1.06) rotate(-2deg);
-    filter: drop-shadow(0 0 20px rgba(184, 198, 217, 0.6)) drop-shadow(0 10px 24px rgba(3, 5, 11, 0.75));
+  45% {
+    transform: translate3d(0.7rem, 0, 0) scale(1.08) rotate(3deg);
+    filter: blur(0);
+  }
+  65% {
+    transform: translate3d(-0.35rem, 0, 0) scale(1) rotate(-1.5deg);
   }
   100% {
     transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
     opacity: 1;
-    filter: drop-shadow(0 16px 28px rgba(3, 5, 11, 0.88)) drop-shadow(0 2px 10px rgba(3, 5, 11, 0.6));
+    filter: blur(0);
+  }
+}
+
+@keyframes cat-enter-drift {
+  0% {
+    transform: translate3d(2rem, 1.5rem, 0) scale(0.05) rotate(7deg);
+    opacity: 0;
+    filter: blur(3px);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+    filter: blur(0);
   }
 }
 
@@ -1833,15 +1908,42 @@ input:focus-visible {
   right: 5vw;
   width: min(24rem, 26vw);
   height: auto;
-  transform: translateY(-50%);
+  transform: translateY(-50%) translate3d(var(--dx, 0px), var(--dy, 0px), 0) scale(var(--ds, 1)) rotate(var(--dr, 0deg));
+  transform-origin: center;
   pointer-events: none;
   fill: rgb(238 242 246 / 0.02);
   stroke: rgb(184 198 217 / 0.22);
   stroke-width: 1;
+  will-change: transform;
+}
+
+.celestial {
+  position: absolute;
+  z-index: 1;
+  color: var(--frost);
+  transform: translate3d(var(--dx, 0px), var(--dy, 0px), 0) scale(var(--ds, 1)) rotate(var(--dr, 0deg));
+  transform-origin: center;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.celestial--planet {
+  top: 58%;
+  right: 8%;
+  width: 8rem;
+  height: auto;
+}
+
+.celestial--planet-small {
+  top: 26%;
+  right: 10%;
+  width: 3.5rem;
+  height: auto;
 }
 
 @media (max-width: 1199px) {
-  .about-moon {
+  .about-moon,
+  .celestial {
     display: none;
   }
 }
@@ -2281,6 +2383,8 @@ input:focus-visible {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+    translate: none !important;
+    rotate: none !important;
   }
 }
 
