@@ -134,9 +134,9 @@ MOTION is 2. Motion is atmospheric but restrained.
 
 - Use hover and focus transitions to confirm interaction.
 - Stars may pulse at different intervals, while small particles drift slowly through the scene.
-- One passing object may cross the sky occasionally, with a long pause between appearances.
+- One passing object may cross the sky occasionally, and a click or tap can send one across the scene.
 - The approved minimal cat silhouette may sway slowly as a low-contrast background detail.
-- A restrained scroll parallax separates the nebula, dust, stars, and hero foreground into depth layers. It is disabled on touch devices and for reduced-motion preferences.
+- A restrained scroll parallax separates the nebula, dust, stars, and hero foreground into depth layers. On touch devices it runs a reduced scroll parallax, plus an opt-in device tilt. It is fully disabled for reduced-motion preferences.
 - Do not use scroll choreography or animation on every element.
 - Respect `prefers-reduced-motion` by removing nonessential transitions.
 - Never use motion to compensate for empty content.
@@ -196,3 +196,8 @@ The universe and cat concepts define the direction. The approved asset for this 
 - **Vertical editorial work list:** lets real projects receive different levels of attention instead of forcing equal feature cards.
 - **Atmospheric motion and depth:** gives the galaxy a sense of space through slow stars, particles, a passing object, a dark cat silhouette, and subtle scroll parallax.
 - **No invented assets or claims:** keeps the portfolio personal and trustworthy.
+- **Lite touch parallax:** touch devices get a scroll-only version at 42% amplitude, because the owner asked for the depth to be perceptible on a phone. Pointer tilt and hero text drift stay desktop-only, and reduced motion still disables all of it.
+- **Five-part page:** the site is Opening, About, Principles, Notes, and Elsewhere. Work history and projects live on the CV, LinkedIn, and GitHub, so the page stays a personal place instead of a CV in web form.
+- **Opt-in device tilt:** on touch devices a small control lets the visitor tilt the sky with the device orientation. It is opt-in because iOS requires a tap for motion permission, the amplitude stays small, and reduced motion disables it.
+- **About moon:** one large, faint crescent gives the about section a second celestial landmark and a quiet counterweight to the text.
+- **Click to wish:** a click or tap in the sky sends a single shooting star and the cat reacts. It is decorative, never blocks text selection, and is removed under reduced motion.

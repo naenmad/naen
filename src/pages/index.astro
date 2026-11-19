@@ -1,66 +1,175 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+
+// Deterministic star field: the same sky on every build, generated once at build time
+// so the page ships no runtime star logic and no hydration cost.
+const seededRandom = (seed: number) => {
+  let state = seed >>> 0;
+  return () => {
+    state = (state * 1664525 + 1013904223) >>> 0;
+    return state / 4294967296;
+  };
+};
+
+const random = seededRandom(20261119);
+const between = (min: number, max: number) => min + random() * (max - min);
+
+const createStars = (
+  prefix: string,
+  count: number,
+  size: [number, number],
+  opacity: [number, number],
+  twinkleRate: number,
+) =>
+  Array.from({ length: count }, (_, index) => ({
+    id: `${prefix}-${index}`,
+    x: Number(between(0.6, 99.4).toFixed(2)),
+    y: Number(between(0.6, 99.4).toFixed(2)),
+    size: Number(between(size[0], size[1]).toFixed(2)),
+    opacity: Number(between(opacity[0], opacity[1]).toFixed(2)),
+    twinkle: random() < twinkleRate,
+    delay: Number(between(-19, 0).toFixed(2)),
+    duration: Number(between(10, 21).toFixed(2)),
+  }));
+
+// Three planes, far to near: small and dim in the distance, sparse and brighter up close.
+const farStars = createStars('far', 52, [1, 1.6], [0.18, 0.5], 0.08);
+const midStars = createStars('mid', 36, [1.3, 2], [0.28, 0.68], 0.16);
+const nearStars = createStars('near', 15, [1.8, 2.8], [0.5, 0.95], 0.45);
+
+const dustMotes = Array.from({ length: 6 }, (_, index) => ({
+  id: `mote-${index}`,
+  x: Number(between(4, 96).toFixed(2)),
+  y: Number(between(4, 96).toFixed(2)),
+  size: Number(between(1.5, 3).toFixed(2)),
+  delay: Number(between(-14, 0).toFixed(2)),
+  duration: Number(between(16, 26).toFixed(2)),
+}));
+
+// Four named-feeling anchor stars. A uniform field cannot show parallax, because there is
+// nothing to track; these are the landmarks the eye follows while the sky drifts.
+const anchorStars = [
+  { id: 'anchor-a', x: 21.5, y: 30, size: 2.6, opacity: 0.95, delay: -3, duration: 16 },
+  { id: 'anchor-b', x: 63, y: 22, size: 3, opacity: 1, delay: -9, duration: 19 },
+  { id: 'anchor-c', x: 76.5, y: 64, size: 2.4, opacity: 0.9, delay: -6, duration: 14 },
+  { id: 'anchor-d', x: 9, y: 57, size: 2.2, opacity: 0.85, delay: -12, duration: 21 },
+];
+
+// The band is not a texture: it is unresolved star grain packed along one diagonal,
+// which is what makes a galaxy read as a galaxy instead of as fog.
+const BAND_ORIGIN = { x: 4, y: 91 };
+const BAND_SLOPE = -0.848;
+const bandStars = Array.from({ length: 260 }, (_, index) => {
+  const x = between(3, 97);
+  // Distance from the core falls off sharply, so the grain gathers in the middle of the band.
+  const pull = Math.pow(random(), 1.8);
+  const side = random() < 0.5 ? -1 : 1;
+  const y = BAND_ORIGIN.y + BAND_SLOPE * (x - BAND_ORIGIN.x) + side * pull * 8;
+  return {
+    id: `band-${index}`,
+    x: Number(Math.min(98, Math.max(2, x)).toFixed(2)),
+    y: Number(Math.min(98, Math.max(2, y)).toFixed(2)),
+    size: Number(between(0.8, 1.9).toFixed(2)),
+    opacity: Number((between(0.16, 0.62) * (1 - pull * 0.5)).toFixed(2)),
+    twinkle: random() < 0.08,
+    delay: Number(between(-18, 0).toFixed(2)),
+    duration: Number(between(12, 21).toFixed(2)),
+  };
+});
 ---
 
-<BaseLayout>
+<BaseLayout
+  title="naen.me | Ahmad Zulkarnaen"
+  description="Full-stack and mobile developer in Bogor and Karawang. A quiet corner for software, the night sky, and a cat."
+>
+  <!-- Fixed chrome lives outside the sky wrapper, so it always paints above the page surface. -->
+  <SiteHeader />
+
   <div class="night-sky min-h-screen overflow-x-clip">
-    <!-- Atmospheric Scene Background Layers -->
+    <!-- Atmospheric Scene: five planes of depth plus a rare passer-by -->
     <div class="cosmic-scene" aria-hidden="true">
-      <div class="parallax-layer nebula-layer" data-parallax="0.015"></div>
-      <div class="parallax-layer galaxy-layer" data-parallax="0.07"></div>
-      <div class="dust-layer">
-        <span class="particle parallax-item particle-a" data-parallax="0.06"></span>
-        <span class="particle parallax-item particle-b" data-parallax="0.09"></span>
-        <span class="particle parallax-item particle-c" data-parallax="0.12"></span>
-        <span class="particle parallax-item particle-d" data-parallax="0.15"></span>
+      <div class="sky-layer sky-layer--nebula" data-rate="7">
+        <div class="sky-plate sky-plate--nebula"></div>
       </div>
-      <div class="star-layer">
-        <span class="star parallax-item star-01" data-parallax="0.11"></span>
-        <span class="star parallax-item star-02" data-parallax="0.18"></span>
-        <span class="star parallax-item star-03" data-parallax="0.27"></span>
-        <span class="star parallax-item star-04" data-parallax="0.14"></span>
-        <span class="star parallax-item star-05" data-parallax="0.23"></span>
-        <span class="star parallax-item star-06" data-parallax="0.32"></span>
-        <span class="star parallax-item star-07" data-parallax="0.16"></span>
-        <span class="star parallax-item star-08" data-parallax="0.29"></span>
-        <span class="star parallax-item star-09" data-parallax="0.21"></span>
-        <span class="star parallax-item star-10" data-parallax="0.36"></span>
-        <span class="star parallax-item star-11" data-parallax="0.13"></span>
-        <span class="star parallax-item star-12" data-parallax="0.25"></span>
-        <span class="star parallax-item star-13" data-parallax="0.19"></span>
-        <span class="star parallax-item star-14" data-parallax="0.34"></span>
-        <span class="star parallax-item star-15" data-parallax="0.09"></span>
-        <span class="star parallax-item star-16" data-parallax="0.30"></span>
-        <span class="star parallax-item star-17" data-parallax="0.17"></span>
-        <span class="star parallax-item star-18" data-parallax="0.38"></span>
-        <span class="star parallax-item star-19" data-parallax="0.12"></span>
-        <span class="star parallax-item star-20" data-parallax="0.26"></span>
-        <span class="star parallax-item star-21" data-parallax="0.20"></span>
-        <span class="star parallax-item star-22" data-parallax="0.41"></span>
-        <span class="star parallax-item star-23" data-parallax="0.15"></span>
-        <span class="star parallax-item star-24" data-parallax="0.33"></span>
-        <span class="passing-object parallax-item" data-parallax="0.46"></span>
+
+      <div class="sky-layer sky-layer--band" data-rate="15">
+        <div class="sky-plate sky-plate--band"></div>
+        {bandStars.map((star) => (
+          <span
+            class:list={['star', { 'star--twinkle': star.twinkle }]}
+            style={`left:${star.x}%;top:${star.y}%;--s:${star.size};--o:${star.opacity};--delay:${star.delay}s;--duration:${star.duration}s`}
+          ></span>
+        ))}
       </div>
+
+      <div class="sky-layer sky-layer--dust" data-rate="34">
+        {dustMotes.map((mote) => (
+          <span
+            class="dust-mote"
+            style={`left:${mote.x}%;top:${mote.y}%;--s:${mote.size};--delay:${mote.delay}s;--duration:${mote.duration}s`}
+          ></span>
+        ))}
+      </div>
+
+      <div class="sky-layer sky-layer--stars" data-rate="50">
+        {farStars.map((star) => (
+          <span
+            class:list={['star', { 'star--twinkle': star.twinkle }]}
+            style={`left:${star.x}%;top:${star.y}%;--s:${star.size};--o:${star.opacity};--delay:${star.delay}s;--duration:${star.duration}s`}
+          ></span>
+        ))}
+      </div>
+
+      <div class="sky-layer sky-layer--stars" data-rate="62">
+        {midStars.map((star) => (
+          <span
+            class:list={['star', 'star--mid', { 'star--twinkle': star.twinkle }]}
+            style={`left:${star.x}%;top:${star.y}%;--s:${star.size};--o:${star.opacity};--delay:${star.delay}s;--duration:${star.duration}s`}
+          ></span>
+        ))}
+      </div>
+
+      <div class="sky-layer sky-layer--stars" data-rate="73">
+        {nearStars.map((star) => (
+          <span
+            class:list={['star', 'star--near', { 'star--twinkle': star.twinkle }]}
+            style={`left:${star.x}%;top:${star.y}%;--s:${star.size};--o:${star.opacity};--delay:${star.delay}s;--duration:${star.duration}s`}
+          ></span>
+        ))}
+        {anchorStars.map((star) => (
+          <span
+            class="star star--near star--anchor star--twinkle"
+            style={`left:${star.x}%;top:${star.y}%;--s:${star.size};--o:${star.opacity};--delay:${star.delay}s;--duration:${star.duration}s`}
+          ></span>
+        ))}
+      </div>
+
+      <span class="meteor" data-rate="0"></span>
+      <span class="wish" data-wish aria-hidden="true"></span>
+      <div class="sky-vignette"></div>
     </div>
 
-    <!-- Header Navigation -->
-    <SiteHeader />
-
     <main id="content">
-      <!-- Section 00: Opening / Hero -->
+      <!-- 00: Opening -->
       <section id="top" class="section section--hero is-section-active was-active" aria-labelledby="intro-title">
         <div class="section-content">
           <div class="hero-grid">
-            <div class="foreground-parallax" data-parallax="0.018">
-              <div class="intro-status">
-                <span class="intro-status__dot" aria-hidden="true"></span>
-                <p class="intro-meta">
-                  <span>Ahmad Zulkarnaen</span>
-                  <span aria-hidden="true" class="intro-meta__sep">/</span>
-                  <span>Full-stack & Mobile Developer</span>
-                </p>
-              </div>
+            <div class="foreground-parallax" data-hero-drift>
+              <p class="intro-meta-line">
+                <span class="intro-meta-line__star" aria-hidden="true">✦</span>
+                <span class="intro-meta-line__name">Ahmad Zulkarnaen</span>
+                <span class="intro-meta-line__sep" aria-hidden="true">/</span>
+                <span class="intro-meta-line__role">Full-stack and mobile developer</span>
+              </p>
+
+              <p class="observatory">
+                <span>Bogor</span>
+                <span class="observatory__sep" aria-hidden="true">·</span>
+                <span data-observatory-time>--:-- WIB</span>
+                <span class="observatory__sep" aria-hidden="true">·</span>
+                <span data-observatory-moon>Night sky</span>
+              </p>
 
               <h1 id="intro-title" class="intro-title">
                 I build software<br />
@@ -68,22 +177,31 @@ import SiteHeader from '../components/SiteHeader.astro';
               </h1>
 
               <p class="intro-lead">
-                Engineering web and mobile systems that balance structural clarity with responsive user experience. Laravel on the server, Next.js on the web, Flutter in your pocket. Focused on software that stays reliable and maintainable after release.
+                Laravel on the server, Next.js on the web, Flutter in your pocket. I care about systems that stay readable and reliable long after release.
               </p>
 
               <div class="hero-actions">
-                <a class="action-primary" href="#work">Explore projects</a>
-                <a class="action-secondary" href="#experience">Review CV & experience</a>
-                <a class="action-quiet" href="#contact">Get in touch</a>
+                <a class="action-primary" href="https://rx.cv/naenmad" target="_blank" rel="noreferrer">Read the CV</a>
+                <a class="action-secondary" href="#elsewhere">Get in touch</a>
+                <a class="action-quiet" href="https://github.com/naenmad" target="_blank" rel="noreferrer">
+                  GitHub <span aria-hidden="true">↗</span>
+                </a>
               </div>
+
+              <button class="tilt-toggle" type="button" data-tilt-toggle aria-pressed="false" hidden>
+                <span class="tilt-toggle__mark" aria-hidden="true">✦</span>
+                <span data-tilt-label>Tilt the sky</span>
+              </button>
             </div>
 
             <aside class="hero-note" aria-label="A small visual note">
-              <div class="constellation-line" aria-hidden="true">
-                <span class="constellation-dot constellation-dot--bright"></span>
-                <span class="constellation-hairline"></span>
-                <span class="constellation-dot constellation-dot--soft"></span>
-              </div>
+              <svg class="constellation-mark" viewBox="0 0 96 40" aria-hidden="true" focusable="false">
+                <line x1="9" y1="31" x2="45" y2="19" />
+                <line x1="45" y1="19" x2="86" y2="9" />
+                <circle class="constellation-star" cx="9" cy="31" r="2.2" />
+                <circle class="constellation-star constellation-star--mid" cx="45" cy="19" r="1.4" />
+                <circle class="constellation-star constellation-star--far" cx="86" cy="9" r="1" />
+              </svg>
               <div class="cat-image-layer section-cat-flyer section-cat-flyer--hero section-cat-flyer--right" data-side="right" aria-hidden="true">
                 <div class="cat-float-wrap">
                   <div class="cat-float-inner">
@@ -99,71 +217,97 @@ import SiteHeader from '../components/SiteHeader.astro';
         </div>
       </section>
 
-      <!-- Section 01: Profile -->
+      <!-- 01: About -->
       <section id="about" class="section" aria-labelledby="about-title">
-        <div class="section-cat-flyer section-cat-flyer--left section-cat-flyer--about" data-side="left" aria-hidden="true">
-          <div class="cat-float-wrap">
-            <div class="cat-float-inner">
-              <picture>
-                <source srcset="/cats/cat-2.webp" type="image/webp" />
-                <img class="section-cat-img" src="/cats/cat-2.svg" alt="" width="1499" height="1237" loading="lazy" decoding="async" />
-              </picture>
-            </div>
-          </div>
-        </div>
+        <svg class="about-moon" viewBox="0 0 400 400" aria-hidden="true" focusable="false">
+          <path d="M 300 60 A 150 150 0 1 0 300 340 A 138 138 0 0 1 300 60 Z" />
+        </svg>
 
         <div class="section-content">
           <div class="section-head">
-            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">01</span> Profile & CV</p>
+            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">01</span> About</p>
             <h2 id="about-title" class="section-title">Curious about how complex systems hold together.</h2>
           </div>
 
-          <div class="section-body section-body--split">
+          <div class="section-body section-body--narrow">
             <div class="prose-night">
               <p>
-                I am Ahmad Zulkarnaen, a full-stack and mobile developer working between Bogor and Karawang, Indonesia. My engineering focus centers on building end-to-end applications: architecting scalable Laravel and REST backends, crafting responsive Next.js interfaces, and delivering smooth cross-platform Flutter experiences.
+                I am Ahmad Zulkarnaen, a full-stack and mobile developer working between Bogor and Karawang, Indonesia. Most of what I build is end to end: a Laravel or REST backend, a Next.js interface, a Flutter app in someone's pocket.
               </p>
               <p>
-                Currently completing my Informatics degree at Universitas Singaperbangsa Karawang (UNSIKA) with a 3.83 GPA, alongside an international study exchange at Wuhan Vocational College of Software and Engineering in China. Experiencing different software paradigms shaped my philosophy: write code that is clean, observable, and built for people.
+                Away from the editor I spend a lot of time outside after dark, and the rest with whichever cat has found the warmest chair. This page is the quiet side of my work. The history, the projects, and the code live in Elsewhere.
               </p>
-
-              <div class="cv-highlight-box">
-                <div class="cv-highlight-box__info">
-                  <span class="cv-highlight-box__tag">CURRICULUM VITAE</span>
-                  <p class="cv-highlight-box__desc">Full engineering background, professional history, and accredited coursework.</p>
-                </div>
-                <div class="cv-highlight-box__actions">
-                  <a class="action-secondary" href="#experience">Jump to Experience ↓</a>
-                  <a class="action-quiet" href="mailto:azulkarnaen@outlook.com?subject=CV%20Request%20-%20Ahmad%20Zulkarnaen">Request PDF via Email</a>
-                </div>
-              </div>
             </div>
-
-            <dl class="fact-list" aria-label="Candidate summary">
-              <div class="fact-card">
-                <dt>Location</dt>
-                <dd>Bogor & Karawang, Indonesia</dd>
-              </div>
-              <div class="fact-card">
-                <dt>Core Specialization</dt>
-                <dd>Full-stack Web & Flutter Mobile</dd>
-              </div>
-              <div class="fact-card">
-                <dt>Education & Academic Standing</dt>
-                <dd>S1 Informatics, UNSIKA (GPA 3.83 / 4.00)</dd>
-              </div>
-              <div class="fact-card">
-                <dt>Languages & Proficiency</dt>
-                <dd>Indonesian (Native), English (TOEIC 840)</dd>
-              </div>
-            </dl>
           </div>
         </div>
       </section>
 
-      <!-- Section 02: Experience -->
-      <section id="experience" class="section" aria-labelledby="experience-title">
-        <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--experience" data-side="right" aria-hidden="true">
+      <!-- 02: Principles -->
+      <section id="principles" class="section" aria-labelledby="principles-title">
+        <div class="section-content">
+          <div class="section-head">
+            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">02</span> Principles</p>
+            <h2 id="principles-title" class="section-title">How I try to work.</h2>
+          </div>
+
+          <div class="section-body">
+            <ol class="principle-list">
+              <li class="principle">
+                <span class="principle__index" aria-hidden="true">01</span>
+                <div class="principle__body">
+                  <h3 class="principle__title">Readable over clever.</h3>
+                  <p class="principle__text">If a line needs a comment to explain why it is smart, it is usually the wrong line. I write for the person who opens the file next, who is often me in six months.</p>
+                </div>
+              </li>
+              <li class="principle">
+                <span class="principle__index" aria-hidden="true">02</span>
+                <div class="principle__body">
+                  <h3 class="principle__title">Keep the boring parts boring.</h3>
+                  <p class="principle__text">Auth, migrations, and deploys should be predictable. The interesting effort belongs in the product, not in a homemade way to do what the framework already does well.</p>
+                </div>
+              </li>
+              <li class="principle">
+                <span class="principle__index" aria-hidden="true">03</span>
+                <div class="principle__body">
+                  <h3 class="principle__title">Watch it after release.</h3>
+                  <p class="principle__text">The launch is a moment. The ordinary Tuesday is the test. I care about logs, empty states, and the small edges that only appear once people use the thing.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03: Notes -->
+      <section id="notes" class="section" aria-labelledby="notes-title">
+        <div class="section-content">
+          <div class="section-head">
+            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">03</span> Notes</p>
+            <h2 id="notes-title" class="section-title">A few things I keep noticing.</h2>
+          </div>
+
+          <div class="section-body">
+            <div class="note-list">
+              <article class="note note--lead">
+                <h3 class="note__title">Quiet software</h3>
+                <p class="note__text">The best compliment a system can get is that nobody talks about it. It does the ordinary thing every day, and leaves people free to think about something else.</p>
+              </article>
+              <article class="note">
+                <h3 class="note__title">Looking up</h3>
+                <p class="note__text">I keep a small telescope's worth of patience for the sky. Most nights nothing happens, and that is the point.</p>
+              </article>
+              <article class="note">
+                <h3 class="note__title">A cat in the room</h3>
+                <p class="note__text">A cat is a useful reminder that attention is a choice. It gives it to one thing at a time, and never pretends to be interested in everything.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02: Elsewhere -->
+      <section id="elsewhere" class="section section--elsewhere" aria-labelledby="elsewhere-title">
+        <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--elsewhere" data-side="right" aria-hidden="true">
           <div class="cat-float-wrap">
             <div class="cat-float-inner">
               <picture>
@@ -174,406 +318,55 @@ import SiteHeader from '../components/SiteHeader.astro';
           </div>
         </div>
 
-        <div class="section-content">
+        <div class="section-content section-content--elsewhere">
           <div class="section-head">
-            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">02</span> Work Experience</p>
-            <h2 id="experience-title" class="section-title">Where I have worked and delivered.</h2>
+            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">04</span> Elsewhere</p>
+            <h2 id="elsewhere-title" class="section-title">The rest lives elsewhere.</h2>
           </div>
 
           <div class="section-body">
-            <div class="experience-layout">
-              <div class="entry-list">
-                <article class="entry-card">
-                  <div class="entry-meta">
-                    <span class="entry-period">Nov 2025 - Apr 2026</span>
-                    <span class="entry-location">Depok, Indonesia</span>
-                    <span class="entry-badge">Mobile Engineering</span>
-                  </div>
-                  <div class="entry-content">
-                    <h3 class="entry-role">Mobile Developer <span class="entry-company">at Vixual</span></h3>
-                    <p class="entry-summary">Developed and maintained cross-platform mobile features using Flutter, with attention to responsive screens and reliable state management.</p>
-                    <ul class="entry-points">
-                      <li>Engineered complex Flutter client views, translating multi-step interaction flows into responsive, accessible screens.</li>
-                      <li>Integrated RESTful endpoints with robust error boundary handling and client-side data persistence.</li>
-                      <li>Partnered directly with UI/UX designers and backend peers in rapid sprint cycles to deliver tested release candidates.</li>
-                    </ul>
-                  </div>
-                </article>
-
-                <article class="entry-card">
-                  <div class="entry-meta">
-                    <span class="entry-period">Aug 2025 - Dec 2025</span>
-                    <span class="entry-location">East Jakarta, Indonesia</span>
-                    <span class="entry-badge">Full-stack Engineering</span>
-                  </div>
-                  <div class="entry-content">
-                    <h3 class="entry-role">Full-stack Developer Intern <span class="entry-company">at Citiasia Inc.</span></h3>
-                    <p class="entry-summary">Contributed to enterprise web and mobile solutions utilizing modular architectures in PHP, JavaScript, and Flutter.</p>
-                    <ul class="entry-points">
-                      <li>Implemented modular front-end components and responsive web views with clean separation of presentation and logic.</li>
-                      <li>Architected REST APIs and integrated Firebase services for real-time notifications and synchronized data store.</li>
-                      <li>Maintained collaborative Git branching workflows, automated testing integration, and CI/CD deployment pipelines.</li>
-                    </ul>
-                  </div>
-                </article>
-              </div>
-
-              <!-- Leadership & Community Roles -->
-              <div class="leadership-block">
-                <h3 class="leadership-block__title">Leadership & Community Impact</h3>
-                <div class="leadership-grid">
-                  <div class="leadership-card">
-                    <div class="leadership-card__header">
-                      <h4 class="leadership-role">Head of Education</h4>
-                      <span class="leadership-org">HIMTIKA</span>
-                    </div>
-                    <p class="leadership-date">Jan 2025 - Nov 2025</p>
-                    <p class="leadership-desc">Designed technical study tracks, mentored junior undergraduates, and organized hands-on workshops in software development and programming foundations.</p>
-                  </div>
-
-                  <div class="leadership-card">
-                    <div class="leadership-card__header">
-                      <h4 class="leadership-role">Event Director</h4>
-                      <span class="leadership-org">Pekan IT 2024</span>
-                    </div>
-                    <p class="leadership-date">National Technology Program</p>
-                    <p class="leadership-desc">Led the end-to-end planning and execution of a national technology convention featuring 1,300+ attendees and competitive participants from 36 universities across Indonesia.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section 03: Selected Work -->
-      <section id="work" class="section" aria-labelledby="work-title">
-        <div class="section-cat-flyer section-cat-flyer--left section-cat-flyer--work" data-side="left" aria-hidden="true">
-          <div class="cat-float-wrap">
-            <div class="cat-float-inner">
-              <picture>
-                <source srcset="/cats/cat-4.webp" type="image/webp" />
-                <img class="section-cat-img" src="/cats/cat-4.svg" alt="" width="1389" height="1411" loading="lazy" decoding="async" />
-              </picture>
-            </div>
-          </div>
-        </div>
-
-        <div class="section-content">
-          <div class="section-head">
-            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">03</span> Selected Work</p>
-            <h2 id="work-title" class="section-title">Projects built with purpose.</h2>
-          </div>
-
-          <div class="section-body">
-            <div class="project-list">
-              <article class="project-card">
-                <div class="project-card__header">
-                  <div>
-                    <span class="project-card__num" aria-hidden="true">PROJECT 01</span>
-                    <h3 class="project-title">SISKA Mobile</h3>
-                  </div>
-                  <span class="project-kind">Academic Platform</span>
-                </div>
-                <p class="project-text">
-                  A production-ready academic information system built to streamline university administration, course registration, and real-time student evaluation. Features offline-first data caching and structured state management. Currently serves as my undergraduate thesis research.
-                </p>
-                <div class="project-card__footer">
-                  <ul class="tag-list" aria-label="Technologies used in SISKA Mobile">
-                    <li>Flutter</li>
-                    <li>Dart</li>
-                    <li>REST API</li>
-                    <li>State Management</li>
-                  </ul>
-                  <div class="project-card__status">
-                    <span class="status-indicator"></span> Thesis Project
-                  </div>
-                </div>
-              </article>
-
-              <article class="project-card">
-                <div class="project-card__header">
-                  <div>
-                    <span class="project-card__num" aria-hidden="true">PROJECT 02</span>
-                    <h3 class="project-title">Lungsurin</h3>
-                  </div>
-                  <span class="project-kind">ICT Business Platform</span>
-                </div>
-                <p class="project-text">
-                  Mobile application and service integration built for an ICT business venture. Connects emerging tech initiatives with resource management workflows. Developed client-side modules in Flutter synchronized with a custom REST API.
-                </p>
-                <div class="project-card__footer">
-                  <ul class="tag-list" aria-label="Technologies used in Lungsurin">
-                    <li>Flutter</li>
-                    <li>Dart</li>
-                    <li>REST API</li>
-                    <li>Backend Sync</li>
-                  </ul>
-                  <div class="project-card__status">
-                    <span class="status-indicator"></span> Shipped Product
-                  </div>
-                </div>
-              </article>
-
-              <article class="project-card">
-                <div class="project-card__header">
-                  <div>
-                    <span class="project-card__num" aria-hidden="true">PROJECT 03</span>
-                    <h3 class="project-title">Citiasia Modular</h3>
-                  </div>
-                  <span class="project-kind">Enterprise Modules</span>
-                </div>
-                <p class="project-text">
-                  Enterprise client service integration developed during internship at Citiasia Inc. Structured with modular codebases to support both browser interfaces and handheld devices. Implemented Firebase cloud messaging and granular access control.
-                </p>
-                <div class="project-card__footer">
-                  <ul class="tag-list" aria-label="Technologies used in Citiasia Modular Services">
-                    <li>PHP</li>
-                    <li>JavaScript</li>
-                    <li>Flutter</li>
-                    <li>Firebase</li>
-                  </ul>
-                  <div class="project-card__status">
-                    <span class="status-indicator"></span> Enterprise
-                  </div>
-                </div>
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section 04: Toolkit -->
-      <section id="toolkit" class="section" aria-labelledby="toolkit-title">
-        <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--toolkit" data-side="right" aria-hidden="true">
-          <div class="cat-float-wrap">
-            <div class="cat-float-inner">
-              <picture>
-                <source srcset="/cats/cat-5.webp" type="image/webp" />
-                <img class="section-cat-img" src="/cats/cat-5.svg" alt="" width="1632" height="1707" loading="lazy" decoding="async" />
-              </picture>
-            </div>
-          </div>
-        </div>
-
-        <div class="section-content">
-          <div class="section-head">
-            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">04</span> Toolkit</p>
-            <h2 id="toolkit-title" class="section-title">Languages, frameworks, and engineering habits.</h2>
-          </div>
-
-          <div class="section-body">
-            <div class="toolkit-grid">
-              <div class="toolkit-category">
-                <div class="toolkit-category__head">
-                  <span class="toolkit-category__glyph" aria-hidden="true">01</span>
-                  <h3>Languages</h3>
-                </div>
-                <ul class="pill-list">
-                  <li>PHP</li>
-                  <li>JavaScript</li>
-                  <li>TypeScript</li>
-                  <li>Dart</li>
-                  <li>HTML5</li>
-                  <li>CSS3 & SCSS</li>
-                  <li>Java</li>
-                  <li>Kotlin</li>
-                  <li>SQL</li>
-                </ul>
-              </div>
-
-              <div class="toolkit-category">
-                <div class="toolkit-category__head">
-                  <span class="toolkit-category__glyph" aria-hidden="true">02</span>
-                  <h3>Frameworks & UI</h3>
-                </div>
-                <ul class="pill-list">
-                  <li>Laravel</li>
-                  <li>Next.js</li>
-                  <li>React</li>
-                  <li>Flutter</li>
-                  <li>Tailwind CSS</li>
-                  <li>Astro</li>
-                </ul>
-              </div>
-
-              <div class="toolkit-category">
-                <div class="toolkit-category__head">
-                  <span class="toolkit-category__glyph" aria-hidden="true">03</span>
-                  <h3>Backend & Data</h3>
-                </div>
-                <ul class="pill-list">
-                  <li>RESTful APIs</li>
-                  <li>Firebase</li>
-                  <li>MySQL</li>
-                  <li>PostgreSQL</li>
-                  <li>Node.js</li>
-                  <li>SSR & SSG</li>
-                </ul>
-              </div>
-
-              <div class="toolkit-category">
-                <div class="toolkit-category__head">
-                  <span class="toolkit-category__glyph" aria-hidden="true">04</span>
-                  <h3>Practice & Ops</h3>
-                </div>
-                <ul class="pill-list">
-                  <li>Git & GitHub</li>
-                  <li>CI/CD Pipelines</li>
-                  <li>Docker Basics</li>
-                  <li>Agile & Scrum</li>
-                  <li>Clean Architecture</li>
-                  <li>Testing & Review</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section 05: Education & Credentials -->
-      <section id="education" class="section" aria-labelledby="education-title">
-        <div class="section-cat-flyer section-cat-flyer--left section-cat-flyer--education" data-side="left" aria-hidden="true">
-          <div class="cat-float-wrap">
-            <div class="cat-float-inner">
-              <picture>
-                <source srcset="/cats/cat-2.webp" type="image/webp" />
-                <img class="section-cat-img" src="/cats/cat-2.svg" alt="" width="1499" height="1237" loading="lazy" decoding="async" />
-              </picture>
-            </div>
-          </div>
-        </div>
-
-        <div class="section-content">
-          <div class="section-head">
-            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">05</span> Education & Credentials</p>
-            <h2 id="education-title" class="section-title">Academic path and industry certifications.</h2>
-          </div>
-
-          <div class="section-body education-layout">
-            <div class="education-column">
-              <article class="edu-card">
-                <div class="edu-card__header">
-                  <span class="edu-card__period">Aug 2023 - Present</span>
-                  <span class="edu-card__location">Karawang, Indonesia</span>
-                </div>
-                <h3 class="edu-card__title">S1 Informatics</h3>
-                <p class="edu-card__institution">Singaperbangsa Karawang University (UNSIKA)</p>
-                <div class="edu-card__highlight">Current Cumulative GPA: 3.83 / 4.00</div>
-                <p class="edu-card__note">
-                  Advanced studies in software engineering, database architecture, mobile application paradigms, and algorithms. Currently conducting thesis research on mobile academic management systems.
-                </p>
-              </article>
-
-              <article class="edu-card">
-                <div class="edu-card__header">
-                  <span class="edu-card__period">Mar 2026 - Jun 2026</span>
-                  <span class="edu-card__location">Wuhan, China</span>
-                </div>
-                <h3 class="edu-card__title">International Student Exchange</h3>
-                <p class="edu-card__institution">Wuhan Vocational College of Software and Engineering</p>
-                <div class="edu-card__highlight">Selected via Irootech & UNSIKA Academic Partnership</div>
-                <p class="edu-card__note">
-                  Immersive academic study within China's tech ecosystem, studying applied software engineering, manufacturing technology, and cross-cultural technical methodologies.
-                </p>
-              </article>
-            </div>
-
-            <aside class="credentials-column">
-              <div class="credentials-box">
-                <h3 class="credentials-box__title">Verified Certifications</h3>
-                <ul class="cert-list">
-                  <li class="cert-item">
-                    <div class="cert-item__icon" aria-hidden="true">✦</div>
-                    <div class="cert-item__info">
-                      <span class="cert-name">GitHub Foundations</span>
-                      <span class="cert-meta">GitHub Certified / Issued Mar 2025</span>
-                    </div>
-                  </li>
-                  <li class="cert-item">
-                    <div class="cert-item__icon" aria-hidden="true">✦</div>
-                    <div class="cert-item__info">
-                      <span class="cert-name">Junior Web Developer</span>
-                      <span class="cert-meta">BNSP Indonesia / Issued Aug 2023</span>
-                    </div>
-                  </li>
-                  <li class="cert-item">
-                    <div class="cert-item__icon" aria-hidden="true">✦</div>
-                    <div class="cert-item__info">
-                      <span class="cert-name">TOEIC Official Certificate</span>
-                      <span class="cert-meta">Score 840 / Professional Working Proficiency</span>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="credentials-status">
-                <p class="credentials-status__label">Academic Inquiries</p>
-                <p class="credentials-status__text">Transcripts, syllabi, or verification letters available upon formal request.</p>
-              </div>
-            </aside>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section 06: Contact & Finale (Slide 06) -->
-      <section id="contact" class="section section--contact" aria-labelledby="contact-title">
-        <div class="section-cat-flyer section-cat-flyer--right section-cat-flyer--contact" data-side="right" aria-hidden="true">
-          <div class="cat-float-wrap">
-            <div class="cat-float-inner">
-              <picture>
-                <source srcset="/cats/cat-3.webp" type="image/webp" />
-                <img class="section-cat-img" src="/cats/cat-3.svg" alt="" width="1382" height="1348" loading="lazy" decoding="async" />
-              </picture>
-            </div>
-          </div>
-        </div>
-
-        <div class="contact-slide-content section-content">
-          <div class="section-head">
-            <p class="section-kicker"><span class="kicker-index" aria-hidden="true">06</span> Contact</p>
-            <h2 id="contact-title" class="section-title">Have something worth building?</h2>
-          </div>
-
-          <div class="section-body contact-body">
-            <p class="contact-lead">
-              Whether you need a dedicated Flutter mobile application, an adaptable Laravel backend, or a full-stack web interface, I am open to discussing software roles and high-impact engineering projects.
+            <p class="elsewhere-lead">
+              The full history, the selected projects, and the code are easier to read where they already are. This page stays small on purpose.
             </p>
 
-            <div class="contact-card">
-              <div class="contact-card__main">
-                <span class="contact-card__label">Primary Communication Channel</span>
-                <a class="contact-card__email" href="mailto:azulkarnaen@outlook.com">
-                  azulkarnaen@outlook.com
+            <ul class="elsewhere-list" aria-label="CV, profiles, and contact">
+              <li>
+                <a class="elsewhere-link" href="https://rx.cv/naenmad" target="_blank" rel="noreferrer">
+                  <span class="elsewhere-label">CV</span>
+                  <span class="elsewhere-value">rx.cv/naenmad</span>
+                  <span class="elsewhere-arrow" aria-hidden="true">↗</span>
                 </a>
-                <p class="contact-card__subtext">Replies typically within 24 hours under local time (WIB / UTC+7).</p>
-              </div>
-              <div class="contact-card__actions">
-                <a class="action-primary" href="mailto:azulkarnaen@outlook.com">Send an email</a>
-              </div>
-            </div>
+              </li>
+              <li>
+                <a class="elsewhere-link" href="https://linkedin.com/in/naen" target="_blank" rel="noreferrer">
+                  <span class="elsewhere-label">LinkedIn</span>
+                  <span class="elsewhere-value">linkedin.com/in/naen</span>
+                  <span class="elsewhere-arrow" aria-hidden="true">↗</span>
+                </a>
+              </li>
+              <li>
+                <a class="elsewhere-link" href="https://github.com/naenmad" target="_blank" rel="noreferrer">
+                  <span class="elsewhere-label">GitHub</span>
+                  <span class="elsewhere-value">github.com/naenmad</span>
+                  <span class="elsewhere-arrow" aria-hidden="true">↗</span>
+                </a>
+              </li>
+              <li>
+                <a class="elsewhere-link" href="mailto:azulkarnaen@outlook.com">
+                  <span class="elsewhere-label">Email</span>
+                  <span class="elsewhere-value">azulkarnaen@outlook.com</span>
+                  <span class="elsewhere-arrow" aria-hidden="true"></span>
+                </a>
+              </li>
+            </ul>
 
-            <div class="contact-socials">
-              <span class="contact-socials__title">Professional Networks</span>
-              <div class="contact-socials__links">
-                <a class="social-link" href="https://linkedin.com/in/naen" target="_blank" rel="noreferrer">
-                  <span>LinkedIn</span>
-                  <span class="social-link__arrow" aria-hidden="true">↗</span>
-                </a>
-                <a class="social-link" href="https://instagram.com/madnaen" target="_blank" rel="noreferrer">
-                  <span>Instagram</span>
-                  <span class="social-link__arrow" aria-hidden="true">↗</span>
-                </a>
-                <a class="social-link" href="https://github.com" target="_blank" rel="noreferrer">
-                  <span>GitHub</span>
-                  <span class="social-link__arrow" aria-hidden="true">↗</span>
-                </a>
-              </div>
-            </div>
+            <p class="elsewhere-status">
+              <span class="status-indicator" aria-hidden="true"></span>
+              Open to software roles and selected projects.
+            </p>
           </div>
         </div>
 
-        <!-- Integrated Nocturnal Footer -->
         <footer class="site-footer" role="contentinfo">
           <div class="site-footer__inner">
             <div class="site-footer__brand">
@@ -581,27 +374,12 @@ import SiteHeader from '../components/SiteHeader.astro';
                 <span class="wordmark__star" aria-hidden="true">✦</span> naen<span class="wordmark__dot">.</span>me
               </a>
               <p class="site-footer__author">Ahmad Zulkarnaen</p>
-              <p class="site-footer__bio">
-                Full-stack and mobile developer in Bogor & Karawang, Indonesia.
-              </p>
+              <p class="site-footer__bio">Full-stack and mobile developer in Bogor and Karawang, Indonesia.</p>
             </div>
 
-            <div class="site-footer__status-box">
-              <div class="site-footer__status">
-                <span class="status-indicator"></span>
-                <span>Available for engineering roles & select projects</span>
-              </div>
-              <p class="site-footer__colophon">
-                Built slowly under dark skies with Astro & TypeScript. Hosted on Cloudflare Pages.
-              </p>
-            </div>
-
-            <div class="site-footer__actions">
-              <a class="site-footer__top-btn" href="#top" aria-label="Return to top of page">
-                <span>Top</span>
-                <span aria-hidden="true">↑</span>
-              </a>
-            </div>
+            <p class="site-footer__colophon">
+              Built slowly under dark skies with Astro and TypeScript. Hosted on Cloudflare Pages.
+            </p>
           </div>
         </footer>
       </section>
@@ -609,63 +387,163 @@ import SiteHeader from '../components/SiteHeader.astro';
   </div>
 
   <script>
-    // 3D Celestial Cursor Parallax for Flying Cat Companions
+    // Near-plane drift for the cat companions: a slow 3D tilt that parks itself
+    // when the pointer rests, instead of running a frame loop forever.
     const initCatParallaxEngine = () => {
-      const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (isReduced) return;
-
+      const catMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const catTouch = window.matchMedia('(hover: none)');
       const floatWraps = Array.from(document.querySelectorAll<HTMLElement>('.cat-float-wrap'));
       if (floatWraps.length === 0) return;
 
-      let targetMouseX = 0;
-      let targetMouseY = 0;
-      let currMouseX = 0;
-      let currMouseY = 0;
-      let isDocVisible = !document.hidden;
+      let catFrame = 0;
+      let targetX = 0;
+      let targetY = 0;
+      let currentX = 0;
+      let currentY = 0;
 
-      window.addEventListener('mousemove', (e: MouseEvent) => {
-        const w = window.innerWidth;
-        const h = window.innerHeight;
-        targetMouseX = Math.max(-1, Math.min(1, (e.clientX - w / 2) / (w / 2)));
-        targetMouseY = Math.max(-1, Math.min(1, (e.clientY - h / 2) / (h / 2)));
-      }, { passive: true });
+      const enabled = () => !catMotion.matches && !catTouch.matches;
 
-      document.addEventListener('mouseleave', () => {
-        targetMouseX = 0;
-        targetMouseY = 0;
-      });
-
-      document.addEventListener('visibilitychange', () => {
-        isDocVisible = !document.hidden;
-      });
-
-      const render = () => {
-        if (isDocVisible) {
-          currMouseX += (targetMouseX - currMouseX) * 0.08;
-          currMouseY += (targetMouseY - currMouseY) * 0.08;
-
-          const tx = (currMouseX * 16).toFixed(1) + 'px';
-          const ty = (currMouseY * 12).toFixed(1) + 'px';
-          const rx = (-currMouseY * 10).toFixed(1) + 'deg';
-          const ry = (currMouseX * 14).toFixed(1) + 'deg';
-
-          floatWraps.forEach((wrap) => {
-            wrap.style.setProperty('--mouse-tx', tx);
-            wrap.style.setProperty('--mouse-ty', ty);
-            wrap.style.setProperty('--mouse-rx', rx);
-            wrap.style.setProperty('--mouse-ry', ry);
-          });
-        }
-        requestAnimationFrame(render);
+      const paint = () => {
+        const tx = `${(currentX * 16).toFixed(2)}px`;
+        const ty = `${(currentY * 12).toFixed(2)}px`;
+        const rx = `${(-currentY * 10).toFixed(2)}deg`;
+        const ry = `${(currentX * 14).toFixed(2)}deg`;
+        floatWraps.forEach((wrap) => {
+          wrap.style.setProperty('--mouse-tx', tx);
+          wrap.style.setProperty('--mouse-ty', ty);
+          wrap.style.setProperty('--mouse-rx', rx);
+          wrap.style.setProperty('--mouse-ry', ry);
+        });
       };
 
-      requestAnimationFrame(render);
+      const tick = () => {
+        catFrame = 0;
+        currentX += (targetX - currentX) * 0.08;
+        currentY += (targetY - currentY) * 0.08;
+        paint();
+        if (Math.abs(targetX - currentX) > 0.001 || Math.abs(targetY - currentY) > 0.001) {
+          catFrame = requestAnimationFrame(tick);
+        }
+      };
+
+      const requestFrame = () => {
+        if (!catFrame && enabled()) catFrame = requestAnimationFrame(tick);
+      };
+
+      window.addEventListener('pointermove', (event) => {
+        if (!enabled()) return;
+        const halfWidth = window.innerWidth / 2;
+        const halfHeight = window.innerHeight / 2;
+        targetX = Math.max(-1, Math.min(1, (event.clientX - halfWidth) / halfWidth));
+        targetY = Math.max(-1, Math.min(1, (event.clientY - halfHeight) / halfHeight));
+        requestFrame();
+      }, { passive: true });
+
+      const rest = () => {
+        targetX = 0;
+        targetY = 0;
+        requestFrame();
+      };
+
+      document.documentElement.addEventListener('pointerleave', rest);
+      window.addEventListener('blur', rest);
+      catMotion.addEventListener('change', () => {
+        if (!enabled()) rest();
+      });
+
+      requestFrame();
+    };
+
+    // A click in the sky sends one wish across it. Tapping to scroll does not fire.
+    const initSkyWishes = () => {
+      const wish = document.querySelector<HTMLElement>('[data-wish]');
+      if (!wish) return;
+      const cats = Array.from(document.querySelectorAll<HTMLElement>('.cat-float-wrap'));
+      const wishMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      let wishTimer = 0;
+      let catTimer = 0;
+
+      const send = (x: number, y: number) => {
+        wish.classList.remove('is-flying');
+        wish.style.left = `${x}px`;
+        wish.style.top = `${y}px`;
+        void wish.offsetWidth;
+        wish.classList.add('is-flying');
+
+        window.clearTimeout(wishTimer);
+        wishTimer = window.setTimeout(() => wish.classList.remove('is-flying'), 1200);
+
+        cats.forEach((cat) => cat.classList.add('is-struck'));
+        window.clearTimeout(catTimer);
+        catTimer = window.setTimeout(() => {
+          cats.forEach((cat) => cat.classList.remove('is-struck'));
+        }, 700);
+      };
+
+      document.addEventListener('click', (event) => {
+        if (wishMotion.matches || event.defaultPrevented) return;
+        const target = event.target instanceof Element ? event.target : null;
+        if (target?.closest('a, button, input, textarea, select, dialog, header, nav, footer')) return;
+        send(event.clientX, event.clientY);
+      });
+    };
+
+    // A small live readout: the local hour in Bogor and the current moon phase.
+    const initObservatory = () => {
+      const timeEl = document.querySelector<HTMLElement>('[data-observatory-time]');
+      const moonEl = document.querySelector<HTMLElement>('[data-observatory-moon]');
+      if (!timeEl && !moonEl) return;
+
+      const SYNODIC = 29.530588853;
+      const NEW_MOON = Date.UTC(2000, 0, 6, 18, 14);
+      let clock: Intl.DateTimeFormat | null = null;
+      try {
+        clock = new Intl.DateTimeFormat('en-GB', {
+          timeZone: 'Asia/Jakarta',
+          hour: '2-digit',
+          minute: '2-digit',
+          hourCycle: 'h23',
+        });
+      } catch {
+        clock = null;
+      }
+
+      const phaseName = (age: number) => {
+        if (age < 1.85 || age >= 27.68) return 'New moon';
+        if (age < 5.54) return 'Waxing crescent';
+        if (age < 9.23) return 'First quarter';
+        if (age < 12.91) return 'Waxing gibbous';
+        if (age < 16.61) return 'Full moon';
+        if (age < 20.3) return 'Waning gibbous';
+        if (age < 23.99) return 'Last quarter';
+        return 'Waning crescent';
+      };
+
+      const update = () => {
+        const now = new Date();
+        if (timeEl && clock) timeEl.textContent = `${clock.format(now)} WIB`;
+        if (moonEl) {
+          const days = (now.getTime() - NEW_MOON) / 86_400_000;
+          const age = ((days % SYNODIC) + SYNODIC) % SYNODIC;
+          moonEl.textContent = phaseName(age);
+        }
+      };
+
+      update();
+      window.setInterval(update, 30_000);
     };
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initCatParallaxEngine);
+      document.addEventListener('DOMContentLoaded', () => {
+        initCatParallaxEngine();
+        initSkyWishes();
+        initObservatory();
+      });
     } else {
       initCatParallaxEngine();
+      initSkyWishes();
+      initObservatory();
     }
   </script>
 </BaseLayout>

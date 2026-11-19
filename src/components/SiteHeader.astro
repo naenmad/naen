@@ -1,12 +1,10 @@
 ---
 const sections = [
-  { id: 'top', index: '00', label: 'Opening', note: 'Overview & introduction' },
-  { id: 'about', index: '01', label: 'Profile', note: 'Background & education' },
-  { id: 'experience', index: '02', label: 'Experience', note: 'Work & engineering roles' },
-  { id: 'work', index: '03', label: 'Work', note: 'Selected projects' },
-  { id: 'toolkit', index: '04', label: 'Toolkit', note: 'Stack & technical skills' },
-  { id: 'education', index: '05', label: 'Education', note: 'Studies & credentials' },
-  { id: 'contact', index: '06', label: 'Contact', note: 'Get in touch' },
+  { id: 'top', index: '00', label: 'Opening', note: 'Overview' },
+  { id: 'about', index: '01', label: 'About', note: 'Who I am, and where' },
+  { id: 'principles', index: '02', label: 'Principles', note: 'How I try to work' },
+  { id: 'notes', index: '03', label: 'Notes', note: 'A few things I notice' },
+  { id: 'elsewhere', index: '04', label: 'Elsewhere', note: 'CV, code, and contact' },
 ];
 ---
 
@@ -29,12 +27,10 @@ const sections = [
     <!-- Desktop Navigation Links -->
     <nav class="desktop-nav" aria-label="Primary navigation">
       <ul class="desktop-nav__list">
-        <li><a href="#about" class="desktop-nav__link" data-nav-link="about">Profile</a></li>
-        <li><a href="#experience" class="desktop-nav__link" data-nav-link="experience">Experience</a></li>
-        <li><a href="#work" class="desktop-nav__link" data-nav-link="work">Work</a></li>
-        <li><a href="#toolkit" class="desktop-nav__link" data-nav-link="toolkit">Toolkit</a></li>
-        <li><a href="#education" class="desktop-nav__link" data-nav-link="education">Education</a></li>
-        <li><a href="#contact" class="desktop-nav__link desktop-nav__link--cta" data-nav-link="contact">Contact</a></li>
+        <li><a href="#about" class="desktop-nav__link" data-nav-link="about">About</a></li>
+        <li><a href="#principles" class="desktop-nav__link" data-nav-link="principles">Principles</a></li>
+        <li><a href="#notes" class="desktop-nav__link" data-nav-link="notes">Notes</a></li>
+        <li><a href="#elsewhere" class="desktop-nav__link" data-nav-link="elsewhere">Elsewhere</a></li>
       </ul>
     </nav>
 
@@ -186,15 +182,13 @@ const sections = [
 
 <script>
   // Section Navigation, Observer, Dialog, and Scroll-to-top logic
-  const sections = ['top', 'about', 'experience', 'work', 'toolkit', 'education', 'contact'];
+  const sections = ['top', 'about', 'principles', 'notes', 'elsewhere'];
   const sectionMeta: Record<string, { index: string; label: string }> = {
     top: { index: '00', label: 'Opening' },
-    about: { index: '01', label: 'Profile' },
-    experience: { index: '02', label: 'Experience' },
-    work: { index: '03', label: 'Work' },
-    toolkit: { index: '04', label: 'Toolkit' },
-    education: { index: '05', label: 'Education' },
-    contact: { index: '06', label: 'Contact' },
+    about: { index: '01', label: 'About' },
+    principles: { index: '02', label: 'Principles' },
+    notes: { index: '03', label: 'Notes' },
+    elsewhere: { index: '04', label: 'Elsewhere' },
   };
 
   const readoutIndex = document.querySelector<HTMLElement>('[data-readout-index]');
@@ -287,8 +281,11 @@ const sections = [
   }
 
   // Dialog Controls
-  const openDialog = () => {
-    if (!dialog) return;
+  let dialogTrigger: HTMLElement | null = null;
+
+  const openDialog = (trigger?: HTMLElement) => {
+    if (!dialog || dialog.open) return;
+    dialogTrigger = trigger ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
     dialog.showModal();
     document.documentElement.classList.add('is-index-open');
     toggleBtns.forEach((btn) => btn.setAttribute('aria-expanded', 'true'));
@@ -306,7 +303,7 @@ const sections = [
       if (dialog && dialog.open) {
         closeDialog();
       } else {
-        openDialog();
+        openDialog(btn);
       }
     });
   });
@@ -319,6 +316,9 @@ const sections = [
     dialog.addEventListener('close', () => {
       document.documentElement.classList.remove('is-index-open');
       toggleBtns.forEach((btn) => btn.setAttribute('aria-expanded', 'false'));
+      // The native close path (Escape) and the button path both land here.
+      dialogTrigger?.focus();
+      dialogTrigger = null;
     });
 
     // Close when clicking dialog backdrop

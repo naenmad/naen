@@ -26,132 +26,235 @@ const {
     <a class="skip-link" href="#content">Skip to content</a>
     <slot />
     <script>
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-      const isTouch = window.matchMedia('(hover: none)').matches;
+      // Sky depth rig. Each plane moves by how many viewports the page has scrolled,
+      // so the drift stays consistent on any page length and the numbers stay bounded.
+      // Touch gets a lite version: scroll only, 42% amplitude, plus opt-in sensor tilt.
+      const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const touchQuery = window.matchMedia('(hover: none)');
+      const skyPlanes = Array.from(document.querySelectorAll<HTMLElement>('[data-rate]'));
+      const heroPlane = document.querySelector<HTMLElement>('[data-hero-drift]');
+      const tiltToggle = document.querySelector<HTMLButtonElement>('[data-tilt-toggle]');
+      const tiltLabel = document.querySelector<HTMLElement>('[data-tilt-label]');
+      const tiltSupported = typeof window.DeviceOrientationEvent !== 'undefined';
 
-      if (!reduceMotion.matches && !isTouch) {
-        const layers = document.querySelectorAll<HTMLElement>('[data-parallax]');
-        let frame = 0;
-        let pointerX = 0;
-        let pointerY = 0;
-        let scrollY = window.scrollY;
-
-        const updateParallax = () => {
-          layers.forEach((layer) => {
-            const depth = Number(layer.dataset.parallax ?? 0);
-            const scrollShift = scrollY * depth * -0.55;
-            const pointerShiftX = pointerX * depth;
-            const pointerShiftY = pointerY * depth;
-            layer.style.setProperty('--parallax-x', `${pointerShiftX}px`);
-            layer.style.setProperty('--parallax-y', `${scrollShift + pointerShiftY}px`);
-          });
-          frame = 0;
-        };
-
-        window.addEventListener('scroll', () => {
-          scrollY = window.scrollY;
-          if (!frame) frame = requestAnimationFrame(updateParallax);
-        }, { passive: true });
-        window.addEventListener('pointermove', (event) => {
-          pointerX = (event.clientX / window.innerWidth - 0.5) * 120;
-          pointerY = (event.clientY / window.innerHeight - 0.5) * 90;
-          if (!frame) frame = requestAnimationFrame(updateParallax);
-        }, { passive: true });
-        updateParallax();
-      }
-
-      const sectionIds = ['top', 'about', 'experience', 'work', 'toolkit', 'education', 'contact'];
-      const sectionMeta: Record<string, { index: string; label: string }> = {
-        top: { index: '00', label: 'Opening' },
-        about: { index: '01', label: 'Profile' },
-        experience: { index: '02', label: 'Experience' },
-        work: { index: '03', label: 'Work' },
-        toolkit: { index: '04', label: 'Toolkit' },
-        education: { index: '05', label: 'Education' },
-        contact: { index: '06', label: 'Contact' },
+      type SkyMode = 'off' | 'lite' | 'full';
+      const skyMode = (): SkyMode => {
+        if (motionQuery.matches) return 'off';
+        return touchQuery.matches ? 'lite' : 'full';
       };
-      const readoutIndex = document.querySelector<HTMLElement>('[data-readout-index]');
-      const readoutLabel = document.querySelector<HTMLElement>('[data-readout-label]');
-      const sectionLinks = document.querySelectorAll<HTMLAnchorElement>('[data-section-link]');
-      const desktopLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
-      const dialogLinks = document.querySelectorAll<HTMLAnchorElement>('[data-index-link]');
-      const dialog = document.querySelector<HTMLDialogElement>('#section-index');
-      const toggle = document.querySelector<HTMLButtonElement>('[data-index-toggle]');
-      const close = document.querySelector<HTMLButtonElement>('[data-index-close]');
-      const toTop = document.querySelector<HTMLAnchorElement>('[data-to-top]');
 
-      const setActiveSection = (id: string) => {
-        const meta = sectionMeta[id];
-        if (!meta) return;
-        if (readoutIndex) readoutIndex.textContent = meta.index;
-        if (readoutLabel) readoutLabel.textContent = meta.label;
-        sectionLinks.forEach((link) => {
-          const active = link.dataset.sectionLink === id;
-          link.classList.toggle('is-active', active);
-          if (active) link.setAttribute('aria-current', 'location');
-          else link.removeAttribute('aria-current');
+      let frame = 0;
+      let scrollFactor = 0;
+      let scrollTarget = 0;
+      let pointerX = 0;
+      let pointerY = 0;
+      let easedX = 0;
+      let easedY = 0;
+      let tiltEnabled = false;
+      let tiltDenied = false;
+      let tiltListening = false;
+      let tiltX = 0;
+      let tiltY = 0;
+      let easedTiltX = 0;
+      let easedTiltY = 0;
+      let tiltBaseBeta: number | null = null;
+
+      const parallaxEnabled = () => skyMode() !== 'off';
+
+      const measure = () => {
+        scrollTarget = window.scrollY / Math.max(1, window.innerHeight);
+      };
+
+      const paint = () => {
+        const mode = skyMode();
+        const depth = mode === 'lite' ? 0.42 : 1;
+        const pointerDepth = mode === 'full' ? 1 : 0;
+        const tiltDepth = tiltEnabled ? 0.14 : 0;
+        const limit = window.innerHeight * 0.34;
+        skyPlanes.forEach((plane) => {
+          const rate = Number(plane.dataset.rate ?? 0);
+          if (!rate) return;
+          const px = easedX * rate * 0.05 * pointerDepth + easedTiltX * rate * tiltDepth;
+          const raw =
+            -scrollFactor * rate * depth +
+            easedY * rate * 0.05 * pointerDepth +
+            easedTiltY * rate * tiltDepth;
+          const py = Math.min(limit, Math.max(-limit, raw));
+          plane.style.setProperty('--px', `${px.toFixed(2)}px`);
+          plane.style.setProperty('--py', `${py.toFixed(2)}px`);
         });
-        desktopLinks.forEach((link) => {
-          link.classList.toggle('is-active', link.dataset.navLink === id);
+        // The hero text only drifts on desktop. On touch it is the main reading area.
+        const heroShift = mode === 'full' ? -Math.min(1, scrollFactor) * 90 : 0;
+        heroPlane?.style.setProperty('--py', `${heroShift.toFixed(2)}px`);
+      };
+
+      const tick = () => {
+        frame = 0;
+        if (!parallaxEnabled()) return;
+        scrollFactor += (scrollTarget - scrollFactor) * 0.14;
+        easedX += (pointerX - easedX) * 0.06;
+        easedY += (pointerY - easedY) * 0.06;
+        easedTiltX += (tiltX - easedTiltX) * 0.08;
+        easedTiltY += (tiltY - easedTiltY) * 0.08;
+        paint();
+        const settling =
+          Math.abs(scrollTarget - scrollFactor) > 0.0002 ||
+          Math.abs(pointerX - easedX) > 0.001 ||
+          Math.abs(pointerY - easedY) > 0.001 ||
+          Math.abs(tiltX - easedTiltX) > 0.001 ||
+          Math.abs(tiltY - easedTiltY) > 0.001;
+        if (settling) frame = requestAnimationFrame(tick);
+      };
+
+      const requestFrame = () => {
+        if (!frame && parallaxEnabled()) frame = requestAnimationFrame(tick);
+      };
+
+      const reset = () => {
+        if (frame) cancelAnimationFrame(frame);
+        frame = 0;
+        scrollFactor = 0;
+        scrollTarget = 0;
+        pointerX = 0;
+        pointerY = 0;
+        easedX = 0;
+        easedY = 0;
+        tiltX = 0;
+        tiltY = 0;
+        easedTiltX = 0;
+        easedTiltY = 0;
+        skyPlanes.forEach((plane) => {
+          plane.style.setProperty('--px', '0px');
+          plane.style.setProperty('--py', '0px');
         });
-        dialogLinks.forEach((link) => {
-          link.classList.toggle('is-active', link.dataset.indexLink === id);
-        });
+        heroPlane?.style.setProperty('--py', '0px');
       };
 
-      const sectionElements = sectionIds
-        .map((id) => document.getElementById(id))
-        .filter((element): element is HTMLElement => element !== null);
-      if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(
-          (entries) => entries.forEach((entry) => {
-            if (entry.isIntersecting) setActiveSection(entry.target.id);
-          }),
-          { rootMargin: '-35% 0px -50% 0px', threshold: [0, 0.25, 0.6] },
-        );
-        sectionElements.forEach((section) => observer.observe(section));
-      }
-      setActiveSection('top');
-
-      const closeDialog = (restoreFocus = false) => {
-        if (!dialog?.open) return;
-        dialog.close();
-        document.documentElement.classList.remove('is-index-open');
-        toggle?.setAttribute('aria-expanded', 'false');
-        if (restoreFocus) toggle?.focus();
-      };
-      const openDialog = () => {
-        if (!dialog || dialog.open) return;
-        dialog.showModal();
-        document.documentElement.classList.add('is-index-open');
-        toggle?.setAttribute('aria-expanded', 'true');
-        close?.focus();
+      const onDeviceOrientation = (event: DeviceOrientationEvent) => {
+        if (!tiltEnabled || !parallaxEnabled()) return;
+        const { beta, gamma } = event;
+        if (beta === null || gamma === null) return;
+        if (tiltBaseBeta === null) tiltBaseBeta = beta;
+        // Rotate the reading axes with the screen, so landscape still tilts the right way.
+        const angle = ((screen.orientation?.angle ?? 0) * Math.PI) / 180;
+        const delta = beta - tiltBaseBeta;
+        const x = gamma * Math.cos(angle) - delta * Math.sin(angle);
+        const y = gamma * Math.sin(angle) + delta * Math.cos(angle);
+        const normalise = (value: number) => Math.max(-1, Math.min(1, value / 28));
+        tiltX = normalise(x);
+        tiltY = normalise(y);
+        requestFrame();
       };
 
-      toggle?.addEventListener('click', () => dialog?.open ? closeDialog(true) : openDialog());
-      close?.addEventListener('click', () => closeDialog(true));
-      dialog?.addEventListener('close', () => {
-        document.documentElement.classList.remove('is-index-open');
-        toggle?.setAttribute('aria-expanded', 'false');
-      });
-      dialog?.addEventListener('click', (event) => {
-        if (event.target === dialog) closeDialog(true);
-      });
-      dialogLinks.forEach((link) => link.addEventListener('click', () => closeDialog()));
+      const attachTilt = () => {
+        if (tiltListening || !tiltEnabled) return;
+        window.addEventListener('deviceorientation', onDeviceOrientation, { passive: true });
+        tiltListening = true;
+      };
 
-      window.addEventListener('keydown', (event) => {
-        const target = event.target as HTMLElement;
-        const typing = target.matches('input, textarea, select, [contenteditable="true"]');
-        if (!typing && (event.key === 'j' || event.key === 'J')) {
-          event.preventDefault();
-          if (dialog?.open) closeDialog(true);
-          else openDialog();
+      const detachTilt = () => {
+        if (!tiltListening) return;
+        window.removeEventListener('deviceorientation', onDeviceOrientation);
+        tiltListening = false;
+      };
+
+      const disableTilt = () => {
+        tiltEnabled = false;
+        detachTilt();
+        tiltX = 0;
+        tiltY = 0;
+        tiltBaseBeta = null;
+        tiltToggle?.setAttribute('aria-pressed', 'false');
+        if (tiltLabel) tiltLabel.textContent = 'Tilt the sky';
+        requestFrame();
+      };
+
+      const enableTilt = () => {
+        tiltEnabled = true;
+        tiltBaseBeta = null;
+        attachTilt();
+        tiltToggle?.setAttribute('aria-pressed', 'true');
+        if (tiltLabel) tiltLabel.textContent = 'Tilt is on';
+        requestFrame();
+      };
+
+      const denyTilt = () => {
+        tiltDenied = true;
+        disableTilt();
+        if (tiltToggle) tiltToggle.hidden = true;
+      };
+
+      const syncTiltControl = () => {
+        const available = tiltSupported && touchQuery.matches && !motionQuery.matches && !tiltDenied;
+        if (!available && tiltEnabled) disableTilt();
+        if (tiltToggle) tiltToggle.hidden = !available;
+      };
+
+      const sync = () => {
+        syncTiltControl();
+        if (!parallaxEnabled()) {
+          reset();
+          return;
         }
+        measure();
+        requestFrame();
+      };
+
+      window.addEventListener('scroll', () => {
+        if (!parallaxEnabled()) return;
+        measure();
+        requestFrame();
+      }, { passive: true });
+
+      window.addEventListener('pointermove', (event) => {
+        if (skyMode() !== 'full') return;
+        pointerX = (event.clientX / window.innerWidth - 0.5) * 2;
+        pointerY = (event.clientY / window.innerHeight - 0.5) * 2;
+        requestFrame();
+      }, { passive: true });
+
+      tiltToggle?.addEventListener('click', async () => {
+        if (tiltEnabled) {
+          disableTilt();
+          return;
+        }
+        const api = window.DeviceOrientationEvent as unknown as {
+          requestPermission?: () => Promise<string>;
+        };
+        if (typeof api?.requestPermission === 'function') {
+          try {
+            const result = await api.requestPermission();
+            if (result !== 'granted') {
+              denyTilt();
+              return;
+            }
+          } catch {
+            denyTilt();
+            return;
+          }
+        }
+        enableTilt();
       });
 
-      const updateTopButton = () => toTop?.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.7);
-      window.addEventListener('scroll', updateTopButton, { passive: true });
-      updateTopButton();
+      window.addEventListener('resize', sync, { passive: true });
+      window.addEventListener('blur', () => {
+        pointerX = 0;
+        pointerY = 0;
+        requestFrame();
+      });
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          detachTilt();
+          return;
+        }
+        sync();
+        attachTilt();
+      });
+
+      motionQuery.addEventListener('change', sync);
+      touchQuery.addEventListener('change', sync);
+
+      sync();
     </script>
   </body>
 </html>
